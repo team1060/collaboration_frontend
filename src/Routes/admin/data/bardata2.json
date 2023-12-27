@@ -1,0 +1,8 @@
+[
+  { "id": "기타", "label": "기타", "value": 378 },
+  { "id": "PING 핑", "label": "PING 핑", "value": 506 },
+  { "id": "혼마", "label": "혼마", "value": 788 },
+  { "id": "미즈노", "label": "미즈노", "value": 748 },
+  { "id": "브리지스톤", "label": "브리지스톤", "value": 1082 },
+  { "id": "야마하", "label": "야마하", "value": 413 }
+]
