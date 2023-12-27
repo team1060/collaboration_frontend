@@ -1,0 +1,122 @@
+/* CalendarSwiper.scss */
+
+/* 전체 컨테이너 스타일 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.mu{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+/* 주간 헤더 및 날짜 스타일 */
+.week-header,
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Swiper 버튼 스타일 */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  font-size: 20px;
+}
+
+/* 예약 가능 여부에 따른 클래스 스타일 */
+.status-available {
+  border: 3px solid green;
+  background-color: #fff;
+}
+
+.status-unavailable {
+  border: 3px solid red;
+  background-color: #fff;
+}
+
+/* 선택된 날짜 카드 스타일 */
+.selected-day-card {
+  background-color: #f0f0f0;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  .course-detail {
+    border-radius: 20px;
+    margin: 10px 0;
+    padding: 10px;
+  }
+}
+
+/* 그리드 레이아웃 스타일 */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+}
+
+/* 각 이벤트 카드 스타일 */
+.event-card {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  
+  .event-name {
+    font-weight: bold;
+  }
+
+  .event-status {
+    color: #555;
+  }
+}
+
+/* 상세 검색 버튼 스타일 */
+.event-card.detail-search {
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+
+  a {
+    text-decoration: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    i {
+      margin-left: 5px;
+    }
+  }
+}
+
+/* 요일별 스타일 */
+.day.red {
+  color: #f44336;
+}
+
+.day.blue {
+  color: #2196F3;
+}

@@ -1,0 +1,103 @@
+[
+	{
+		"product_no" : 1,
+		"product" : "[핑][연말감사제▶유틸증정] 핑 G425 MAX 드라이버 (ALTA J CB Slate)",
+		"brand" : "노브랜드",
+		"price" : 80000,
+		"discount" : 50,
+		"images" : {"product_no" : 1, "image_uuid" : "./img/product/1/20200916022941530_300.jpg", "image" : "./img/product/4/20230519113705924_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 1, "product_no": 1, "rate": 5},
+			{"review_no": 2, "product_no": 1, "rate": 5},
+			{"review_no": 3, "product_no": 1, "rate": 5}
+			
+		]
+	},
+  {
+		"product_no" : 2,
+		"product" : "[핑][연말감사제▶유틸증정] 핑 G425 하이브리드 유틸리티 (ALTA J CB Slate)",
+		"brand" : "나이키",
+		"price" : 240000,
+		"discount" : 30,
+		"images" : {"brand_no" : 2, "image_uuid" : "./img/product/1/20231012112229004_300.jpg", "image" : "./img/product/6/20231012112229004_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 4, "product_no": 2, "rate": 4.788}
+			
+		]
+	},
+  {
+		"product_no" : 3,
+		"product" : "[미즈노]미즈노 JPX919 FORGED 단조 경량스틸 8아이언 (DG 95)",
+		"brand" : "유니클로",
+		"price" : 20000,
+		"discount" : 40,
+		"images" : {"product_no" : 3, "image_uuid" : "./img/product/1/20200916022941530_300.jpg", "image" : "img/product/8/20220527110747348_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 5, "product_no": 3, "rate": 4.799}
+			
+		]
+	},
+  {
+		"product_no" : 4,
+		"product" : "[캘러웨이][가격인하] 캘러웨이 22 오딧세이 일레븐(ELEVEN) 퍼터 (TRIPLE TRACK DB)",
+		"brand" : "아디다스",
+		"price" : 238000,
+		"discount" : 25,
+		"images" : {"product_no" : 4, "image_uuid" : "./img/product/1/20200916022941530_300.jpg", "image" : "./img/product/1/20200916022941530_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 6, "product_no": 4, "rate": 4.798}
+			
+		]
+	},
+  {
+		"product_no" : 5,
+		"product" : "[테일러메이드][연말감사제▶유틸증정] 테일러메이드 스텔스(STEALTH) 남여 레스큐 유틸리티 (TENSEI TM6)",
+		"brand" : "노브랜드",
+		"price" : 48000,
+		"discount" : 32,
+		"images" : {"product_no" : 1, "image_uuid" : "./img/product/1/20200916022941530_300.jpg", "image" : "./img/product/1/20200916022941530_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 1, "product_no": 1, "rate": 5},
+			{"review_no": 2, "product_no": 1, "rate": 3},
+			{"review_no": 3, "product_no": 1, "rate": 2}
+			
+		]
+	},
+  {
+		"product_no" : 6,
+		"product" : "[브리지스톤][연말감사제▶웨지증정] 브리지스톤 BG-100L 여성 풀세트 (9pcs+캐디백)",
+		"brand" : "나이키",
+		"price" : 202020,
+		"discount" : 29,
+		"images" : {"product_no" : 2, "image_uuid" : "./img/product/2/20200916023241973_300.jpg", "image" : "./img/product/2/20200916023241973_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 4, "product_no": 2, "rate": 4}
+			
+		]
+	},
+  {
+		"product_no" : 7,
+		"product" : "[테일러메이드]테일러메이드 심2 맥스(SIM2 MAX) 카본 8아이언",
+		"brand" : "유니클로",
+		"price" : 202020,
+		"discount" : 80,
+		"images" : {"product_no" : 3, "image_uuid" : "./img/product/3/20220713064019545_300.jpg", "image" : "./img/product/3/20220713064019545_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 5, "product_no": 3, "rate": 4}
+			
+		]
+	},
+  {
+		"product_no" : 8,
+		"product" : "[야마하][아이언 창고 대방출] 야마하 Cs HT+(씨즈) 여성 카본 7아이언(6~SW)",
+		"brand" : "아디다스",
+		"price" : 202020,
+		"discount" : 20,
+		"images" : {"product_no" : 4, "image_uuid" : "./img/product/1/20200916022941530_300.jpg", "image" : "./img/product/1/20200916022941530_300.jpg", "type" : "골프채"},
+		"reviews" : [
+			{"review_no": 6, "product_no": 4, "rate": 4}
+			
+		]
+	}
+	
+]

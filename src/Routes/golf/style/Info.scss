@@ -1,0 +1,59 @@
+@import "../../../components/style/themeStyle.scss";
+
+#info {
+
+    .golfInfo {
+        margin-bottom: 50px;
+    }
+
+    .region {
+        margin-bottom: 30px;
+
+    }
+
+
+
+    .regionInner {
+        margin-bottom: 40px;
+    }
+
+    .golf {
+        margin-left: calc(-1/24*100%);
+        border: 1px solid;
+        border-radius: 7px;
+        margin-bottom: 20px;
+
+        .golfImage {
+            overflow: hidden;
+            border-radius: 5px;
+
+            .golfImageInner {
+                display: block;
+                height: 100%;
+
+                img {
+                    width: 100%;
+                    height: cover;
+                    // padding-right: 15px;
+                }
+            }
+        }
+    }
+
+    .golfInner {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        vertical-align: top;
+
+        h3 {
+            margin-bottom: 10px;
+
+            a {
+                color: $mainfontColor;
+            }
+        }
+    }
+}
