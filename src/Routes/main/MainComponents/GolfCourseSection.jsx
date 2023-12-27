@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Button from '@mui/material/Button';
 import axiosInstance from '../../../services/axiosInstance.js';
 
 const GolfCourseSection = ({ onCourseSelection, onError }) => {
-  useEffect(() => {
-    fetchCoursesByRegion('경기');
-  }, [0]);
+  const [loaded, setLoaded] = useState(false);
 
-  const fetchCoursesByRegion = async (selectedRegion) => {
+  const fetchCoursesByRegion = useCallback(async (selectedRegion) => {
     try {
       const response = await axiosInstance.get(`/admin/golf`);
       const allCourses = response.data;
@@ -23,7 +21,15 @@ const GolfCourseSection = ({ onCourseSelection, onError }) => {
     } catch (err) {
       onError(err);
     }
-  };
+  }, [onCourseSelection, onError]);
+
+  useEffect(() => {
+    if (!loaded) {
+      // 컴포넌트가 처음 로드될 때 한 번만 fetchCoursesByRegion 함수 호출
+      fetchCoursesByRegion('경기');
+      setLoaded(true); // 로딩이 완료됨을 표시
+    }
+  }, [loaded, fetchCoursesByRegion]);
 
   return (
     <div style={{ width: "1200px", margin: "0 auto", marginTop: "15px" }}>
