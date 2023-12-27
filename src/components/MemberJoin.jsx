@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -18,34 +19,79 @@ import { Container, Typography, Grid, Button, ListItem } from '@mui/material';
 import JoinData from './data/JoinData.js';
 import '../components/style/MemberJoin.scss';
 import { useEffect, useState } from 'react';
-import { getAllMembers } from '../services/auth/Member.js';
+import { emailSubmit, getAllMembers, getEmail, registerMember } from '../services/auth/Member.js';
 
 function MemberJoin() {
   const [open, setOpen] = React.useState([false, false, false, false]);
   // 모든 계정정보
   const [allEmail, setAllEmail] = useState([]);
+  // username 
+  const [username, setUsername] = useState("");
+  // nickname
+  const [nickname, setNickname] = useState("");
+
   // 중복확인
   const [inputValue, setInputValue] = useState("");
   // 비밀번호 이벤트
   const [pwInput, setPwInput] = useState("");
   const [viewMessage, setViewMessage] = useState("");
   const [pwViewMessage, setpwViewMessage] = useState("");
-
   const [pwCheckMessage, setPwCheckMessage] = useState("");
+  // 연락처 
+  const [phoneNumber, setPhoneNumber] = useState("");
+  // 로그인 완료 후 메인화면으로 가기
+  const history = useNavigate();
 
+// 이메일 인증 버튼 클릭 시 호출되는 함수
+const handleEmailVerification = async () => {
+  try {
+    const response = await emailSubmit(inputValue);
+    console.log(response);
+    if (response != null) {
+      console.log("성공");
+      alert('인증번호를 입력해주세요')
+    } else {
+    }
+  } catch (error) {
+    console.error("이메일 전송 중 오류 발생:", error);
+  }
+};
+
+
+  // submit 
+  const handleSubmit = async e  => {
+    e.preventDefault();
   
-  const dataHandler = (e) => {
+    // 필수 약관 체크 여부 확인
+    if (!checked[0] || !checked[1]) {
+      console.log("필수 약관에 동의해주세요.");
+      return;
+    }
+
+    const userData = {
+      email: inputValue,
+      password: pwInput,
+      nickname: nickname,
+      username: username,
+      phone_number: phoneNumber,
+      type: 0,
+      auth_data: 0,
+      is_sms_consent: checked[2] ? 1 : 0,
+      is_email_consent: checked[3] ? 1 : 0
+  };
+
+    const request = await registerMember(userData);
+    history('/');
+    console.log(userData)
+  }
+
+  // 이메일 핸들러 
+  const emailHandler = (e) => {
     const value = e.target.value;
     setInputValue(value);
-
-    // 이메일 형식 유효성 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(value);
-   
-    // 중복 여부 확인
     const isDuplicate = allEmail.some((item) => item.email === value);
-    
-    // 중복이면 처리
     if (isDuplicate || !isEmailValid) {
       console.log("사용불가능한 아이디입니다.");
       setViewMessage("사용불가능한 이메일입니다.");
@@ -55,15 +101,16 @@ function MemberJoin() {
     }
   };
 
+  // 비밀번호 핸들러 
   const dataPwHandler = (e) => {
     const value = e.target.value;
     setPwInput(value);
 
-     // 비밀번호 유효성 검사 
-     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
-     const isPasswordValid = passwordRegex.test(value);
+    // 비밀번호 유효성 검사 
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+    const isPasswordValid = passwordRegex.test(value);
 
-     if(!isPasswordValid) {
+    if (!isPasswordValid) {
       setpwViewMessage("비밀번호는 8~16자 영문, 숫자, 특수문자를 포함해야 합니다.")
     } else {
       setpwViewMessage("유효한 비밀번호 형식입니다.")
@@ -80,6 +127,20 @@ function MemberJoin() {
     }
   };
 
+  // 연락처 핸들러 
+  const phoneHandler = (e) => {
+    const onlyNumber = e.target.value.replace(/\D/g, '');
+    const formatNumber = formatPhoneNumber(onlyNumber);
+    setPhoneNumber(formatNumber);
+  }
+  const formatPhoneNumber = (number) => {
+    if (number.length >= 10) {
+      return `${number.slice(0, 3)}-${number.slice(3, 7)}-${number.slice(7)}`;
+    } else {
+      // 10자리 미만이면 그대로 반환
+      return number;
+    }
+  }
   // 콜랩스
   const handleClick = (index) => {
     const newOpen = [...open];
@@ -112,6 +173,7 @@ function MemberJoin() {
     event.preventDefault();
   };
 
+
   // 체크박스
   const children = (
     <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3, marginBottom: '10px' }}>
@@ -121,7 +183,7 @@ function MemberJoin() {
             <FormControlLabel
               style={{ width: '360px' }}
               label={JoinData.label}
-              control={<Checkbox checked={checked[index]} onChange={handleChange(index)} />}
+              control={<Checkbox checked={checked[index]} onChange={handleChange(index)} value={JoinData.value}/>}
             />
 
             <div className="butstyle">
@@ -135,7 +197,7 @@ function MemberJoin() {
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItem style={{ width: '400px', overflowY: 'auto', height: '200px', border: '1px solid #000' }}>
-                  <ListItemText primary={JoinData.text} />
+                  <ListItemText style={{height: '200px'}} primary={JoinData.text} />
                 </ListItem>
               </List>
             </Collapse>
@@ -169,22 +231,22 @@ function MemberJoin() {
       <hr />
       <br />
       {/* 회원가입 폼 */}
-      <form action="">
+      <form onSubmit={handleSubmit} action='/'>
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext">
             이메일
             <span>*</span>
           </Grid>
-          <Grid item xs={8} lg={7}>
+          <Grid container item xs={7} lg={6}>
             <TextField
               fullWidth
-              
+              required
               placeholder={'이메일을 입력해주세요'}
               name='email'
               id='email'
               autoComplete="email"
-              onChange={dataHandler}
-              value={inputValue}            
+              onChange={emailHandler}
+              value={inputValue}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -195,11 +257,13 @@ function MemberJoin() {
               error={viewMessage.includes("불가")}
             />
           </Grid>
+            <Grid item xs={2} lg={1}><button onClick={handleEmailVerification}>인증</button></Grid>
         </Grid>
+        
 
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext"></Grid>
-          <Grid style={{marginBottom: '10px' ,color: viewMessage.includes('불가능') ? 'red' : 'green' }} item xs={8} lg={7}>{viewMessage}</Grid></Grid>
+          <Grid style={{ marginBottom: '10px', color: viewMessage.includes('불가능') ? 'red' : 'green' }} item xs={8} lg={7}>{viewMessage}</Grid></Grid>
 
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext">
@@ -209,6 +273,7 @@ function MemberJoin() {
           <Grid item xs={8} lg={7}>
             <TextField
               fullWidth
+              required
               placeholder={'비밀번호를 입력해주세요'}
               type={showPassword ? 'text' : 'password'}
               name='password'
@@ -238,10 +303,10 @@ function MemberJoin() {
             />
           </Grid>
         </Grid>
-        
+
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext"></Grid>
-          <Grid style={{marginBottom: '10px', color: pwViewMessage.includes('특수') ? 'red' : 'green' }} item xs={8} lg={7}>{pwViewMessage}</Grid></Grid>
+          <Grid style={{ marginBottom: '10px', color: pwViewMessage.includes('특수') ? 'red' : 'green' }} item xs={8} lg={7}>{pwViewMessage}</Grid></Grid>
 
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext">
@@ -251,6 +316,7 @@ function MemberJoin() {
           <Grid item xs={8} lg={7}>
             <TextField
               fullWidth
+              required
               placeholder={'비밀번호를 입력해주세요'}
               type={showPassword ? 'text' : 'password'}
               name='password'
@@ -281,11 +347,11 @@ function MemberJoin() {
         </Grid>
 
         <Grid container spacing={3} className="inputfield">
-        <Grid item xs={3} lg={2} className="inputtext"></Grid>
-        <Grid style={{marginBottom: '10px', color: pwCheckMessage.includes('일치하지 않습니다') ? 'red' : 'green' }} item xs={8} lg={7}>
-          {pwCheckMessage}
+          <Grid item xs={3} lg={2} className="inputtext"></Grid>
+          <Grid style={{ marginBottom: '10px', color: pwCheckMessage.includes('일치하지 않습니다') ? 'red' : 'green' }} item xs={8} lg={7}>
+            {pwCheckMessage}
+          </Grid>
         </Grid>
-      </Grid>
 
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext">
@@ -295,10 +361,13 @@ function MemberJoin() {
           <Grid item xs={8} lg={7}>
             <TextField
               className='textInput'
+              required
               fullWidth
               placeholder={'닉네임을 입력해주세요'}
               name='nickname'
               id='nickname'
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -316,11 +385,14 @@ function MemberJoin() {
           </Grid>
           <Grid item xs={8} lg={7}>
             <TextField
-            className='textInput'
+              required
+              className='textInput'
               fullWidth
+              value={username}
               placeholder={'이름을 입력해주세요'}
               name='username'
               id='username'
+              onChange={(e) => setUsername(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -338,11 +410,15 @@ function MemberJoin() {
           </Grid>
           <Grid item xs={8} lg={7}>
             <TextField
-            className='textInput'
+              required
+              className='textInput'
               fullWidth
-              placeholder={'생년월일을 입력해주세요'}
-              name='bithdate'
-              id='bithdate'
+              placeholder={'- 없이 전화번호를 입력해주세요'}
+              name='phone_number'
+              id='phone_number'
+              value={phoneNumber}
+              onChange={phoneHandler}
+              
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -350,10 +426,13 @@ function MemberJoin() {
                   </InputAdornment>
                 ),
               }}
+              inputProps={{
+                maxLength: 13
+              }}
             />
           </Grid>
         </Grid>
-      </form>
+      
 
 
       {/* 이용약관 */}
@@ -394,7 +473,8 @@ function MemberJoin() {
           </div>
         </div>
       </div>
-      <div className="butsec"><Button className='joinbut' variant="contained">회원가입</Button></div>
+      <div className="butsec"><Button className='joinbut' variant="contained" type='submit'>회원가입</Button></div>
+      </form>
     </Container>
   );
 }

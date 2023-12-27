@@ -3,7 +3,6 @@ import Head from "./reservation/Head";
 import Calendar from "./reservation/Calendar";
 import Course from "./reservation/Course";
 import { useState } from "react";
-import { Class } from '@mui/icons-material';
 
 
 function Reservation() {
