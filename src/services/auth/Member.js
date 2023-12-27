@@ -32,12 +32,12 @@ export const emailSubmit = async (inputValue) => {
         throw error;
     }
 }
-// // 인증번호 get 
-// export const getEmail = async () => {
-//     try {
-//         const response = await axiosInstance.get("/member/join/login/email")
-//         return response.data;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+// 인증 확인 
+export const getEmail = async () => {
+    try {
+        const response = await axiosInstance.get("/member/join/login/email")
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
