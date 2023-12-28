@@ -11,6 +11,8 @@ import MyResponsivePie from "./AdminComponents/MyResponsivePie";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
+import ShopTable from "./AdminComponents/Shop";
+
 function Admin() {
    // groupMode 상태를 'stacked'로 초기화 통계 버튼 
    const [groupMode, setGroupMode] = useState('stacked');
@@ -46,7 +48,9 @@ return (
        <div style={{ height: '400px' }}>
        <MyResponsiveBar groupMode={groupMode} data={data} />
        </div>
-     
+     <div>
+      <ShopTable/>
+     </div>
 
          <div className="RankPie">
                 <div>
