@@ -1,17 +1,17 @@
-import "./Style/AdminGlobal.scss"
+import "../Style/AdminGlobal.scss"
 // import { ResponsiveBar } from '@nivo/bar'
-import "./Style/Admin.scss"
-import MyResponsiveBar from "./AdminComponents/Bar";
+import "../Style/Admin.scss"
+import MyResponsiveBar from "../AdminGolfComponents/Bar"
 import React, { useState } from 'react';
-import ToggleGroupModeButton from "./AdminComponents/ToggleGroupModeButton";
-import RankTable from "./AdminComponents/RankTable";
-import data from './data/bardata.json'
-import bardata2 from './data/bardata2.json'
-import MyResponsivePie from "./AdminComponents/MyResponsivePie";
+import ToggleGroupModeButton from "../AdminGolfComponents/ToggleGroupModeButton";
+import RankTable from "../AdminGolfComponents/RankTable";
+import data from '../data/golfdata.json'
+import bardata2 from '../data/golfdata2.json'
+import MyResponsivePie from "../AdminGolfComponents/MyResponsivePie";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
-function Admin() {
+function AdminGolf() {
    // groupMode 상태를 'stacked'로 초기화 통계 버튼 
    const [groupMode, setGroupMode] = useState('stacked');
   //  console.log(bardata2);
@@ -40,7 +40,7 @@ return (
     <hr />
     <br />
     <div className="Toggle">
-      <h3>상품 월별 판매 그래프</h3>
+      <h3>골프장 월별 예매 그래프</h3>
         <ToggleGroupModeButton groupMode={groupMode} setGroupMode={setGroupMode} />
     </div>
        <div style={{ height: '400px' }}>
@@ -50,13 +50,13 @@ return (
 
          <div className="RankPie">
                 <div>
-                      <h3>브랜드별 판매현황</h3>
+                      <h3>골프장별 예매현황</h3>
                       <div  style={{ height: '400px' }}>
                         <MyResponsivePie data={bardata2} />
                       </div>
                   </div>
                 <div >
-                  <h3>월별 판매 순위</h3>
+                  <h3>골프장 인기 순위</h3>
                   <RankTable data={data}/>
                 </div>
            </div>
@@ -64,4 +64,4 @@ return (
 );
 }
 
-export default Admin;
+export default AdminGolf;

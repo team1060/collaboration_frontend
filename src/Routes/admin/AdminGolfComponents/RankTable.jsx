@@ -13,8 +13,7 @@ const RankTable = ({ data }) => {
   const columns = [
     { field: 'id', headerName: '번호', width: 70 },
     { field: 'date', headerName: '날짜', width: 150 },
-    { field: 'total', headerName: '총합', width: 150 },
-    { field: 'total1', headerName: '테스트', width: 150 }
+    { field: 'total', headerName: '총합', width: 150 }
   ];
 
   return (

@@ -87,6 +87,9 @@ npm install @mui/material @emotion/react @emotion/styled
 npm install @material-ui/icons
 
 npm install @mui/icons-material
+### 테이블 정리 
+npm install @mui/x-data-grid
+
 
 ### 어드민 그래프 바 
 npm install @nivo/bar
