@@ -25,7 +25,7 @@ import AdminHeader from "../Routes/admin/AdminHeader";
 import AdminFooter from "../Routes/admin/AdminFooter";
 import AdminMember from "../Routes/admin/AdminMember";
 import Infoinner from "../Routes/golf/infodetail/Infoinner.jsx";
-
+import AdminGolf from "../Routes/admin/Page/AdminGolf.jsx";
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
   <>
@@ -80,6 +80,7 @@ function Router() {
           element={<AdminLayout>
             <Routes>
               <Route path="/" element={<Admin />} />
+              <Route path="/golf" element={<AdminGolf />} />
               <Route path="/member" element={<AdminMember/>} />
               <Route path="/mart" element={<div>상품 목록 페이지</div>} />
             </Routes>
