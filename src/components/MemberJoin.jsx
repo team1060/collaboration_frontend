@@ -18,18 +18,21 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Container, Typography, Grid, Button, ListItem } from '@mui/material';
 import JoinData from './data/JoinData.js';
 import '../components/style/MemberJoin.scss';
-import { useEffect, useState } from 'react';
-import { emailSubmit, getAllMembers, getEmail, registerMember } from '../services/auth/Member.js';
+import { useEffect, useState, useRef } from 'react';
+import { emailSubmit, getAllMembers, registerMember } from '../services/auth/Member.js';
 
 function MemberJoin() {
   const [open, setOpen] = React.useState([false, false, false, false]);
   // 모든 계정정보
   const [allEmail, setAllEmail] = useState([]);
-  // username 
   const [username, setUsername] = useState("");
-  // nickname
   const [nickname, setNickname] = useState("");
-
+  // 이메일 인증 
+  const [newInputCheck, setnewInputCheck] = useState(false);
+  const [response, setResponse] = useState(null);
+  const [dupliButton, setDupliButton] = useState(false);
+  const [time, setTime] = useState(300);
+  const timeRef = useRef(null);
   // 중복확인
   const [inputValue, setInputValue] = useState("");
   // 비밀번호 이벤트
@@ -37,37 +40,39 @@ function MemberJoin() {
   const [viewMessage, setViewMessage] = useState("");
   const [pwViewMessage, setpwViewMessage] = useState("");
   const [pwCheckMessage, setPwCheckMessage] = useState("");
+  const [pwchecked, setPwChecked] = useState("");
   // 연락처 
   const [phoneNumber, setPhoneNumber] = useState("");
   // 로그인 완료 후 메인화면으로 가기
   const history = useNavigate();
-
-// 이메일 인증 버튼 클릭 시 호출되는 함수
-const handleEmailVerification = async () => {
-  try {
-    const response = await emailSubmit(inputValue);
-    console.log(response);
-    if (response != null) {
-      console.log("성공");
-      alert('인증번호를 입력해주세요')
-    } else {
+  // 이메일 인증 버튼 클릭 시 호출되는 함수
+  const handleEmailVerification = async () => {
+    try {
+      const response = await emailSubmit(inputValue);
+      console.log(response);
+      if (response != null) {
+        console.log("성공");
+        alert('메일발송이 완료되었습니다.')
+        setnewInputCheck(true);
+        setResponse(response);
+        setViewMessage("");
+      } else {
+        setResponse(null);
+      }
+    } catch (error) {
+      console.error("이메일 전송 중 오류 발생:", error);
     }
-  } catch (error) {
-    console.error("이메일 전송 중 오류 발생:", error);
-  }
-};
-
+  };
 
   // submit 
-  const handleSubmit = async e  => {
+  const handleSubmit = async e => {
     e.preventDefault();
-  
+
     // 필수 약관 체크 여부 확인
     if (!checked[0] || !checked[1]) {
       console.log("필수 약관에 동의해주세요.");
       return;
     }
-
     const userData = {
       email: inputValue,
       password: pwInput,
@@ -78,9 +83,10 @@ const handleEmailVerification = async () => {
       auth_data: 0,
       is_sms_consent: checked[2] ? 1 : 0,
       is_email_consent: checked[3] ? 1 : 0
-  };
+    };
 
-    const request = await registerMember(userData);
+    await registerMember(userData);
+    alert('회원가입을 환영합니다!')
     history('/');
     console.log(userData)
   }
@@ -93,10 +99,10 @@ const handleEmailVerification = async () => {
     const isEmailValid = emailRegex.test(value);
     const isDuplicate = allEmail.some((item) => item.email === value);
     if (isDuplicate || !isEmailValid) {
-      console.log("사용불가능한 아이디입니다.");
       setViewMessage("사용불가능한 이메일입니다.");
+      setDupliButton(false)
     } else {
-      console.log("사용가능한 아이디입니다.");
+      setDupliButton(true)
       setViewMessage("사용가능한 이메일입니다.");
     }
   };
@@ -183,7 +189,7 @@ const handleEmailVerification = async () => {
             <FormControlLabel
               style={{ width: '360px' }}
               label={JoinData.label}
-              control={<Checkbox checked={checked[index]} onChange={handleChange(index)} value={JoinData.value}/>}
+              control={<Checkbox checked={checked[index]} onChange={handleChange(index)} value={JoinData.value} />}
             />
 
             <div className="butstyle">
@@ -197,7 +203,7 @@ const handleEmailVerification = async () => {
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItem style={{ width: '400px', overflowY: 'auto', height: '200px', border: '1px solid #000' }}>
-                  <ListItemText style={{height: '200px'}} primary={JoinData.text} />
+                  <ListItemText style={{ height: '200px' }} primary={JoinData.text} />
                 </ListItem>
               </List>
             </Collapse>
@@ -207,18 +213,36 @@ const handleEmailVerification = async () => {
     </Box>
   );
 
-  // email 전체 조회
+  // email 전체 조회 + 이메일 인증 시간 제한
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userData = await getAllMembers();
         setAllEmail(userData);
       } catch (error) {
-        // 에러 처리
+      } finally {
+        setTime(300);
+        const existingInterval = timeRef.current;
+      if (existingInterval) {
+        clearInterval(existingInterval);
       }
-    };
-    fetchData();
-  }, []);
+      const time = setInterval(() => {
+        setTime((prevTime) => {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          } else {
+            clearInterval(time);
+            return 0;
+          }
+        });
+      }, 1000);
+      timeRef.current = time;
+    }
+  };
+
+  fetchData();
+}, []);
+  
 
   return (
     <Container id='memberJoin'>
@@ -237,7 +261,7 @@ const handleEmailVerification = async () => {
             이메일
             <span>*</span>
           </Grid>
-          <Grid container item xs={7} lg={6}>
+          <Grid container item xs={8} lg={7}>
             <TextField
               fullWidth
               required
@@ -253,17 +277,49 @@ const handleEmailVerification = async () => {
                     <SlideshowIcon />
                   </InputAdornment>
                 ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Button className='validbut' variant="contained" onClick={handleEmailVerification} disabled={!dupliButton}>인증</Button>
+                  </InputAdornment>
+                )
               }}
               error={viewMessage.includes("불가")}
+              helperText={viewMessage}
             />
           </Grid>
-            <Grid item xs={2} lg={1}><button onClick={handleEmailVerification}>인증</button></Grid>
-        </Grid>
-        
 
-        <Grid container spacing={3} className="inputfield">
-          <Grid item xs={3} lg={2} className="inputtext"></Grid>
-          <Grid style={{ marginBottom: '10px', color: viewMessage.includes('불가능') ? 'red' : 'green' }} item xs={8} lg={7}>{viewMessage}</Grid></Grid>
+        </Grid>
+
+
+        {newInputCheck && (
+          <Grid container spacing={3} className="inputfield">
+            <Grid item xs={3} lg={2} className="inputtext">
+              인증코드
+              <span>*</span>
+            </Grid>
+            <Grid item xs={8} lg={7}>
+              <TextField
+                fullWidth
+                required
+                placeholder={'인증번호를 입력해주세요'}
+                value={pwchecked}
+                onChange={(e) => setPwChecked(e.target.value)}
+                error={response !== pwchecked}
+                helperText={
+                  response !== pwchecked ? (
+                    <React.Fragment>
+                      <Typography variant="caption" color="textSecondary">
+                        남은 시간: {Math.floor(time / 60)}:{time % 60}
+                      </Typography>{" "}
+                      인증번호를 입력해주세요
+                    </React.Fragment>
+                  ) : "인증이 완료되었습니다."
+                }
+              />
+              
+            </Grid>
+          </Grid>
+        )}
 
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext">
@@ -300,13 +356,10 @@ const handleEmailVerification = async () => {
                 ),
               }}
               error={pwViewMessage.includes("특수")}
+              helperText={pwViewMessage}
             />
           </Grid>
         </Grid>
-
-        <Grid container spacing={3} className="inputfield">
-          <Grid item xs={3} lg={2} className="inputtext"></Grid>
-          <Grid style={{ marginBottom: '10px', color: pwViewMessage.includes('특수') ? 'red' : 'green' }} item xs={8} lg={7}>{pwViewMessage}</Grid></Grid>
 
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext">
@@ -342,14 +395,8 @@ const handleEmailVerification = async () => {
                 ),
               }}
               error={pwCheckMessage.includes("일치하지 않습니다")}
+              helperText={pwCheckMessage}
             />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3} className="inputfield">
-          <Grid item xs={3} lg={2} className="inputtext"></Grid>
-          <Grid style={{ marginBottom: '10px', color: pwCheckMessage.includes('일치하지 않습니다') ? 'red' : 'green' }} item xs={8} lg={7}>
-            {pwCheckMessage}
           </Grid>
         </Grid>
 
@@ -418,7 +465,7 @@ const handleEmailVerification = async () => {
               id='phone_number'
               value={phoneNumber}
               onChange={phoneHandler}
-              
+
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -432,48 +479,48 @@ const handleEmailVerification = async () => {
             />
           </Grid>
         </Grid>
-      
 
 
-      {/* 이용약관 */}
-      <div className="joinbox">
-        <div>
-          <h2>약관</h2>
-          <br />
+
+        {/* 이용약관 */}
+        <div className="joinbox">
+          <div>
+            <h2>약관</h2>
+            <br />
+          </div>
         </div>
-      </div>
-      {/* 체크박스 */}
-      <div className="center">
-        <div className="checksection">
-          <div className="checkbox">
-            <div className="leftsection">
-              <div className="centeragree">
-                <FormControlLabel
-                  label={<Typography variant="h5">전체동의</Typography>}
-                  control={
-                    <Checkbox
-                      checked={checked.every((value) => value)}
-                      indeterminate={!checked.every((value) => value) && checked.some((value) => value)}
-                      onChange={handleCheckAll}
-                    />
-                  }
-                />
+        {/* 체크박스 */}
+        <div className="center">
+          <div className="checksection">
+            <div className="checkbox">
+              <div className="leftsection">
+                <div className="centeragree">
+                  <FormControlLabel
+                    label={<Typography variant="h5">전체동의</Typography>}
+                    control={
+                      <Checkbox
+                        checked={checked.every((value) => value)}
+                        indeterminate={!checked.every((value) => value) && checked.some((value) => value)}
+                        onChange={handleCheckAll}
+                      />
+                    }
+                  />
+                </div>
+                <br />
+                <div className="textmargin">
+                  <Typography variant="h7">
+                    골프의 민족의 모든 약관 및 마케팅 및 광고 활용 동의의 내용을 확인하고 동의합니다.
+                  </Typography>
+                </div>
+                <hr />
               </div>
-              <br />
-              <div className="textmargin">
-                <Typography variant="h7">
-                  골프의 민족의 모든 약관 및 마케팅 및 광고 활용 동의의 내용을 확인하고 동의합니다.
-                </Typography>
-              </div>
-              <hr />
+            </div>
+            <div className="checkbox">
+              {children}
             </div>
           </div>
-          <div className="checkbox">
-            {children}
-          </div>
         </div>
-      </div>
-      <div className="butsec"><Button className='joinbut' variant="contained" type='submit'>회원가입</Button></div>
+        <div className="butsec"><Button className='joinbut' variant="contained" type='submit'>회원가입</Button></div>
       </form>
     </Container>
   );

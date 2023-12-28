@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 // import { Container, Grid } from "@mui/material";
 import './style/HeaderStyle.scss';
 import Header2 from "./Header2";
-
+import { useState } from "react";
+import LoginModal from "./LoginModal";
 
 
 function Header() {
-
+  const [modal, setModal] = useState(false);
+  const handleLogin = (loginData) => {
+    console.log(loginData);
+    setModal(false);
+  };
 
   return (
     <>
@@ -30,7 +35,8 @@ function Header() {
             </h1>
             <div className="util">
               <ul className="Ul">
-                <li><Link to="/member/login">로그인</Link></li>
+                <li><LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} /></li>
+                
                 <li><Link to="/member/join">회원가입</Link></li>
 
               </ul>
@@ -139,9 +145,6 @@ function Header() {
 
 
       </div>
-
-
-
     </>
   )
 }
