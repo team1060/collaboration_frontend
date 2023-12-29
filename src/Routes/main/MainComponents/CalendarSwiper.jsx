@@ -77,7 +77,7 @@ useEffect(() => {
         slidesPerGroup={7}
       >
         {dates.map((date, index) => (
-          <SwiperSlide key={index} onClick={() => handleDateClick(date)}>
+          <SwiperSlide key={index} onClick={() => handleDateClick(date)} className='SwiperSlide'>
             <div className={`day ${date.getDay() === 0 ? 'red' : date.getDay() === 6 ? 'blue' : ''}`}>
               {['일', '월', '화', '수', '목', '금', '토'][date.getDay()]}<br/>
               {date.getDate()}

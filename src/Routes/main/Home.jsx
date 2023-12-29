@@ -6,7 +6,7 @@ import ImgSwiper from './MainComponents/ImgSwiper';
 import GolfCourseSection from './MainComponents/GolfCourseSection';
 import GolfCourseCard from './MainComponents/GolfCourseCard';
 
-import MainCard from './MainComponents/MainCard'
+// import MainCard from './MainComponents/MainCard'
 
 import ShopCard from './MainComponents/ShopCard';
 // import BannerManagement from './MainComponents/BannerManagement';
@@ -60,7 +60,7 @@ function HomeList() {
         />
       )}
       {/* 골프소개  */}
-      <MainCard/>
+      
       <ShopCard/>
        <Banner/>
       <Event/>
