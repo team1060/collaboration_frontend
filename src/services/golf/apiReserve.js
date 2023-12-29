@@ -1,3 +1,4 @@
+import { responsiveFontSizes } from "@mui/material";
 import axiosInstance from "../axiosInstance.js";
 
 /**
@@ -11,6 +12,10 @@ export const getCourse = async () => {
         const response = await axiosInstance.get("/reservation");
         return response.data;
     } catch (error) {
+        console.log(error)
+        if(error.response.status == 403) {
+            window.location.href="/";
+        }
         throw error;
     }
 }

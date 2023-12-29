@@ -41,3 +41,13 @@ export const getEmail = async () => {
         throw error;
     }
 }
+
+// 로그인 
+export const loginMember = async (userData) => {
+    try {
+        const response = await axiosInstance.post("/member/login", userData)
+        return response.data
+    } catch (error) {
+        throw error;
+    }
+}

@@ -71,6 +71,7 @@ function MemberJoin() {
     // 필수 약관 체크 여부 확인
     if (!checked[0] || !checked[1]) {
       console.log("필수 약관에 동의해주세요.");
+      alert('필수약관에 동의해주세요.')
       return;
     }
     const userData = {
