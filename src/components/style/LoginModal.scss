@@ -1,0 +1,24 @@
+#LoginModal {
+    body {
+        padding-right: 0 !important;
+    }
+    .loginbutton {
+        border: none;
+        background: white;
+        cursor: pointer;
+        font-size: 13px;
+        &:hover {
+        color: #f89700;
+        }
+    }
+    @media (max-width: 1200px) {
+        .loginbutton {
+            color: white;
+            background: none;
+            font-size: 1rem;
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}

@@ -17,7 +17,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
+import { useState } from "react";
+import LoginModal from "./LoginModal";
 import { Link } from "react-router-dom";
 
 //아이콘 
@@ -147,6 +148,12 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
+  const [modal, setModal] = useState(false);
+  const handleLogin = (loginData) => {
+    console.log(loginData);
+    setModal(false);
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -179,10 +186,10 @@ export default function PersistentDrawerLeft() {
             
             <div className="util">
               <ul className="Ul">
-                <li><Link to="/member/login">로그인 </Link></li>
+              <li><LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} /></li>
               </ul>
               <ul className="Ul">
-                <li><Link to="/member/join"> 회원가입</Link></li>
+              <li><Link to="/member/join"> 회원가입</Link></li>
               </ul>
               {/* <button className="rBtn" id="my_reserve">나의 예약</button> */}
             </div>
