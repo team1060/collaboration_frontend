@@ -40,7 +40,7 @@ const convertToEnglishName = (koreanName) => {
     '상품목록': 'admin/test3',
     '상품관리': 'admin/test4',
     '게시판관리': 'admin/test5',
-    '골프장관리': 'admin/test6',
+    '골프장관리': 'admin/course',
 
     //사이드바 한글이름 영어로 url 추가하기 이름에 한글이름 제거 하기 
   };
