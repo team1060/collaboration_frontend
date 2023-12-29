@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Box, Collapse, IconButton, Table, TableBody, TableCell, TableContainer, 
-  TableHead, TableRow, Typography, Paper, TablePagination, TextField 
+  TableHead, TableRow, Typography, Paper, TablePagination, TextField, Select, MenuItem 
 } from '@mui/material';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -72,6 +72,7 @@ export default function ShopTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filter, setFilter] = useState('');
+  const [filterCategory, setFilterCategory] = useState('orderId'); // 기본 필터 카테고리는 'orderId'
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -86,26 +87,45 @@ export default function ShopTable() {
     setFilter(event.target.value);
   };
 
-  // 필터링된 데이터
-  const filteredData = shopData.filter(item =>
-    item.orderStatus.toLowerCase().includes(filter.toLowerCase())
-  );
+
+    // 카테고리에 따른 필터링 로직
+    const filteredData = shopData.filter(item =>
+      item[filterCategory]?.toString().toLowerCase().includes(filter.toLowerCase())
+    );
 
   // 현재 페이지에 표시될 데이터
   const displayedData = filteredData
     .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
+    const handleFilterCategoryChange = (event) => {
+      setFilterCategory(event.target.value);
+    };
+  
+
   return (
     <Paper>
-       <TextField
-        label="Filter by Order Status"
-        variant="outlined"
-        value={filter}
-        onChange={handleFilterChange}
-        fullWidth
-        style={{ margin: '5px' }}
-      />
+      <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+      <TextField
+          label="검색"
+          variant="outlined"
+          value={filter}
+          onChange={handleFilterChange}
+          style={{ width: '300px' }}
+        />
+        <Select
+          value={filterCategory}
+          onChange={handleFilterCategoryChange}
+        >
+          <MenuItem value="orderId">주문번호</MenuItem>
+          <MenuItem value="customerId">회원아이디</MenuItem>
+          <MenuItem value="orderPrice">주문가격</MenuItem>
+          <MenuItem value="orderStatus">주문상태</MenuItem>
+          <MenuItem value="request">요청사항</MenuItem>
+          <MenuItem value="orderDate">주문날짜</MenuItem>
+        </Select>
+       
+      </Box>
 
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
