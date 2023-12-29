@@ -15,7 +15,7 @@ function Banner() {
     const selectedImage = bannerImages[randomIndex];
     // 이미지 파일 경로를 설정할 때 "퍼블릭" 디렉토리를 기준으로 설정합니다.
     setRandomImage(`/img/banner/${selectedImage}`);
-  }, [bannerImages]);
+  }, [bannerImages]);x``
 
   return (
     <div className='Bann'>
