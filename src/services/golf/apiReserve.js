@@ -1,4 +1,3 @@
-import { responsiveFontSizes } from "@mui/material";
 import axiosInstance from "../axiosInstance.js";
 
 /**
