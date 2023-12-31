@@ -1,4 +1,3 @@
-import { responsiveFontSizes } from "@mui/material";
 import axiosInstance from "../axiosInstance.js";
 
 /**
@@ -9,13 +8,13 @@ import axiosInstance from "../axiosInstance.js";
 // 코스 전체조회
 export const getCourse = async () => {
     try{
-        const response = await axiosInstance.get("/reservation");
+        const response = await axiosInstance.get("/reservation/detail");
         return response.data;
     } catch (error) {
         console.log(error)
-        if(error.response.status == 403) {
-            window.location.href="/";
-        }
+        // if(error.response.status == 403) {
+        //     window.location.href="/";
+        // }
         throw error;
     }
 }
@@ -35,7 +34,7 @@ export const getGolf = async () => {
 // 예약 신청 
 export const postGolf = async (course) => {
     try {
-        const response = await axiosInstance.post("/reservation", course);
+        const response = await axiosInstance.post("/reservation/detail", course);
         return response.data;
     } catch (error) {
         throw error;
@@ -45,7 +44,7 @@ export const postGolf = async (course) => {
 // 예약 내역 불러오기 
 export const getReserve = async (email) => {
     try {
-        const response = await axiosInstance.get(`/reservation/${email}`);
+        const response = await axiosInstance.get(`/reservation/detail/${email}`);
         return response.data;
     } catch (error) {
         throw error;
