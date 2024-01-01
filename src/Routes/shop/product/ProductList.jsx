@@ -1,3 +1,4 @@
+// ProductList.js
 import React, { useEffect, useState } from 'react';
 import '../style/ProductList.scss';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,7 +9,6 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import styled from '@emotion/styled';
 import { Button, Container, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Grid, Box } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
 import { getBrand, getProductList } from '../../../services/shop/apiProduct';
 
 // 상품 갯수 
@@ -53,7 +53,6 @@ const StyledPickup = styled(Box)`
 
 
 function ProductList({ clubName }) {
-    // const theme = useTheme();
     const [productLists, setProductLists] = useState([]);
     const [brandData, setBrandData] = useState([]);
     const [brandName, setBrandName] = useState([]);
@@ -75,28 +74,41 @@ function ProductList({ clubName }) {
                     ...product,
                     brand_name: getBrandName(product.brand_no),
                 }));
-                setProductLists(productListWithBrandNames);
-                let filtered = productListWithBrandNames;
-                if (clubName === undefined || clubName === '전체') {
-                    console.log(clubName);
-                    filtered = productListWithBrandNames;
-                } else {
-                    filtered = productListWithBrandNames.filter(ProductList =>
-                        ProductList.product.includes(clubName)
-                    );
-                }
-                setProductLists(filtered);
+
+            // 셀렉트 
+            let filtered = productListWithBrandNames;
+            if (brandName.length > 0) {
+                filtered = productListWithBrandNames.filter(product =>
+                    brandName.includes(product.brand_name)
+                );
+            }
+
+            // 클럽 이름 
+            if (clubName === undefined || clubName === '전체') {
+                console.log(clubName);
+            } else {
+                filtered = filtered.filter(ProductList =>
+                    ProductList.product.includes(clubName)
+                );
+            }
                 // 페이징 
                 const startIndex = (page - 1) * (isSmallScreen ? ITEMS_PAGE_SMALL : ITEMS_PAGE_LARGE);
                 const endIndex = startIndex + (isSmallScreen ? ITEMS_PAGE_SMALL : ITEMS_PAGE_LARGE);
-                const currentPageData = productLists.slice(startIndex, endIndex);
+                const currentPageData = filtered.slice(startIndex, endIndex);
+
+                setProductLists(filtered);
                 setData(currentPageData);
             } catch (error) {
                 console.error(error);
             }
         };
         fetchData();
-    }, [page, clubName]);
+    }, [page, clubName, brandName]);
+
+    // 초기화
+    const handleReset = () => {
+        setBrandName([]);
+    };
 
     const isSmallScreen = useMediaQuery('(max-width: 550px)');
     const handleChange = (event) => {
@@ -112,7 +124,6 @@ function ProductList({ clubName }) {
         setPage(value);
     };
 
-    //페이징
     return (
         <div id="productLists">
             <Container>
@@ -147,8 +158,8 @@ function ProductList({ clubName }) {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <Button variant="contained" href="#contained-buttons" style={{ height: '40px' }}>
-                                    검색
+                                <Button variant="contained" onClick={handleReset} style={{ height: '40px' }}>
+                                    초기화
                                 </Button>
                             </div>
                         </div>
