@@ -59,38 +59,32 @@ function ProductList({ clubName }) {
     const [page, setPage] = useState(1);
     const [data, setData] = useState([]);
 
-    const getBrandName = (brandNo) => {
-        const brand = brandData.find((item) => item.brand_no === brandNo);
-        return brand ? brand.brand_name : '';
-    };
+    // 화면 크기에 따른 페이징 
+    const isSmallScreen = useMediaQuery('(max-width: 550px)');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const brandList = await getBrand();
-                const productList = await getProductList();
                 setBrandData(brandList);
-                const productListWithBrandNames = productList.map((product) => ({
-                    ...product,
-                    brand_name: getBrandName(product.brand_no),
-                }));
 
-            // 셀렉트 
-            let filtered = productListWithBrandNames;
-            if (brandName.length > 0) {
-                filtered = productListWithBrandNames.filter(product =>
-                    brandName.includes(product.brand_name)
-                );
-            }
+                const productList = await getProductList();
 
-            // 클럽 이름 
-            if (clubName === undefined || clubName === '전체') {
-                console.log(clubName);
-            } else {
-                filtered = filtered.filter(ProductList =>
-                    ProductList.product.includes(clubName)
-                );
-            }
+                // 브랜드 필터링
+                let filtered = productList;
+                if (brandName.length > 0) {
+                    filtered = productList.filter(product =>
+                        brandName.includes(product.brand_name)
+                    );
+                }
+
+                // 클럽 이름 필터링
+                if (clubName && clubName !== '전체') {
+                    filtered = filtered.filter(product =>
+                        product.product.includes(clubName)
+                    );
+                }
+
                 // 페이징 
                 const startIndex = (page - 1) * (isSmallScreen ? ITEMS_PAGE_SMALL : ITEMS_PAGE_LARGE);
                 const endIndex = startIndex + (isSmallScreen ? ITEMS_PAGE_SMALL : ITEMS_PAGE_LARGE);
@@ -102,15 +96,16 @@ function ProductList({ clubName }) {
                 console.error(error);
             }
         };
+
         fetchData();
-    }, [page, clubName, brandName]);
+    }, [page, clubName, brandName, isSmallScreen]);
 
     // 초기화
     const handleReset = () => {
         setBrandName([]);
     };
 
-    const isSmallScreen = useMediaQuery('(max-width: 550px)');
+
     const handleChange = (event) => {
         const {
             target: { value },
@@ -169,7 +164,8 @@ function ProductList({ clubName }) {
                         <Grid item key={list.product_no}>
                             <Card sx={{ width: { lg: 230, xs: 225 }, height: 420 }} className='card'>
                                 <CardContent>
-                                    <img src={`http://localhost:8081${list.path}`} alt="Product Image" />
+                                    {/* {`http://localhost:8081${list.path}`} */}
+                                    <img src={list.path} alt="" />
                                     <Typography sx={{ fontSize: 14, fontWeight: 'bold', mt: 1 }} color="text.dark" gutterBottom>
                                         {list.brand_name}
                                     </Typography>
@@ -191,9 +187,15 @@ function ProductList({ clubName }) {
                                     </div>
 
                                     <Typography className='benefit' sx={{ fontSize: 16, fontWeight: 'bold' }}>
-                                        {Number(list.price * (1 - list.discount)).toLocaleString()}원
-                                        <span>{Number((1 - list.discount) * 100).toLocaleString() == 100 ? '' : '[' + Number((1 - list.discount) * 100).toLocaleString() + '%' + ']'}</span>
+                                            {/* 가격 */}
+                                            {`${Number(list.price * (1 - list.discount)).toLocaleString()}원`}
+                                            {/* 할인 */}
+                                            <span>
+                                                {`${list.discount > 0 ? `[${(list.discount * 100).toFixed()}%]` : ''}`}
+                                            </span>
                                     </Typography>
+
+
                                 </CardContent>
                             </Card>
                         </Grid>
