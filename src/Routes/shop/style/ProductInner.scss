@@ -1,0 +1,48 @@
+#ProductInner {
+    .con {
+        // padding-top: 50px;
+        background: white;
+    }
+
+    .head {
+        background: #01387F;
+        font-size: 24px;
+
+        .atag {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        a {
+            color: white;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .con {
+            padding-top: 80px;
+        }
+    }
+
+    /* Add these styles to your CSS */
+    .atag {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .atag button {
+        background-color: transparent;
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .atag button.active {
+        background-color: white;
+        color: black;
+        border-radius: 5px;
+    }
+
+}
