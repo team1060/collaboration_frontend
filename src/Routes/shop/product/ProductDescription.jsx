@@ -1,7 +1,10 @@
-function ProductDescription() {
+function ProductDescription({ prop }) {
+    // console.log(prop);
     return (
         <div>
-            <img style={{width:"100%"}} src="/img/product/1/200914_G425_MAX_DR.jpg"></img>
+            {prop?.image_details.map((image, index) => (
+                <img style={{ width: "100%" }} src={image.path} alt={`Slide ${index}`}></img>
+            ))}
         </div>
     )
 }

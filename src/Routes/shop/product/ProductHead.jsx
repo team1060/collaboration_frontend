@@ -3,9 +3,9 @@ import { Container, Grid, Button } from '@mui/material';
 import ProductDescription from './ProductDescription';
 import ProductReviews from './ProductReviews';
 
-function ProductHead() {
+function ProductHead({ prop }) {
     const [activeTab, setActiveTab] = useState('description');
-
+    // console.log(prop);
     return (
         <div className="con">
             <div className='head'>
@@ -27,7 +27,7 @@ function ProductHead() {
                 </Container>
             </div>
             <Container>
-                {activeTab === 'description' && <ProductDescription />}
+                {activeTab === 'description' && <ProductDescription prop={prop}></ProductDescription>}
                 {activeTab === 'reviews' && <ProductReviews />}
             </Container>
         </div>
