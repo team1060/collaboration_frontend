@@ -1,4 +1,4 @@
-import { Button, Container, FormControl, Grid, InputLabel, MenuItem, Rating, Select, Typography } from "@mui/material";
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Rating, Select, Typography } from "@mui/material";
 import ProductHead from "./product/ProductHead";
 import "./style/ProductInner.scss"
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { getProductInner } from "../../services/shop/apiProduct";
 import ProductImgSwiper from "./product/ProductImgSwiper";
 import { Add, Clear, Remove } from "@mui/icons-material";
+import styled from "@emotion/styled";
 
 function ProductInner() {
 
@@ -13,6 +14,32 @@ function ProductInner() {
 
     const [prop, setProp] = useState(null);
     const [selectedOption, setSelectedOption] = useState([]);
+
+    // 배달버튼 
+    const StyledDelivery = styled(Box)`
+        width: 70px;
+        height: 20px;
+        border-radius: 10px;
+        color: white;
+        background-color: #2bc0ba;
+        font-size: 13px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        margin-right: 5px;
+    `;
+    // 픽업버튼
+    const StyledPickup = styled(Box)`
+        width: 70px;
+        height: 20px;
+        border-radius: 10px;
+        color: white;
+        background-color: #268ad5;
+        font-size: 13px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+    `;
 
 
     const handleChange = (event) => {
@@ -96,6 +123,10 @@ function ProductInner() {
         <div id="ProductInner">
             <Grid>
                 <Container className="mainContainer">
+                <div className='pickup'>
+                    {prop?.is_shop_delivery ? <StyledDelivery>배달가능</StyledDelivery> : ''}
+                    {prop?.is_shop_pickup ? <StyledPickup>픽업가능</StyledPickup> : ''}
+                </div>
                     <div className="titleWrap" >
                         <h2>{prop?.product}</h2>
                     </div>
