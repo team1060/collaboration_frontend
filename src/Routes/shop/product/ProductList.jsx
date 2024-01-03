@@ -1,3 +1,4 @@
+// ProductList.js
 import React, { useEffect, useState } from 'react';
 import '../style/ProductList.scss';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,7 +9,6 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import styled from '@emotion/styled';
 import { Button, Container, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Grid, Box } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
 import { getBrand, getProductList } from '../../../services/shop/apiProduct';
 
 // 상품 갯수 
@@ -51,6 +51,7 @@ const StyledPickup = styled(Box)`
   justify-content: center;
 `;
 
+
 function ProductList({ clubName }) {
     const [productLists, setProductLists] = useState([]);
     const [brandData, setBrandData] = useState([]);
@@ -64,8 +65,6 @@ function ProductList({ clubName }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // 실제 API 호출 부분은 실제 API에 맞게 수정해야 합니다.
-                // 아래는 가상의 함수로 실제 동작하지 않습니다.
                 const brandList = await getBrand();
                 setBrandData(brandList);
 
@@ -90,16 +89,9 @@ function ProductList({ clubName }) {
                 const startIndex = (page - 1) * (isSmallScreen ? ITEMS_PAGE_SMALL : ITEMS_PAGE_LARGE);
                 const endIndex = startIndex + (isSmallScreen ? ITEMS_PAGE_SMALL : ITEMS_PAGE_LARGE);
                 const currentPageData = filtered.slice(startIndex, endIndex);
-                setData(currentPageData);
 
-                // 최초 실행 시 한 번 강제로 handleChange 호출
-                if (brandData.length > 0) {
-                    handleChange({
-                        target: {
-                            value: brandData[0].brand_name,
-                        },
-                    });
-                }
+                setProductLists(filtered);
+                setData(currentPageData);
             } catch (error) {
                 console.error(error);
             }
@@ -107,6 +99,12 @@ function ProductList({ clubName }) {
 
         fetchData();
     }, [page, clubName, brandName, isSmallScreen]);
+
+    // 초기화
+    const handleReset = () => {
+        setBrandName([]);
+    };
+
 
     const handleChange = (event) => {
         const {
@@ -117,11 +115,11 @@ function ProductList({ clubName }) {
         );
     };
 
+    // 초기화 
     const handlePageChange = (event, value) => {
         setPage(value);
     };
 
-    //페이징
     return (
         <div id="productLists">
             <Container>
@@ -156,8 +154,8 @@ function ProductList({ clubName }) {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <Button variant="contained" href="#contained-buttons" style={{ height: '40px' }}>
-                                    검색
+                                <Button variant="contained" onClick={handleReset} style={{ height: '40px' }}>
+                                    초기화
                                 </Button>
                             </div>
                         </div>
