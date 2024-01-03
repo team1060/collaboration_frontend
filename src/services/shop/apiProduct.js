@@ -23,13 +23,3 @@ export const getBrand = async () => {
         throw error
     }
 }
-
-// 상품목록 
-export const getProductInner = async (product_no) => {
-    try {
-        const response = await axiosInstance.get(`/products/${product_no}`)
-        return response.data;
-    } catch (error) {
-        throw error
-    }
-}
