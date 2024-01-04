@@ -13,13 +13,16 @@ import { getCourse, updateCourse, deleteCourse, postCourse, fetchGolfNames } fro
 import CourseModal from '../AdminCourseComponents/CourseModal';
 import '../Style/AdminGlobal.scss';
 
+
+
+
 const AdminCourse = () => {
   const [courses, setCourses] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [golfNames, setGolfNames] = useState({}); // 골프장 이름을 저장할 객체
-
+  const [selectedRowIds, setSelectedRowIds] = useState([]);
   const [filterCategory, setFilterCategory] = useState('course_name'); // 필터링할 카테고리 기본값
   // 코스 데이터 가져오기
   useEffect(() => {
@@ -72,37 +75,42 @@ const AdminCourse = () => {
     setSelectedCourse({}); // 새로운 코스 객체 초기화
     setOpenModal(true);
   };
-// "수정" 버튼 클릭 핸들러
+
+  const handleSelectionChange = (newSelectionModel) => {
+    console.log(newSelectionModel);
+    setSelectedRowIds(newSelectionModel);
+  };
+
+//수정
 const handleUpdateClick = () => {
-  if (selectedCourse) {
-    setOpenModal(true); // 선택된 코스로 모달 열기
+  if (selectedRowIds.length === 1) {
+    console.log("들어감");
+    const selectedRowData = courses.find(course => course.course_no === selectedRowIds[0]);
+      setSelectedCourse(selectedRowData);
+    setOpenModal(true);
+    console.log(selectedRowData);
+    console.log("모달 열림"); // 추가된 로그
   } else {
-    alert('수정할 코스를 선택해주세요.');
+    alert('수정할 코스를 하나만 선택해주세요.');
   }
 };
 
-// "삭제" 버튼 클릭 핸들러
-const handleDeleteClick = async () => {
-  if (selectedCourse) {
-    if (window.confirm('선택한 코스를 삭제하시겠습니까?')) {
-      try {
-        await deleteCourse(selectedCourse.course_no);
-        // 성공적으로 삭제 후 코스 목록 갱신
-        setCourses(courses.filter(course => course.course_no !== selectedCourse.course_no));
-        setSelectedCourse(null);
-      } catch (error) {
-        console.error('코스 삭제 중 오류 발생', error);
+  //삭제
+  const handleDeleteClick = async () => {
+    if (selectedRowIds.length > 0) {
+      if (window.confirm('선택한 코스를 삭제하시겠습니까?')) {
+        await Promise.all(selectedRowIds.map(course_no => deleteCourse(course_no)));
+        window.location.reload(); // 페이지 새로고침
       }
+    } else {
+      alert('삭제할 코스를 선택해주세요.');
     }
-  } else {
-    alert('삭제할 코스를 선택해주세요.');
-  }
-};
+  };
   // 검색 입력 핸들러
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
+ 
  
  // 카테고리 필터링 핸들러
  const handleFilterCategoryChange = (event) => {
@@ -114,6 +122,8 @@ const handleDeleteClick = async () => {
   const courseValue = course[filterCategory] ? course[filterCategory].toString() : '';
   return courseValue.toLowerCase().includes(searchTerm.toLowerCase());
 });
+
+
 
   return (
     <div className='AdminGlobal'>
@@ -148,39 +158,29 @@ const handleDeleteClick = async () => {
         />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">
-          생성
-        </Button>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">
-          수정
-        </Button>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">
-          삭제
-        </Button>
-
-       
-        {/* "수정" 및 "삭제" 버튼 추가 */}
+        <Button onClick={handleCreateClick} variant="contained" color="primary">생성</Button>
+        <Button onClick={handleUpdateClick} variant="contained" color="primary">수정</Button>
+        <Button onClick={handleDeleteClick} variant="contained" color="primary">삭제</Button>
       </Box>
       <div style={{ height: 800, width: '100%' }}>
       <DataGrid
-          rows={filteredCourses} // 필터링된 데이터 사용
-          columns={columns}
-          pageSize={5}
-          checkboxSelection
-          disableSelectionOnClick
-          getRowId={(row) => row.course_no}
-          onRowDoubleClick={(params) => setSelectedCourse(params.row)}
-        />
-       {selectedCourse && (
-              <CourseModal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                course={selectedCourse}
-                onUpdate={updateCourse}
-                onPost={postCourse}
-              />
-            )}
-      
+              rows={filteredCourses}
+              columns={columns}
+              pageSize={5}
+              checkboxSelection
+              onRowSelectionModelChange={handleSelectionChange}
+              selectionModel={selectedRowIds}
+          />
+          
+        {selectedCourse && (
+          <CourseModal
+            open={openModal}
+            onClose={() => setOpenModal(false)}
+            course={selectedCourse}
+            onUpdate={updateCourse}
+            onPost={postCourse}
+          />
+        )}
       </div>
     </div>
   );

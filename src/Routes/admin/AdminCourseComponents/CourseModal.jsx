@@ -14,29 +14,43 @@ function GolfCourseModal({ open, onClose, course, onUpdate, onDelete, onPost  })
   const [golfCourseData, setGolfCourseData] = useState(course || {
     golf_date: null,
     golf_time: null,
+    golf_no: null,
+    course_no: null, // 초기값 설정
     course_name: null, // 초기값 설정
     greenpee: null,    // 초기값 설정
-    // golf_status: 0,  // 예약 상태를 0으로 설정
+    // golf_status: '',  // 예약 상태를 0으로 설정
     // 다른 필드들에 대해서도 초기값을 설정하세요.
   });
   
   const [golfNames, setGolfNames] = useState([]); // 골프장 이름 목록
 // golf_date 값을 변경할 때는 별도의 상태로 관리
   
-  useEffect(() => {
-    // course가 null일 때 golf_date를 null로 설정
-    setGolfCourseData(course || { golf_date: null });
-    fetchGolfNamesData(); // 골프장 이름 데이터 가져오기
-  }, [course]);
-
+useEffect(() => {
+  fetchGolfNamesData();
+  // course 객체가 변경될 때마다 golfCourseData 상태를 업데이트합니다.
+  setGolfCourseData(course || {
+    golf_date: null,
+    golf_time: null,
+    golf_no: null,
+    course_no: null,
+    course_name: null,
+    greenpee: null,
+    // 기타 필드
+  });
+  fetchGolfNamesData(); // 골프장 이름 데이터 가져오기
+}, [course]);
  // 골프장 이름 데이터를 가져오는 함수
+ const [isGolfNamesLoaded, setIsGolfNamesLoaded] = useState(false);
+
  const fetchGolfNamesData = async () => {
-  const data = await fetchGolfNames();
-  setGolfNames(data);
-};
+   const data = await fetchGolfNames();
+   setGolfNames(data);
+   setIsGolfNamesLoaded(true);
+ };
+ 
 const handleChange = (event) => {
   const { name, value } = event.target;
-  const newValue = name === "golf_status" ? value : (value || '');
+  const newValue = name === "golf_status" ? value : (value || null);
   setGolfCourseData({ ...golfCourseData, [name]: newValue });
 };
 
@@ -60,10 +74,7 @@ const handleChange = (event) => {
   }
   onClose();
 };
-  const handleDelete = () => {
-    onDelete(golfCourseData.golf_no);
-    onClose();
-  };
+  // 날짜 시간 데이터 형식 변환 
   const handleDateChange = (newDate) => {
     setGolfCourseData((prevData) => ({
       ...prevData,
@@ -74,17 +85,22 @@ const handleChange = (event) => {
   const handleTimeChange = (newTime) => {
     setGolfCourseData((prevData) => ({
       ...prevData,
-      golf_time: dayjs(newTime).format("HH:mm"), // 시간을 "HH:mm" 형식으로 변환
+      golf_time: newTime ? dayjs(newTime).format("HH:mm") : null,
     }));
   };
+  
+
+
 console.log(golfCourseData);
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} PaperProps={{ style: { height: '80%' } }}>
       <DialogTitle>골프장 상세페이지</DialogTitle>
       <DialogContent>
       <FormControl fullWidth>
           <InputLabel id="golf-no-label">골프장</InputLabel>
+          {isGolfNamesLoaded && (
           <Select
+          
             labelId="golf-no-label"
             id="golf_no"
             name="golf_no"
@@ -92,14 +108,13 @@ console.log(golfCourseData);
             label="골프장"
             onChange={handleChange}
           >
-            {golfNames.map((golf) => (
-              <MenuItem key={golf.golf_no} value={golf.golf_no}>
-                {golf.name}
-              </MenuItem>
+           {golfNames.map((golf) => (
+              <MenuItem key={golf.golf_no} value={golf.golf_no}>{golf.name}</MenuItem>
             ))}
-          </Select>
+          </Select> )}
         </FormControl>
         <TextField
+        style={{ marginBottom: '16px' }} 
               margin="dense"
               name="course_name"
               label="코스 이름"
@@ -110,6 +125,7 @@ console.log(golfCourseData);
               onChange={handleChange}
             />
             <TextField
+             style={{ marginBottom: '16px' }} 
               margin="dense"
               name="greenpee"
               label="그린피 금액"
@@ -121,37 +137,38 @@ console.log(golfCourseData);
             />
          <LocalizationProvider dateAdapter={AdapterDayjs}>
          <DatePicker
-            label="예약 날짜"
-            format="YYYY/MM/DD"
-            value={golfCourseData.golf_date || null} // 초기값을 빈 문자열로 설정
-            onChange={handleDateChange}
-            inputFormat={"yyyy-MM-dd"}
-            mask={"____-__-__"}
-          />
-          <TimePicker
-            label="티오프 시간"
-            ampm={false}
-            value={golfCourseData.golf_time || null} // 초기값을 빈 문자열로 설정
-            onChange={handleTimeChange}
-            inputFormat={"hh:mm"}
-            mask={"__:__"}
-          />
+              label="예약 날짜"
+              format="YYYY/MM/DD"
+              value={golfCourseData.golf_date ? dayjs(golfCourseData.golf_date) : null}
+              onChange={handleDateChange}
+              inputFormat={"yyyy-MM-dd"}
+              mask={"____-__-__"}
+            />
+         <TimePicker
+              label="티오프 시간"
+              ampm={false}
+              value={golfCourseData.golf_time ? dayjs(golfCourseData.golf_time, "HH:mm") : null}
+              onChange={handleTimeChange}
+              inputFormat="HH:mm"
+              className='timeP'
+              
+            />
         </LocalizationProvider>
         <FormControl fullWidth margin="dense">
-          <InputLabel id="status-label">예약 상태</InputLabel>
-          <Select
-            labelId="status-label"
-            id="status"
-            name="golf_status"
-            value={golfCourseData.golf_status || ''}
-            label="예약 상태"
-           
-            onChange={handleChange}
-          >
-            <MenuItem value={0}>예약 불가</MenuItem>
-            <MenuItem value={1}>예약 가능</MenuItem>
-          </Select>
-        </FormControl>
+            <InputLabel id="status-label">예약 상태</InputLabel>
+            <Select
+              labelId="status-label"
+              id="status"
+              name="golf_status"
+              value={golfCourseData.golf_status === 1 ? 1 : 0}
+              label="예약 상태"
+              onChange={handleChange}
+            >
+             
+              <MenuItem value={1}>예약 가능</MenuItem>
+              <MenuItem value={0}>예약 불가</MenuItem>
+            </Select>
+          </FormControl>
         
       </DialogContent>
       <DialogActions>
