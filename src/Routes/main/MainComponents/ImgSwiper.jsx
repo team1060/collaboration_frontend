@@ -13,11 +13,14 @@ import '../style/Swiper.scss'
 function ImgSwiper() {
   return (
 
-    <div className="swiper-container" style={{maxWidth:"1200px", margin:"0 auto"}}>
+    <div className="swiper-container" id="imgSwiper">
 
        <Swiper
       slidesPerView={1}
-      navigation={true} modules={[Navigation]} style={{height:"500px"}}
+      centeredSlides={true}
+      navigation={true}   modules={[Navigation]}
+      spaceBetween={20} 
+      
 
       >
         <SwiperSlide><img src="./img/pc04.jpg" alt="Slide 1" /></SwiperSlide>

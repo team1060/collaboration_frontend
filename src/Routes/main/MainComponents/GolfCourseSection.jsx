@@ -33,7 +33,7 @@ const GolfCourseSection = ({ onCourseSelection, onError }) => {
 
   return (
     <div style={{ width: "1200px", margin: "0 auto", marginTop: "15px" }}>
-      <div style={{ padding: "30px 30px 0" }}>
+      <div style={{ padding: "15px 15px 10px" }}>
         <Button style={{marginRight: "5px"}}variant="contained" color="primary" onClick={() => fetchCoursesByRegion('경기')}>경기</Button>
         <Button style={{marginRight: "5px"}}variant="contained" color="primary" onClick={() => fetchCoursesByRegion('충청')}>충청</Button>
         <Button variant="contained" color="primary" onClick={() => fetchCoursesByRegion('경상')}>경상</Button>

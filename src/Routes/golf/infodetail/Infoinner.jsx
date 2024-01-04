@@ -7,6 +7,7 @@ import Print from '@mui/icons-material/Print';
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getGolfInfo } from "../../../services/golf/apiGolf";
+import InfoRemote from "./InfoRemote";
 
 // 골프장 상세페이지
 function Infoinner() {
@@ -31,7 +32,7 @@ function Infoinner() {
     return (
         <div id="infoInner">
             <Container>
-                <Grid className="title">
+                <Grid className="title" >
                     <h2>{golfInfo?.name}<span>{golfInfo?.region}</span></h2>
                 </Grid>
                 <Grid container className="golfSec1">

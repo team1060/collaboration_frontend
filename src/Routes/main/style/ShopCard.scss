@@ -1,30 +1,42 @@
 /* ShopCard.css */
-.ShopCard{
-  max-width: 1200px;
-  margin: 0 auto;
- display: flex;
- justify-content: space-between;
- padding: 0px 30px 0px 30px;
-}
-.shop-card-container {
-  display: flex;
-  flex-wrap: wrap; /* flex 요소를 줄 바꿈 */
-  justify-content: space-around; /* 요소 간 간격을 최대한 유지 */
-  max-width: 1200px; /* 최대 너비 설정 */
-  margin: 0 auto; /* 가운데 정렬 */
-}
+#shopCard {
+  margin-bottom: 100px  ;
+  
+  .ShopCard {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px 30px 30px;
+  }
 
-.shop-card {
-  flex-basis: calc(50% - 10px); /* 화면 너비가 768px 이상이면 2x2 그리드 */
-  margin-bottom: 20px;
-}
-.Card{
-  width:280px;
-}
+  .shop-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* flex 요소를 줄 바꿈 */
+    justify-content: space-around;
+    /* 요소 간 간격을 최대한 유지 */
+    max-width: 1200px;
+    /* 최대 너비 설정 */
+    margin: 0 auto;
+    /* 가운데 정렬 */
+  }
 
-/* 미디어 쿼리: 화면 너비가 768px 이하일 때 */
-@media (max-width: 768px) {
   .shop-card {
-    flex-basis: calc(100% - 10px); /* 화면 너비가 768px 미만이면 1x4 그리드 */
+    flex-basis: calc(50% - 10px);
+    /* 화면 너비가 768px 이상이면 2x2 그리드 */
+    margin-bottom: 20px;
+  }
+
+  .Card {
+    width: 280px;
+  }
+
+  /* 미디어 쿼리: 화면 너비가 768px 이하일 때 */
+  @media (max-width: 768px) {
+    .shop-card {
+      flex-basis: calc(100% - 10px);
+      /* 화면 너비가 768px 미만이면 1x4 그리드 */
+    }
   }
 }
