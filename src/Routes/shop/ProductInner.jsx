@@ -59,16 +59,17 @@ function ProductInner() {
         const fetchGolfInfo = async () => {
             try {
                 const post = await getProductInner(product_no)
-                // console.log(post)
+                console.log(post)   
                 post[0].image_details = JSON.parse(post[0].image_details);
                 post[0].image_prdts = JSON.parse(post[0].image_prdts);
                 post[0].product_options = JSON.parse(post[0].product_options)
+                console.log(post);
                 const filteredResult = post.map(item => ({
                     ...item,
                     image_details: Array.isArray(item.image_details) ? item.image_details.filter(img => img !== null) : [],
                     image_prdts: Array.isArray(item.image_prdts) ? item.image_prdts.filter(img => img !== null) : []
                 }));
-
+            
                 console.log(filteredResult)
                 setProp(filteredResult[0])
             } catch (error) {
@@ -119,7 +120,6 @@ function ProductInner() {
         setSelectedOption(restOptions);
     };
     return (
-
         <div id="ProductInner">
             <Grid>
                 <Container className="mainContainer">

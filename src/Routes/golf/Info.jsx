@@ -74,6 +74,7 @@ function Info() {
                   <Grid className="golfInner">
                     <h3><a href={`/golf/info/${golf.golf_no}`}>{golf.name}</a></h3>
                     <p>{golf.description}</p>
+                    <br></br>
                     <p>홀: {golf.holes}, 파: {golf.pars}, 전장: {golf.land_area?.toLocaleString()}m²</p>
                     <br></br>
                     <p><LocationOn /> {golf.address}</p>
