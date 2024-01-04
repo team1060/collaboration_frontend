@@ -1,0 +1,24 @@
+#infoRemote {
+    text-align: center;
+    border: 1px outset;
+    padding: 10px;
+    display: none;
+    position: "fixed";
+
+    @media (min-width: 1570px) {
+        display: block; // 1450px 이상일 때 보이도록 설정
+    }
+
+    a {
+        color: #1b1b1d;
+    }
+
+    .infoLinkWrap {
+        padding-top: 15px;
+    }
+
+    .infoLink {
+        cursor: pointer;
+        ;
+    }
+}

@@ -69,10 +69,8 @@ function HomeList() {
 
     </div>
     {/* <Button color='primary'></Button> */}
-    <a href="/golf/intro" style={{color:"black"}}>골프소개페이지입니다</a>
-    <div className="test1" style={{color:"red"}}>
+    <div>
     <a href="/admin" style={{color:"black"}}>관리자 페이지 들어가기</a>
-      asd
     </div>
     
     </>

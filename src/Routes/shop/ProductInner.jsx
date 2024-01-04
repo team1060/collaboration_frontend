@@ -27,6 +27,7 @@ function ProductInner() {
         display: flex;
         justify-content: center;
         margin-right: 5px;
+        margin-bottom: 3px;
     `;
     // 픽업버튼
     const StyledPickup = styled(Box)`
@@ -39,6 +40,7 @@ function ProductInner() {
         font-weight: bold;
         display: flex;
         justify-content: center;
+        margin-bottom: 3px;
     `;
 
 

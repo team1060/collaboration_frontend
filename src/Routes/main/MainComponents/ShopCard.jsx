@@ -40,14 +40,14 @@ const sortedProducts = ShopPro.sort((a, b) => {
 }).slice(0, 4); // 상위 5개만 선택
 
   return (
-    <div>
+    <div id='shopCard'>
       
       <div className='ShopCard'>
        <h2>골프 인기상품 </h2>
-       <h2>기간한정특가</h2>
+       {/* <h2>기간한정특가</h2> */}
        <a href="/">
-        <Button variant="contained" endIcon={<SendIcon />}>
-          Send
+        <Button variant="contained">
+          바로가기
         </Button>
         </a>
       </div>
