@@ -166,7 +166,9 @@ function ProductList({ clubName }) {
                             <Card sx={{ width: { lg: 230, xs: 225 }, height: 420 }} className='card'>
                                 <CardContent>
                                     {/* {`http://localhost:8081${list.path}`} */}
-                                    <img src={list.path} alt="" />
+                                    <a href={`/product/view/${list.product_no}`}>
+                                        <img src={list.path} alt="" />
+                                    </a>
                                     <Typography sx={{ fontSize: 14, fontWeight: 'bold', mt: 1 }} color="text.dark" gutterBottom>
                                         {list.brand_name}
                                     </Typography>
@@ -177,9 +179,11 @@ function ProductList({ clubName }) {
                                     </div>
 
                                     <div className="title">
-                                        <Typography sx={{ fontSize: 14, mb: 1.5 }} component="div">
-                                            {list.product}
-                                        </Typography>
+                                        <a href={`/product/view/${list.product_no}`}>
+                                            <Typography sx={{ fontSize: 14, mb: 1.5 }} component="div">
+                                                {list.product}
+                                            </Typography>
+                                        </a>
                                     </div>
                                     <div className="discount">
                                         <Typography color="text.secondary" sx={{ fontSize: 13, fontWeight: '500' }}>
@@ -188,12 +192,12 @@ function ProductList({ clubName }) {
                                     </div>
 
                                     <Typography className='benefit' sx={{ fontSize: 16, fontWeight: 'bold' }}>
-                                            {/* 가격 */}
-                                            {`${Number(list.price * (1 - list.discount)).toLocaleString()}원`}
-                                            {/* 할인 */}
-                                            <span>
-                                                {`${list.discount > 0 ? `[${(list.discount * 100).toFixed()}%]` : ''}`}
-                                            </span>
+                                        {/* 가격 */}
+                                        {`${Number(list.price * (1 - list.discount)).toLocaleString()}원`}
+                                        {/* 할인 */}
+                                        <span>
+                                            {`${list.discount > 0 ? `[${(list.discount * 100).toFixed()}%]` : ''}`}
+                                        </span>
                                     </Typography>
 
 
