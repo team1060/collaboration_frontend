@@ -16,6 +16,17 @@ import axiosInstance from "../axiosInstance.js";
     }
 }
 
+// 골프장 이름 데이터 가져오기
+export const fetchGolfNames = async () => {
+  try {
+    const response = await axiosInstance.get("/admin/golf");
+    return response.data;
+  } catch (error) {
+    console.error( error);
+    throw error;
+  }
+};
+
  // 코스 등록
 export const postCourse = async (course) => {
   try {

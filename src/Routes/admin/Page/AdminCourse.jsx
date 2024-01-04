@@ -9,17 +9,20 @@ import {
   MenuItem,
   Box
 } from '@mui/material';
-import { getCourse, updateCourse, deleteCourse, postCourse } from '../../../services/admin/GolfCourse.js';
+import { getCourse, updateCourse, deleteCourse, postCourse, fetchGolfNames } from '../../../services/admin/GolfCourse.js';
 import CourseModal from '../AdminCourseComponents/CourseModal';
 import '../Style/AdminGlobal.scss';
+
+
+
 
 const AdminCourse = () => {
   const [courses, setCourses] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  
-
+  const [golfNames, setGolfNames] = useState({}); // 골프장 이름을 저장할 객체
+  const [selectedRowIds, setSelectedRowIds] = useState([]);
   const [filterCategory, setFilterCategory] = useState('course_name'); // 필터링할 카테고리 기본값
   // 코스 데이터 가져오기
   useEffect(() => {
@@ -34,11 +37,31 @@ const AdminCourse = () => {
     fetchCourses();
   }, []);
 
+  useEffect(() => {
+    // 골프장 이름 데이터 가져오기
+    const fetchGolfNamesData = async () => {
+      const data = await fetchGolfNames();
+      // data를 골프장 번호를 키로 하는 객체로 변환하여 저장
+      const golfNamesObj = data.reduce((acc, golf) => {
+        acc[golf.golf_no] = golf.name;
+        return acc;
+      }, {});
+      setGolfNames(golfNamesObj);
+    };
+
+    fetchGolfNamesData();
+  }, []);
   // DataGrid 컬럼 정의
   
   const columns = [
-    { field: 'course_no', headerName: '코스NO', width: 70 },
-    { field: 'golf_no', headerName: '골프장NO', width: 70 },
+ 
+    { field: 'course_no', headerName: 'NO', width: 70 },
+    { 
+      field: 'golf_no', 
+      headerName: '골프장 이름', 
+      width: 130,
+      valueGetter: (params) => golfNames[params.row.golf_no] || '알 수 없음'
+    },
     { field: 'course_name', headerName: '코스 이름', width: 130 },
     { field: 'greenpee', headerName: '그린피', width: 130 },
     { field: 'golf_time', headerName: '티오프 시간', width: 90 },
@@ -53,21 +76,41 @@ const AdminCourse = () => {
     setOpenModal(true);
   };
 
-  // "수정" 버튼 클릭 핸들러
-  const handleUpdateClick = () => {
-    // 수정 로직 구현 필요
+  const handleSelectionChange = (newSelectionModel) => {
+    console.log(newSelectionModel);
+    setSelectedRowIds(newSelectionModel);
   };
 
-  // "삭제" 버튼 클릭 핸들러
-  const handleDeleteClick = () => {
-    // 삭제 로직 구현 필요
-  };
+//수정
+const handleUpdateClick = () => {
+  if (selectedRowIds.length === 1) {
+    console.log("들어감");
+    const selectedRowData = courses.find(course => course.course_no === selectedRowIds[0]);
+      setSelectedCourse(selectedRowData);
+    setOpenModal(true);
+    console.log(selectedRowData);
+    console.log("모달 열림"); // 추가된 로그
+  } else {
+    alert('수정할 코스를 하나만 선택해주세요.');
+  }
+};
 
+  //삭제
+  const handleDeleteClick = async () => {
+    if (selectedRowIds.length > 0) {
+      if (window.confirm('선택한 코스를 삭제하시겠습니까?')) {
+        await Promise.all(selectedRowIds.map(course_no => deleteCourse(course_no)));
+        window.location.reload(); // 페이지 새로고침
+      }
+    } else {
+      alert('삭제할 코스를 선택해주세요.');
+    }
+  };
   // 검색 입력 핸들러
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
+ 
  
  // 카테고리 필터링 핸들러
  const handleFilterCategoryChange = (event) => {
@@ -79,6 +122,8 @@ const AdminCourse = () => {
   const courseValue = course[filterCategory] ? course[filterCategory].toString() : '';
   return courseValue.toLowerCase().includes(searchTerm.toLowerCase());
 });
+
+
 
   return (
     <div className='AdminGlobal'>
@@ -94,9 +139,9 @@ const AdminCourse = () => {
             onChange={handleFilterCategoryChange}
             label="카테고리"
           >
+            <MenuItem value="course_no">NO</MenuItem>
+            <MenuItem value="golf_no">골프장 이름</MenuItem>
             <MenuItem value="course_name">코스 이름</MenuItem>
-            <MenuItem value="course_no">코스NO</MenuItem>
-            <MenuItem value="golf_no">골프장NO</MenuItem>
             <MenuItem value="greenpee">그린피</MenuItem>
             <MenuItem value="golf_time">티오프 시간</MenuItem>
             <MenuItem value="golf_date">예약 날짜</MenuItem>
@@ -113,38 +158,29 @@ const AdminCourse = () => {
         />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">
-          생성
-        </Button>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">
-          수정
-        </Button>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">
-          삭제
-        </Button>
-
-       
-        {/* "수정" 및 "삭제" 버튼 추가 */}
+        <Button onClick={handleCreateClick} variant="contained" color="primary">생성</Button>
+        <Button onClick={handleUpdateClick} variant="contained" color="primary">수정</Button>
+        <Button onClick={handleDeleteClick} variant="contained" color="primary">삭제</Button>
       </Box>
       <div style={{ height: 800, width: '100%' }}>
       <DataGrid
-          rows={filteredCourses} // 필터링된 데이터 사용
-          columns={columns}
-          pageSize={5}
-          checkboxSelection
-          disableSelectionOnClick
-          getRowId={(row) => row.course_no}
-          onRowDoubleClick={(params) => setSelectedCourse(params.row)}
-        />
+              rows={filteredCourses}
+              columns={columns}
+              pageSize={5}
+              checkboxSelection
+              onRowSelectionModelChange={handleSelectionChange}
+              selectionModel={selectedRowIds}
+          />
+          
         {selectedCourse && (
           <CourseModal
             open={openModal}
             onClose={() => setOpenModal(false)}
             course={selectedCourse}
-            onSave={updateCourse}
+            onUpdate={updateCourse}
+            onPost={postCourse}
           />
         )}
-      
       </div>
     </div>
   );
