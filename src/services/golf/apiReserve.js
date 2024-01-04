@@ -8,7 +8,7 @@ import axiosInstance from "../axiosInstance.js";
 // 코스 전체조회
 export const getCourse = async () => {
     try{
-        const response = await axiosInstance.get("/reservation/detail");
+        const response = await axiosInstance.get("/reservation/add");
         return response.data;
     } catch (error) {
         console.log(error)
@@ -18,8 +18,6 @@ export const getCourse = async () => {
         throw error;
     }
 }
-
-
 
 // 골프장 이름 조회 
 export const getGolf = async () => {
@@ -34,7 +32,7 @@ export const getGolf = async () => {
 // 예약 신청 
 export const postGolf = async (course) => {
     try {
-        const response = await axiosInstance.post("/reservation/detail", course);
+        const response = await axiosInstance.post("/reservation/add", course);
         return response.data;
     } catch (error) {
         throw error;

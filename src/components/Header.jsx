@@ -54,7 +54,7 @@ function Header() {
                     <div className="innerWrap">
                       <div><h3><Link to="/">골프장 메인</Link></h3></div>
                       <div><h3><Link to="/golf/info">골프장 상세조회</Link></h3></div>
-                      <div><h3><Link to="/reservation">골프 예약</Link></h3></div>
+                      <div><h3><Link to="/reservation/detail">골프 예약</Link></h3></div>
 
 
                     </div>
@@ -67,7 +67,7 @@ function Header() {
 
                       <div><h3><Link to="/shop">상품 메인</Link></h3></div>
                       <div><h3><Link to="/product">상품 목록</Link></h3></div>
-                      <div><h3><Link to="/product">결제 페이지</Link></h3></div>
+                      <div><h3><Link to="/product/pay">결제 페이지</Link></h3></div>
                       {/* <div><h3><Link to="/">골프 용품</Link></h3></div> */}
 
 

@@ -12,6 +12,7 @@ import Info from "../Routes/golf/Info";// 골프 목록 페이지
 // 상품
 import Shop from "../Routes/shop/Shop"; //상품 메인
 import Product from "../Routes/shop/Product";// 상품 목록 
+import Pay from "../Routes/shop/Pay.jsx"; // 결제 페이지 
 // 배송
 import Addr from "../Routes/addr/Addr";
 import Detail from "../Routes/addr/Detail";
@@ -68,6 +69,7 @@ function Router() {
           {/* 상품 메인 목록  */}
         <Route path="/shop" element={<MainLayout><Shop /></MainLayout>} />
         <Route path="/product" element={<MainLayout><Product /></MainLayout>} />
+        <Route path="/product/pay" element={<MainLayout><Pay /></MainLayout>} />
         <Route path="/product/view/:product_no" element={<MainLayout><ProductInner /></MainLayout>} />
         {/* 배송 목록 배송지 등록 수정  */}
         <Route path="/addr" element={<MainLayout><Addr/></MainLayout>} />
