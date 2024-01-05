@@ -17,6 +17,7 @@ function Header() {
     console.log(loginData);
     setModal(false);
   };
+  
   // 로그인한 유저 
   useEffect(() => {
     if (ACCESS_TOKEN) {

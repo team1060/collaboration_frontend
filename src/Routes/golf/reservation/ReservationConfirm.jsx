@@ -18,9 +18,9 @@ function ReservationConfirm () {
         }
       }, [user]);
 
-    return(
+    return(   
         <>
-        <Head />
+        <Head/>
         {/* 예약 확인 테이블 */}
         <ReserveTable user={user}/>
         </>
