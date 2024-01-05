@@ -3,16 +3,28 @@ import { Link } from "react-router-dom";
 // import { Container, Grid } from "@mui/material";
 import './style/HeaderStyle.scss';
 import Header2 from "./Header2";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginModal from "./LoginModal";
+import { jwtDecode } from 'jwt-decode';
 
-
+const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 function Header() {
   const [modal, setModal] = useState(false);
+
+  // 이메일
+  const [user, setUser] = useState('');
   const handleLogin = (loginData) => {
     console.log(loginData);
     setModal(false);
   };
+  // 로그인한 유저 
+  useEffect(() => {
+    if (ACCESS_TOKEN) {
+      const token = jwtDecode(ACCESS_TOKEN);
+      const userEmail = token.email;
+      setUser(userEmail);
+    }
+  }, [user]);
 
   return (
     <>
@@ -33,12 +45,19 @@ function Header() {
                 <img src="/img/img001.png" alt="logo" />
               </Link>
             </h1>
+            {user}
             <div className="util">
               <ul className="Ul">
-                <li><LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} /></li>
-                
+                 {user ? <li style={{color: '#000', fontSize: '12px'}}>{user}님 환영합니다!</li> : 
+            <li>
+              <LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} />
+            </li>
+          }
+                {user ? <li style={{color: '#000', fontSize: '12px'}}>
+                  <Link to="/member/mypage">마이페이지</Link>
+                  </li> : 
                 <li><Link to="/member/join">회원가입</Link></li>
-
+        }
               </ul>
             </div>
             <button className="rBtn" id="my_reserve">나의 예약</button>

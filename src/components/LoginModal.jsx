@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { Button, Grid } from '@mui/material';
 import './style/LoginModal.scss';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { loginMember } from '../services/auth/Member';
 
 const style = {
@@ -51,6 +52,7 @@ const buttonStyle = {
 };
 
 export default function LoginModal() {
+
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -69,10 +71,14 @@ export default function LoginModal() {
         password: password
       };
     try{
+      console.log(useData)
       await loginMember(useData);
       alert('로그인 성공')
+      // history.push('/');
+      window.location.href="/"
     } catch (error){
       alert('이메일 또는 비밀번호가 올바르지 않습니다.')
+      console.log(error)
     }
       
     } else {

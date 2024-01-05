@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Container, styled } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
+import { getReserve } from '../../../services/golf/apiReserve';
 
 // 컬러 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -16,7 +17,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
 }));
-
 function ReserveTable() {
     const columns = [
         { id: 'id', label: 'NO', align: 'center' },
@@ -27,6 +27,8 @@ function ReserveTable() {
         { id: 'actions', label: '취소', align: 'center' },
       ];
       
+      const [user, setUser] = useState('');
+
       // 시간 설정 
   // const formatTime = (time) => {
   //   const date = new Date(`2000-01-01T${time}`);
@@ -36,8 +38,15 @@ function ReserveTable() {
   // };
   // 예약 내역 불러오기 
   useEffect(() => {
-
-  })
+    const fetchData = async (user) => {
+      try {
+        const userData = await getReserve(user);
+        console.log(userData)
+      } catch (error) {
+      }
+    }
+    fetchData(user);
+  }, [])
 
    // 코스 테이블 이름 
 //    const rows = courseList.map((course, index) => ({
@@ -53,7 +62,7 @@ function ReserveTable() {
         <Container>
       <div className="parent">
         <div className='internet'>
-          <h2>예약내역</h2>
+          <h2>예약내역{user}</h2>
           <br />
         </div>
       </div>
