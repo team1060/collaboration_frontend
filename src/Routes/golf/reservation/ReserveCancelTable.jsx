@@ -21,7 +21,7 @@ function ReserveTable() {
     { id: 'course_name', label: '코스', align: 'center', width: '30px' },
     { id: 'golf_time', label: '시간', align: 'center' },
     { id: 'greenpee', label: '그린피', align: 'center' },
-    { id: 'actions', label: '취소', align: 'center' },
+    { id: 'cancelTime', label: '취소날짜', align: 'center' },
   ];
 
   useEffect(() => {
@@ -37,20 +37,11 @@ function ReserveTable() {
     fetchData(email);
   }, [email]);
 
-  const handleCancel = async (data, prop) => {
-    try {
-        await cancelGolf(prop.reserve_no);
-        window.location.reload();
-      
-    } catch (error) {
-    }
-  };
-
   return (
     <Container>
       <div className="parent">
         <div className='internet'>
-          <h2>예약내역</h2>
+          <h2>취소내역</h2>
           <br />
         </div>
       </div>
@@ -73,16 +64,12 @@ function ReserveTable() {
             </TableHead>
             <TableBody>
               {userData
-                .filter(data => data.golf_status === 1)
+                .filter(data => data.golf_status === 2)
                 .map((data, index) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={data.reserve_no}>
                     {columns.map((column) => (
                       <StyledTableCell key={column.id} align={column.align}>
-                        {column.id === 'id' ? index + 1 : column.id === 'actions' ? (
-                          <Button onClick={() => handleCancel(data.reserve_no, data)}>취소</Button>
-                        ) : (
-                          data[column.id]
-                        )}
+                        {column.id === 'id' ? index + 1 : column.id }
                       </StyledTableCell>
                     ))}
                   </TableRow>

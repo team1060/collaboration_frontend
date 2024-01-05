@@ -3,7 +3,6 @@ import Head from "./reservation/Head";
 import Calendar from "./reservation/Calendar";
 import Course from "./reservation/Course";
 import { useState } from "react";
-import { jwtDecode } from 'jwt-decode';
 
 function Reservation() {
 
@@ -11,6 +10,7 @@ function Reservation() {
   const [golf, setGolf] = useState('');
   const [index, setIndex] = useState();
   const [user, setUser] = useState('');
+
   // 캘린더에서 날짜 값 받아서 버튼에 주기 
   const parentView = (view) => {
     setView(view);
@@ -29,10 +29,9 @@ function Reservation() {
   }
   return (
     <div id='reserve'>
-      <Head />
+      <Head/>
       <Calendar parentView={parentView} parentGolf={parentGolf} parentUser={parentUser}/>
       <Course golf={golf} view={view} index={index} user={user}/>
-
     </div>
   )
 }
