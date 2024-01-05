@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import HomeList from "../Routes/main/Home"; // 메인 홈페이지 
 import EventDetail from "../Routes/main/Page/EventDetail"; // 골프 
 import Reservation from "../Routes/golf/Reservation.jsx"; // 골프 예매 페이지 
-import ReservationDetail from "../Routes/golf/reservation/ReservationDetail.jsx";
+import ReservationConfirm from "../Routes/golf/reservation/ReservationConfirm.jsx";
 import Info from "../Routes/golf/Info";// 골프 목록 페이지 
 
 // 상품
@@ -57,9 +57,9 @@ function Router() {
           element={<MainLayout><HomeList /></MainLayout>}
         />
         {/* 골프장 상세페이지, 골프 예약 */}
-        <Route path="/reservation" element={<MainLayout><Reservation /></MainLayout>} />
+        <Route path="/reservation/detail" element={<MainLayout><Reservation /></MainLayout>} />
         {/* 예약확인 */}
-        <Route path="/reservateion/detail" element={<MainLayout><ReservationDetail /></MainLayout>} />
+        <Route path="/reservateion/confirm/:email" element={<MainLayout><ReservationConfirm /></MainLayout>} />
         <Route path="/golf/info" element={<MainLayout><Info /></MainLayout>} /> 
         <Route path="/golf/info/:golf_no" element={<MainLayout><Infoinner /></MainLayout>} /> 
 

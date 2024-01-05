@@ -27,6 +27,7 @@ function MemberJoin() {
   const [allEmail, setAllEmail] = useState([]);
   const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
+  const [name, setName] = useState("");
   // 이메일 인증 
   const [newInputCheck, setnewInputCheck] = useState(false);
   const [response, setResponse] = useState(null);
@@ -41,6 +42,8 @@ function MemberJoin() {
   const [pwViewMessage, setpwViewMessage] = useState("");
   const [pwCheckMessage, setPwCheckMessage] = useState("");
   const [pwchecked, setPwChecked] = useState("");
+  const [pwInputche, setPwInputche] = useState("");
+  
   // 연락처 
   const [phoneNumber, setPhoneNumber] = useState("");
   // 로그인 완료 후 메인화면으로 가기
@@ -68,6 +71,22 @@ function MemberJoin() {
   const handleSubmit = async e => {
     e.preventDefault();
 
+    // 입력필드 완료 여부 확인 
+    // if (
+    //   !inputValue ||
+    //   !nickname ||
+    //   !name ||
+    //   !phoneNumber ||
+    //   response !== pwchecked ||
+    //   viewMessage.includes("불가") ||
+    //   pwViewMessage.includes("특수") ||
+    //   pwCheckMessage.includes("일치하지 않습니다") ||
+    //   pwInput != pwInputche
+    // ) {
+    //   alert("문항들을 한번 더 확인해주세요!");
+    //   return;
+    // }
+
     // 필수 약관 체크 여부 확인
     if (!checked[0] || !checked[1]) {
       console.log("필수 약관에 동의해주세요.");
@@ -76,9 +95,10 @@ function MemberJoin() {
     }
     const userData = {
       email: inputValue,
+      username: username,
       password: pwInput,
       nickname: nickname,
-      username: username,
+      name: name,
       phone_number: phoneNumber,
       type: 0,
       auth_data: 0,
@@ -96,6 +116,7 @@ function MemberJoin() {
   const emailHandler = (e) => {
     const value = e.target.value;
     setInputValue(value);
+    setUsername(value)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(value);
     const isDuplicate = allEmail.some((item) => item.email === value);
@@ -129,7 +150,9 @@ function MemberJoin() {
     // 비밀번호 확인 값이 비밀번호와 일치하는지 확인
     if (pwInput === value) {
       setPwCheckMessage("비밀번호가 일치합니다.");
+      setPwInputche(value);
     } else {
+      setPwInputche(value);
       setPwCheckMessage("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
     }
   };
@@ -288,7 +311,6 @@ function MemberJoin() {
               helperText={viewMessage}
             />
           </Grid>
-
         </Grid>
 
 
@@ -374,6 +396,7 @@ function MemberJoin() {
               placeholder={'비밀번호를 입력해주세요'}
               type={showPassword ? 'text' : 'password'}
               name='password'
+              value={pwInputche}
               onChange={dataPwCheckHandler}
               autoComplete="current-password"
               InputProps={{
@@ -436,11 +459,11 @@ function MemberJoin() {
               required
               className='textInput'
               fullWidth
-              value={username}
+              value={name}
               placeholder={'이름을 입력해주세요'}
-              name='username'
-              id='username'
-              onChange={(e) => setUsername(e.target.value)}
+              name='name'
+              id='name'
+              onChange={(e) => setName(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

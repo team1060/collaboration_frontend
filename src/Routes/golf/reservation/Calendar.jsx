@@ -5,8 +5,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Button, Container } from '@mui/material';
 import { getGolf } from '../../../services/golf/apiReserve';
+import { jwtDecode } from 'jwt-decode';
 
-export default function StaticDualCalendars({ parentView,parentGolf }) {
+export default function StaticDualCalendars({ parentView,parentGolf, parentUser}) {
   const today = new Date();
   const tomorrow = new Date(today);
   // 내일 날짜부터 시작 
@@ -21,12 +22,12 @@ export default function StaticDualCalendars({ parentView,parentGolf }) {
 
   // 골프장 버튼 클릭 이벤트 
   const [activeButton, setActiveButton] = useState(null);
-  const handleButtonClick = (golfName, index) => {
+  const handleButtonClick = (golfName, index, user) => {
     setActiveButton((nextActiveButton) => (nextActiveButton === golfName ? null : golfName))
     // console.log(golfName);
     // 부모요소로 전달
     parentGolf(golfName, index)
-    
+    parentUser(user)
   };
   // 오늘부터 2주 후
   const twoWeeksLater = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 21);
@@ -45,13 +46,19 @@ export default function StaticDualCalendars({ parentView,parentGolf }) {
       parentView(date);
     }
   };
-
+  const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
+  const [user, setUser] = useState('')
   // 골프장 버튼 get 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const golfData = await getGolf();
         setGolfName(golfData);
+        if (ACCESS_TOKEN) {
+          const token = jwtDecode(ACCESS_TOKEN);
+          const userEmail = token.email;
+          setUser(userEmail);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -102,7 +109,7 @@ export default function StaticDualCalendars({ parentView,parentGolf }) {
         <div className="calen2">
           <div className="calen">
             <Grid className='cal'>
-              <h3>예약자: 000님</h3>
+              <h3>예약자: {user}님</h3>
               <h3>선택일: {view}</h3> {/* 선택한 날짜 표시 */}
             </Grid>
           </div>
@@ -130,7 +137,7 @@ export default function StaticDualCalendars({ parentView,parentGolf }) {
                 className={`button2 ${activeButton === golf.name ? 'active' : ''}`}
                 variant="outlined"
                 size="large"
-                onClick={() => handleButtonClick(golf.name, i)}
+                onClick={() => handleButtonClick(golf.name, i, user)}
               >
                 {golf.name}
               </Button>

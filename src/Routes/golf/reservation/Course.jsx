@@ -28,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const Course = ({ golf, index, view }) => {
+const Course = ({ golf, index, view, user }) => {
   const [courseList, setCourseList] = useState([]);
 
   // golf_status가 1 인 리스트만 조회
@@ -56,7 +56,7 @@ const Course = ({ golf, index, view }) => {
 // 예약 신청 
 const handleButtonClick = async (course) => {
   try {
-    const email = 'jungyeon@test'; // 회원가입 완료 후 추가 예정 
+    const email = user; // 회원가입 완료 후 추가 예정 
     const plusData = { ...course, email };
     
     // 예약 신청 alert
@@ -70,6 +70,7 @@ const handleButtonClick = async (course) => {
     if (userCheck) {
       await postGolf(plusData);
       alert('예약이 완료되었습니다.');
+      window.location('')
     } else {
       alert('예약신청이 취소되었습니다.');
     }
