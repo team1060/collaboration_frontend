@@ -36,7 +36,7 @@ const Course = ({ golf, index, view, user }) => {
     const fetchData = async () => {
       try {
         const courseData = await getCourse();
-        const golfStatus = courseData.filter(course => course.golf_status === 1 && course.golf_date === view && course.golf_no === index);
+        const golfStatus = courseData.filter(course => course.golf_status === 0 && course.golf_date === view && course.golf_no === index);
         setCourseList(golfStatus);
       } catch (error) {
         console.error(error);
@@ -56,7 +56,7 @@ const Course = ({ golf, index, view, user }) => {
 // 예약 신청 
 const handleButtonClick = async (course) => {
   try {
-    const email = user; // 회원가입 완료 후 추가 예정 
+    const email = user;
     const plusData = { ...course, email };
     
     // 예약 신청 alert
@@ -70,7 +70,8 @@ const handleButtonClick = async (course) => {
     if (userCheck) {
       await postGolf(plusData);
       alert('예약이 완료되었습니다.');
-      window.location('')
+      // window.location = `/reservation/confirm/${String(email.value)}`;
+
     } else {
       alert('예약신청이 취소되었습니다.');
     }
