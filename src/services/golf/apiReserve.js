@@ -57,3 +57,15 @@ export const cancelGolf = async (reserve_no) => {
         throw error
     }
 }
+
+// 취소 내역 불러오기 
+export const getCancelGolf = async(email) => {
+    try {
+        const response = await axiosAuth.get(`/reservation/confirm/cancel/${email}`)
+        console.log(response)
+        return response.data;
+
+    } catch (error) {
+        throw error;
+    }
+}

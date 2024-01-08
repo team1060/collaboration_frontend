@@ -7,7 +7,7 @@ import HomeList from "../Routes/main/Home"; // 메인 홈페이지
 import EventDetail from "../Routes/main/Page/EventDetail"; // 골프 
 import Reservation from "../Routes/golf/Reservation.jsx"; // 골프 예매 페이지 
 import ReservationConfirm from "../Routes/golf/ReservationConfirm.jsx"; // 예약확인 
-import ReserveCancel from "../Routes/golf/ReservationCancel.jsx"
+import ReserveCancel from "../Routes/golf/ReservationCancel.jsx" // 예약취소 
 
 import Info from "../Routes/golf/Info";// 골프 목록 페이지 
 
@@ -20,6 +20,10 @@ import Addr from "../Routes/addr/Addr";
 import Detail from "../Routes/addr/Detail";
 // 고객 지원
 // 마이페이지 
+import Mypage from "../Routes/auth/mypage/Mypage.jsx";
+import MemberModifyLogin from "../Routes/auth/mypage/MemberModifyLogin.jsx";
+import MemberModify from "../Routes/auth/mypage/MemberModify.jsx";
+import MemberRemove from "../Routes/auth/mypage/MemberRemove.jsx";
 // 로그인 회원가입
 import MemberJoin from './MemberJoin.jsx';
 // 관리자 페이지 import 
@@ -32,6 +36,7 @@ import AdminGolf from "../Routes/admin/Page/AdminGolf.jsx";
 import AdminCourse from "../Routes/admin/Page/AdminCourse.jsx";
 
 import ProductInner from "../Routes/shop/ProductInner.jsx";
+import MemberRemoveLogin from "../Routes/auth/mypage/MemberRemoveLogin.jsx";
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
   <>
@@ -79,8 +84,17 @@ function Router() {
         <Route path="/detail" element={<MainLayout><Detail/></MainLayout>} />
         {/* 로그인 회원 가입 */}
         <Route path="/member/join" element={<MainLayout><MemberJoin/></MainLayout>} />
-        {/* <Route path="/member" element={<MainLayout><Member/></MainLayout>} /> */}
-
+        
+        {/* 마이페이지 */}
+        <Route path="/member/mypage/info" element={<MainLayout><Mypage/></MainLayout>} />
+        {/* 회원정보 수정 로그인 */}
+        <Route path="/member/mypage/login/modify" element={<MainLayout><MemberModifyLogin/></MainLayout>} />
+        {/* 회원정보 수정 */}
+        <Route path="/member/mypage/modify" element={<MainLayout><MemberModify /></MainLayout>} />
+        <Route path="/member/mypage/reserve" element={<MainLayout><Mypage/></MainLayout>} />
+        {/* 회원 탈퇴 */}
+        <Route path="/member/mypage/login/remove" element={<MainLayout><MemberRemoveLogin/></MainLayout>} />
+        <Route path="/member/mypage/remove" element={<MainLayout><MemberRemove/></MainLayout>} />
 
 
         {/* 어드민 라우트 */}
