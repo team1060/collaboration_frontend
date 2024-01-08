@@ -30,22 +30,22 @@ const CalendarSwiper = () => {
   return datesArray;
 };
 
-useEffect(() => {
-  setDates(generateTwoMonthsDates());
-}, []);
+// useEffect(() => {
+//   setDates(generateTwoMonthsDates());
+// }, []);
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const fetchedCourses = await getCourse();
-        setCourses(fetchedCourses);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
+//   useEffect(() => {
+//     const fetchCourses = async () => {
+//       try {
+//         const fetchedCourses = await getCourse();
+//         setCourses(fetchedCourses);
+//       } catch (error) {
+//         console.error('Error fetching courses:', error);
+//       }
+//     };
 
-    fetchCourses();
-  }, []);
+//     fetchCourses();
+//   }, []);
 
   // 날짜 선택 함수
   const handleDateClick = (selectedDate) => {

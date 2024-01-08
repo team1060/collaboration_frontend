@@ -73,8 +73,6 @@ export default function LoginModal() {
     try{
       console.log(useData)
       await loginMember(useData);
-      alert('로그인 성공')
-      // history.push('/');
       window.location.href="/"
     } catch (error){
       alert('이메일 또는 비밀번호가 올바르지 않습니다.')

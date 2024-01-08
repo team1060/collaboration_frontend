@@ -24,25 +24,57 @@ function ReserveTable() {
     { id: 'actions', label: '취소', align: 'center' },
   ];
 
+  // 예약 시간 
+  const formatTime = (time) => {
+    const date = new Date(`2000-01-01T${time}`);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  // 그린피 
+  const formatGreen = (amount) => {
+    return Number(amount).toLocaleString();
+  };
+
   useEffect(() => {
     const fetchData = async (email) => {
       try {
         const userData = await getReserve(email);
         setUserData(userData);
-        console.log(userData);
+        
       } catch (error) {
-        // Handle error
+        throw error;
       }
-    }
+    };
+
     fetchData(email);
   }, [email]);
 
-  const handleCancel = async (data, prop) => {
+  // 예약 취소 
+  const handleCancel = async (reserveNo, data) => {
     try {
-        await cancelGolf(prop.reserve_no);
-        window.location.reload();
-      
+
+      const userCheck = window.confirm(`
+      취소정보를 확인해주세요 
+      [예약날짜] ${data.golf_date} 
+      [예약시간] ${formatTime(data.golf_time)} 
+      [코스이름] ${data.course_name} 
+      취소하시겠습니까?`);
+
+    if (userCheck) {
+      await cancelGolf(reserveNo);
+      alert('취소 완료되었습니다.');
+      window.location.reload();
+    } else {
+      alert('취소 신청이 취소되었습니다.');
+    }
+
+      // 예약이 취소되면 새로운 데이터로 업데이트
+      const updatedUserData = await getReserve(email);
+      setUserData(updatedUserData);
     } catch (error) {
+      alert('다시 시도해주세요');
     }
   };
 
@@ -79,7 +111,16 @@ function ReserveTable() {
                     {columns.map((column) => (
                       <StyledTableCell key={column.id} align={column.align}>
                         {column.id === 'id' ? index + 1 : column.id === 'actions' ? (
-                          <Button onClick={() => handleCancel(data.reserve_no, data)}>취소</Button>
+                          <Button
+                            onClick={() => handleCancel(data.reserve_no, data)}
+                            disabled={Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7}
+                          >
+                            {Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7 ? "취소불가" : "취소"}
+                          </Button>
+                        ) : column.id === 'golf_time' ? (
+                          formatTime(data[column.id])
+                        ) : column.id === 'greenpee' ? (
+                          formatGreen(data[column.id])
                         ) : (
                           data[column.id]
                         )}

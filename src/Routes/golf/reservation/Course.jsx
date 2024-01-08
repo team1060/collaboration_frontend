@@ -58,25 +58,40 @@ const handleButtonClick = async (course) => {
   try {
     const email = user;
     const plusData = { ...course, email };
-    
+    const today = new Date();
+
     // 예약 신청 alert
+    const cancelDate = new Date(course.golf_date);
+    cancelDate.setDate(cancelDate.getDate() - 7);
+
+    const cancelYear = cancelDate.getFullYear();
+    const cancelMonth = (cancelDate.getMonth() + 1).toString().padStart(2, '0');
+    const cancelDay = cancelDate.getDate().toString().padStart(2, '0');
+
+
+    const cancelMessage = cancelDate <= today
+      ? '취소가 불가능한 예약입니다.'
+      : `${cancelYear}-${cancelMonth}-${cancelDay}`;
+
     const userCheck = window.confirm(`
-    예약정보를 확인해주세요 
-    [예약날짜] ${course.golf_date} 
-    [예약시간] ${formatTime(course.golf_time)} 
-    [코스이름] ${course.course_name} 
-    예약하시겠습니까?`);
+      예약정보를 확인해주세요 
+      [예약날짜] ${course.golf_date} 
+      [예약시간] ${formatTime(course.golf_time)} 
+      [코스이름] ${course.course_name} 
+      [예약취소 가능일] ${cancelMessage}
+      예약하시겠습니까?`);
 
     if (userCheck) {
       await postGolf(plusData);
       alert('예약이 완료되었습니다.');
-      // window.location = `/reservation/confirm/${String(email.value)}`;
-
+      window.location.reload();
     } else {
       alert('예약신청이 취소되었습니다.');
     }
   } catch (error) {
     console.error(error);
+    alert('이미 예약이 완료된 코스입니다')
+    window.location.reload();
   }
 };
 

@@ -1,11 +1,10 @@
-// import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { Container, Grid } from "@mui/material";
 import './style/HeaderStyle.scss';
 import Header2 from "./Header2";
 import { useState, useEffect } from "react";
 import LoginModal from "./LoginModal";
 import { jwtDecode } from 'jwt-decode';
+import { getNickname } from "../services/auth/Member";
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 function Header() {
@@ -19,24 +18,30 @@ function Header() {
   };
   // 로그인한 유저 
   useEffect(() => {
-    if (ACCESS_TOKEN) {
-      const token = jwtDecode(ACCESS_TOKEN);
-      const userEmail = token.email;
-      setUser(userEmail);
-    }
+    const fetchData = async () => {
+      if (ACCESS_TOKEN) {
+        const token = jwtDecode(ACCESS_TOKEN);
+        const email = token.email;
+        const UserData = await getNickname(email);
+        setUser(UserData.nickname);
+        // console.log(UserData.nickname)
+      }
+    };
+  
+    fetchData();
   }, [user]);
-
+  
+  // 로그아웃
+  const Logout = () => {
+    localStorage.removeItem("ACCESS_TOKEN")
+    window.location.reload();
+  }
   return (
     <>
 
       <div className="HeaderContainer"
         style={{ marginBottom: "140px" }}
       >
-        {/* <Container >
-        <Grid container>
-          <Grid item lg={3} md={4} sm={6}> */}
-
-
 
         <div id="header">
           <div className="inner">
@@ -45,16 +50,17 @@ function Header() {
                 <img src="/img/img001.png" alt="logo" />
               </Link>
             </h1>
-            {user}
             <div className="util">
               <ul className="Ul">
-                 {user ? <li style={{color: '#000', fontSize: '12px'}}>{user}님 환영합니다!</li> : 
+                 {user ? <li style={{color: '#000', fontSize: '12px'}}>{user}님 환영합니다!</li> 
+                 : 
             <li>
               <LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} />
             </li>
           }
+                {user ? <li style={{color: '#000', fontSize: '12px'}}><Link onClick={() => {Logout()}} >로그아웃</Link></li> : ''}
                 {user ? <li style={{color: '#000', fontSize: '12px'}}>
-                  <Link to="/member/mypage">마이페이지</Link>
+                  <Link to="/member/mypage/info">마이페이지</Link>
                   </li> : 
                 <li><Link to="/member/join">회원가입</Link></li>
         }
@@ -122,7 +128,7 @@ function Header() {
                 </li>
 
                 <li>
-                  <Link to="/mypage">마이페이지</Link>
+                  <Link to="/member/mypage/info">마이페이지</Link>
                   <div className="two-depth">
                     <div className="innerWrap">
                       <div>
