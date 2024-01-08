@@ -1,8 +1,9 @@
 import "./style/Pay.scss"
 import InputField from "./product/InputField";
-import { Button, Checkbox, Container, Grid, TextField } from "@mui/material";
+import { Button, Container, FormControlLabel, Grid, Modal, Radio, RadioGroup, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import SearchAddress from "./product/SearchAddress";
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
@@ -15,6 +16,7 @@ function Pay() {
 
     // 받아온 상품의 총 가격
     const [totalAmount, setTotalAmount] = useState(0);
+
     // 로그인한 유저 
     useEffect(() => {
         if (ACCESS_TOKEN) {
@@ -36,15 +38,87 @@ function Pay() {
         }
     }, [product]);
 
-    console.log(user);
-    console.log(product);
+    // 휴대폰
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [contactNumber, setContactNumber] = useState('');
+
+
+    const handlePhoneNumberChange = (e) => {
+        const rawPhoneNumber = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 남기기
+        let formattedNumber = '';
+
+
+        if (rawPhoneNumber.length === 10) {
+            formattedNumber += rawPhoneNumber.substring(0, 3) + '-';
+            formattedNumber += rawPhoneNumber.substring(3, 6) + '-';
+            formattedNumber += rawPhoneNumber.substring(6, 10);
+        } else if (rawPhoneNumber.length === 11) {
+            formattedNumber += rawPhoneNumber.substring(0, 3) + '-';
+            formattedNumber += rawPhoneNumber.substring(3, 7) + '-';
+            formattedNumber += rawPhoneNumber.substring(7, 11);
+        } else {
+            formattedNumber = rawPhoneNumber;
+        }
+
+        setPhoneNumber(formattedNumber);
+        setContactNumber(formattedNumber);
+    };
+
     const shippinghandler = async e => {
         e.preventDefault();
 
         const shippingData = {
-
+            roadAddrPart1: selectedAddress.roadAddrPart1,
+            roadAddrPart2: selectedAddress.roadAddrPart2,
         }
     }
+
+    const [selectedDeliveryOption, setSelectedDeliveryOption] = useState('');
+
+    // 주소 검색 모달 상태
+    const [addressModalOpen, setAddressModalOpen] = useState(false);
+
+    const [selectedAddress, setSelectedAddress] = useState({
+        zipNo: '',
+        roadAddr: '',
+        roadAddrPart1: '',
+        roadAddrPart2: '',
+        addrDetail: ''
+    });
+
+    // 주소 검색 버튼 클릭 시 주소 검색 모달 열기
+    const handleAddressSearchButtonClick = () => {
+        openAddressModal();
+    };
+
+    // SearchAddress 컴포넌트에서 선택한 주소를 처리하는 콜백 함수
+    const handleSelectAddress = (address) => {
+        // 주소에서 ()로 나누기
+        const addrParts = address.roadAddr.split(/[\(\)]/);
+
+        // 주소 정보로 state 업데이트
+        setSelectedAddress({
+            zipNo: address.zipNo,
+            roadAddr: address.roadAddr, // 전체 주소
+            roadAddrPart1: addrParts[0].trim(), // 첫 번째 부분은 roadAddrPart1
+            roadAddrPart2: addrParts[1] ? addrParts[1].trim() : '', // 두 번째 부분은 roadAddrPart2 (없으면 빈 문자열)
+            addrDetail: '', // 두 번째 부분은 addrDetail (없으면 빈 문자열)
+        });
+        closeAddressModal();
+    };
+
+    // 주소 검색 모달 열기
+    const openAddressModal = () => {
+        setAddressModalOpen(true);
+    };
+
+    // 주소 검색 모달 닫기
+    const closeAddressModal = () => {
+        setAddressModalOpen(false);
+    };
+
+
+
     return (
         <form onSubmit={shippinghandler}>
             <div id="productPay">
@@ -116,6 +190,8 @@ function Pay() {
                                 placeholder="휴대폰 번호를 입력해주세요."
                                 name="phoneNumber"
                                 id="phoneNumber"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
                             />
                         </div>
                     </Container>
@@ -129,21 +205,27 @@ function Pay() {
                         <div className="shippingContent">
                             <Grid className="inputhead" container>
                                 <Grid className="inputheadInner" item xs={4} lg={3}>
-                                    배송지선택
+                                    배송지 선택
                                 </Grid>
                                 <Grid className="inputtexthead" container direction="row" flexWrap="nowrap" item xs={8} lg={9}>
-                                    <Grid item>
-                                        <Checkbox
+                                    <RadioGroup
+                                        aria-label="배송지 선택"
+                                        name="deliveryOption"
+                                        value={selectedDeliveryOption}
+                                        onChange={(e) => setSelectedDeliveryOption(e.target.value)}
+                                        row
+                                    >
+                                        <FormControlLabel
+                                            value="home"
+                                            control={<Radio />}
                                             label="집"
-                                            variant="outlined"
-                                        /><span>집</span>
-                                    </Grid>
-                                    <Grid item>
-                                        <Checkbox
+                                        />
+                                        <FormControlLabel
+                                            value="company"
+                                            control={<Radio />}
                                             label="회사"
-                                            variant="outlined"
-                                        /><span>회사</span>
-                                    </Grid>
+                                        />
+                                    </RadioGroup>
                                 </Grid>
                             </Grid>
                             <InputField
@@ -157,6 +239,8 @@ function Pay() {
                                 placeholder="전화번호를 입력해주세요."
                                 name="contact"
                                 id="contact"
+                                value={contactNumber}
+                                onChange={(e) => setContactNumber(e.target.value)}
                             />
                             <Grid className="inputhead" container>
                                 <Grid className="inputheadInner" item xs={4} lg={3}>
@@ -167,25 +251,29 @@ function Pay() {
                                         fullWidth
                                         required
                                         placeholder=''
-                                        name=''
-                                        id=''
+                                        name='zipNo'
+                                        id='zipNo'
                                         disabled
+                                        value={selectedAddress.zipNo}
                                     />
-                                    <Button size="large" variant="contained">주소 검색</Button>
-                                    <TextField className="inputAddr"
+                                    <Button size="large" variant="contained" onClick={handleAddressSearchButtonClick}>주소 검색</Button>
+                                    <TextField
+                                        className="inputAddr"
                                         fullWidth
                                         required
-                                        placeholder=''
-                                        name=''
-                                        id=''
+                                        placeholder=""
+                                        name="roadAddr"
+                                        id="roadAddr" // 변경
                                         disabled
+                                        value={selectedAddress.roadAddr}
                                     />
                                     <TextField className="inputAddr"
                                         fullWidth
                                         required
                                         placeholder='상세주소를 입력해주세요.'
-                                        name=''
-                                        id=''
+                                        name='addrDetail'
+                                        id='addrDetail'
+                                        onChange={(e) => setSelectedAddress((prev) => ({ ...prev, addrDetail: e.target.value }))}
                                     />
                                 </Grid>
                             </Grid>
@@ -200,6 +288,14 @@ function Pay() {
 
                 </div>
             </div>
+
+            {/* 주소 검색 모달 */}
+            <Modal open={addressModalOpen} onClose={closeAddressModal}>
+                <div>
+                    {/* 주소 검색 화면의 내용을 구현 */}
+                    <SearchAddress closeAddressModal={closeAddressModal} onSelectAddress={handleSelectAddress} />
+                </div>
+            </Modal>
         </form>
     )
 }
