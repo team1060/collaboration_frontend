@@ -121,6 +121,37 @@ function ProductInner() {
         const { [optionNo]: removedOption, ...restOptions } = selectedOption;
         setSelectedOption(restOptions);
     };
+
+    function redirectToPayment() {
+        // Get all optionInner elements
+        var optionInnerElements = document.querySelectorAll('.optionInner');
+
+        // Create an array to store the information
+        var productInfo = [];
+
+        // Iterate through each optionInner element
+        optionInnerElements.forEach(function (optionInnerElement) {
+            var product = document.querySelector('.titleWrap h2').innerText.trim();
+            var image = document.querySelector('.swiper-slide-active img').getAttribute('src').trim();
+            var option = optionInnerElement.querySelector('.optionInnerTit').innerText.trim();
+            var count = optionInnerElement.querySelector('.productCount').innerText.trim();
+            var price = optionInnerElement.querySelector('.price').innerText.trim();
+            // Add information to the array
+            productInfo.push({
+                product: product,
+                option: option,
+                count: count,
+                price: price,
+                image: image
+            });
+        });
+
+        // Convert the array to a JSON string and store it in local storage
+        localStorage.setItem('productInfo', JSON.stringify(productInfo));
+
+        // Redirect to the payment page
+        window.location.href = '/product/pay';
+    }
     return (
         <div id="ProductInner">
             <Grid>
@@ -233,7 +264,7 @@ function ProductInner() {
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item >
-                                                    <Typography variant="body2">
+                                                    <Typography className="price" variant="body2">
                                                         {((selectedOption[option.option_no]?.quantity || 0) * discountedPrice)?.toLocaleString()}원
                                                     </Typography>
                                                 </Grid>
@@ -251,7 +282,7 @@ function ProductInner() {
                             <Grid className="" container>
                                 <Grid className="productInnerButton" item xs={4}><Button size="large" variant="outlined " >관심상품</Button></Grid>
                                 <Grid className="productInnerButton" item xs={4}><Button size="large" variant="contained" color="secondary" >장바구니</Button></Grid>
-                                <Grid className="productInnerButton" item xs={4}><Button size="large" variant="contained">바로구매</Button></Grid>
+                                <Grid className="productInnerButton" item xs={4}><Button onClick={()=>redirectToPayment()} size="large" variant="contained">바로구매</Button></Grid>
                             </Grid>
                         </Grid>
                     </Grid>

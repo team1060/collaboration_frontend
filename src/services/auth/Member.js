@@ -36,6 +36,17 @@ export const registerMember = async (userData) => {
         throw error;
     }
 }
+
+// 비밀번호 찾기  
+export const pwSubmit = async (email) => {
+    try {
+        const response = await axiosInstance.post("/member/login/email", email)
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 // 이메일 전송 
 export const emailSubmit = async (inputValue) => {
     try {
@@ -45,6 +56,7 @@ export const emailSubmit = async (inputValue) => {
         throw error;
     }
 }
+
 // 인증 확인 
 export const getEmail = async () => {
     try {
@@ -74,6 +86,26 @@ export const loginMember = async (userData) => {
 export const getNickname = async (email) => {
     try{
         const response = await axiosAuth.post(`api/member/getEmail/${email}`, email)
+        return response.data;
+    } catch (error){
+        throw error;
+}
+}
+
+// 아이디 비밀번호 찾기 
+export const sendUserData = async (data) => {
+    try {
+        const response = await axiosInstance.post("/member/find", data)
+        return response.data;
+    } catch (error){
+        throw error;
+}
+}
+
+// 비밀번호 변경
+export const sendPwData = async(data) => {
+    try {
+        const response = await axiosInstance.post("/member/modify/pw", data)
         return response.data;
     } catch (error){
         throw error;

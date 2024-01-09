@@ -16,6 +16,7 @@ function Header() {
     console.log(loginData);
     setModal(false);
   };
+  
   // 로그인한 유저 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +30,7 @@ function Header() {
     };
   
     fetchData();
-  }, [user]);
+  }, []);
   
   // 로그아웃
   const Logout = () => {
