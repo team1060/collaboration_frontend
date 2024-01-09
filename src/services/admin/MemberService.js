@@ -56,7 +56,7 @@ export const registerMember = async (memberData) => {
 // 회원 정보 수정
 export const updateMember = async (email, memberData) => {
   try {
-    const response = await axiosInstance.post(`/member/admin/memberupdate/${email}`, memberData);
+    const response = await axiosInstance.put(`/member/admin/memberupdate/${email}`, memberData);
     return response.data;
   } catch (error) {
     console.error("Error updating member", error);

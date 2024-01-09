@@ -139,9 +139,9 @@ const handleDeleteClick = async () => {
         />
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">생성</Button>
-        <Button onClick={handleUpdateClick} variant="contained" color="primary">수정</Button>
-        <Button onClick={handleDeleteClick} variant="contained" color="primary">삭제</Button>
+        {/* <Button onClick={handleCreateClick} variant="contained" color="primary">생성</Button> */}
+        <Button onClick={handleUpdateClick} variant="contained" color="primary">등급 및 권한 수정</Button>
+        {/* <Button onClick={handleDeleteClick} variant="contained" color="primary">삭제</Button> */}
       </Box>
       <div style={{ height: 800, width: '100%' }}>
       <DataGrid
