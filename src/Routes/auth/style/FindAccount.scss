@@ -1,0 +1,37 @@
+#find {
+    .boxTop {
+        border-top: 2px solid #333;
+        border-bottom: 2px solid #333;
+        margin-bottom: 10px;
+    }
+    .title {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+    .inner {
+        display: flex;
+        align-items: center;
+        margin-bottom: 50px;
+        h6 {
+            margin-right: 30px;
+        }
+        & > div {
+            display: flex;
+            align-items: center;
+        }
+        button{
+            height: 45px;
+        }
+    }
+    .bgbut{
+        display: flex;
+        justify-content: center;
+        Button{
+            width: 200px;
+            margin-bottom: 40px;
+        }
+    }
+
+}
