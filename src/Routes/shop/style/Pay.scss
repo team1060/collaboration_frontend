@@ -1,0 +1,157 @@
+@import "../../../components/style/themeStyle.scss";
+
+#productPay {
+
+    .payTitle {
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .paySection {
+        margin-bottom: 100px;
+
+
+
+    }
+
+    .bgGray {
+        background-color: $grayBackground;
+        width: 100%;
+    }
+
+
+    .title {
+        padding: 20px 20px;
+        border-bottom: 1px solid gray;
+    }
+
+    .sellerSection {
+        padding: 10px 0;
+    }
+
+    .inputfield {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .inputtext {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .inputhead {
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        width: 100%;
+    }
+
+    .inputheadInner {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .inputtexthead {
+        align-items: center;
+
+        div {
+            align-items: center;
+        }
+
+
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th {
+        border: 1px solid #ddd;
+
+        &:nth-child(1) {
+            width: 50%;
+        }
+
+        &:nth-child(2) {
+            width: 35%;
+        }
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: $primaryColor;
+        color: $whiteColor;
+        text-align: center;
+    }
+
+    .count {
+        &::before {
+            content: ' | ';
+        }
+    }
+
+    .sellerSectionInner {
+        display: flex;
+        align-items: center;
+    }
+
+    .sellerSectionItem {
+        padding: 15px;
+
+        &:nth-child(1) {
+            max-width: 33%;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        &:nth-child(2) {
+            max-width: 67%;
+        }
+    }
+
+    .amountArea {
+        font-size: $headline2;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .shippingTitle {
+        display: flex;
+        align-items: center;
+
+        h3 {
+            padding-right: 30px;
+        }
+    }
+
+    .inputAddr {
+        margin: 8px 0;
+
+        &:nth-child(1) {
+            padding-right: 20px;
+        }
+    }
+
+    .paymentButtonWrap {
+        display: flex;
+        justify-content: center;
+        .paymentButton {
+            width: 300px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+    }
+
+}
