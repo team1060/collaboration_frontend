@@ -34,6 +34,7 @@ import Infoinner from "../Routes/golf/infodetail/Infoinner.jsx";
 import AdminGolf from "../Routes/admin/Page/AdminGolf.jsx";
 import AdminCourse from "../Routes/admin/Page/AdminCourse.jsx";
 import AdminProduct from "../Routes/admin/Page/AdminProduct.jsx";
+import AdminProductList from "../Routes/admin/Page/AdminProductList.jsx";
 
 import ProductInner from "../Routes/shop/ProductInner.jsx";
 import MemberRemoveLogin from "../Routes/auth/mypage/MemberRemoveLogin.jsx";
@@ -116,9 +117,10 @@ function Router() {
               <Route path="/" element={<Admin />} />
               <Route path="/golf" element={<AdminGolf />} />
               <Route path="/member" element={<AdminMember/>} />
-              <Route path="/mart" element={<div>상품 목록 페이지</div>} />
+              
               <Route path="/course" element={<AdminCourse/>} />
               <Route path="/product" element={<AdminProduct/>} />
+              <Route path="/productlist" element={<AdminProductList/>} />
             </Routes>
           </AdminLayout>}
         />

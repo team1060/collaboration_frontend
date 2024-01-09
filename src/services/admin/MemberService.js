@@ -1,35 +1,21 @@
 import axiosInstance from "../axiosInstance.js";
-import axios from "axios";
+
 
 /**
  * 회원 페이지 api 모음 , jwtDecode
  */
-const baseURL = process.env.REACT_APP_BASE_URL;
-// const baseURL = 'http://localhost:8081';
-const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN')
+// const baseURL = process.env.REACT_APP_BASE_URL;
+// // const baseURL = 'http://localhost:8081';
+// const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN')
 
 
-const axiosAuth = axios.create({
-    baseURL,
-    headers: {
-        'Content-Type' : 'application/json',
-        'Authorization' : ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}`:''
-    }
-})
-// 로그인 
-export const loginMember = async (userData) => {
-  try {
-      const response = await axiosAuth.post("/member/login", userData)
-      console.log(response.data.token);
-      if (response.data.token) {
-          const token = response.data.token;
-          localStorage.setItem("ACCESS_TOKEN", token);
-          window.location.href="/"
-      }
-  } catch (error) {
-      throw error;
-  }
-}
+// const axiosAuth = axios.create({
+//     baseURL,
+//     headers: {
+//         'Content-Type' : 'application/json',
+//         'Authorization' : ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}`:''
+//     }
+// })
 
 // 회원 전체 조회
 export const getAllMembers = async () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Box, TextField, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { getAllMembers, deleteMember } from '../../../services/admin/MemberService';
+import { getAllMembers } from '../../../services/admin/MemberService';
 import MemberModal from '../AdminMemberComponents/MemberModal';
 import '../Style/AdminGlobal.scss';
 
@@ -69,10 +69,10 @@ const AdminMember = () => {
 });
 
 
-const handleCreateClick = () => {
-  setSelectedMember(null);
-  setOpenModal(true);
-};
+// const handleCreateClick = () => {
+//   setSelectedMember(null);
+//   setOpenModal(true);
+// };
 
 const handleSelectionChange = (newSelectionModel) => {
   setSelectedRowIds(newSelectionModel);
@@ -89,19 +89,19 @@ const handleUpdateClick = () => {
   }
 };
 
-const handleDeleteClick = async () => {
-  if (selectedRowIds.length > 0) {
-    if (window.confirm('선택한 회원을 삭제하시겠습니까?')) {
-      await Promise.all(selectedRowIds.map(memberId => {
-        const member = members.find(m => m.id === memberId);
-        return deleteMember(member.email);
-      }));
-      window.location.reload(); // 페이지 새로고침
-    }
-  } else {
-    alert('삭제할 회원을 선택해주세요.');
-  }
-};
+// const handleDeleteClick = async () => {
+//   if (selectedRowIds.length > 0) {
+//     if (window.confirm('선택한 회원을 삭제하시겠습니까?')) {
+//       await Promise.all(selectedRowIds.map(memberId => {
+//         const member = members.find(m => m.id === memberId);
+//         return deleteMember(member.email);
+//       }));
+//       window.location.reload(); // 페이지 새로고침
+//     }
+//   } else {
+//     alert('삭제할 회원을 선택해주세요.');
+//   }
+// };
 
 
 
