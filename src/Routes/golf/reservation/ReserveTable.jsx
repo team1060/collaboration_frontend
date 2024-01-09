@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Container, styled } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
 import { cancelGolf, getReserve } from '../../../services/golf/apiReserve';
-import { useParams } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -10,9 +10,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
 }));
-
+const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 function ReserveTable() {
-  const { email } = useParams();
+  // const { email } = useParams();
+  // console.log(email)
+  const email = ''
   const [userData, setUserData] = useState([]);
 
   const columns = [
@@ -40,8 +42,13 @@ function ReserveTable() {
   useEffect(() => {
     const fetchData = async (email) => {
       try {
-        const userData = await getReserve(email);
-        setUserData(userData);
+        if(ACCESS_TOKEN){
+          const token = jwtDecode(ACCESS_TOKEN);
+          const email = token.email;
+          const userData = await getReserve(email);
+          setUserData(userData);
+
+        }
         
       } catch (error) {
         throw error;
@@ -89,7 +96,7 @@ function ReserveTable() {
 
       <Paper>
         <TableContainer sx={{ maxHeight: 700 }}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table sx={{minWidth: '550px'}} stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -115,7 +122,7 @@ function ReserveTable() {
                             onClick={() => handleCancel(data.reserve_no, data)}
                             disabled={Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7}
                           >
-                            {Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7 ? "취소불가" : "취소"}
+                            {Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7 ? "취소 불가" : "취소"}
                           </Button>
                         ) : column.id === 'golf_time' ? (
                           formatTime(data[column.id])

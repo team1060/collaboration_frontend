@@ -23,7 +23,6 @@ import Detail from "../Routes/addr/Detail";
 import Mypage from "../Routes/auth/mypage/Mypage.jsx";
 import MemberModifyLogin from "../Routes/auth/mypage/MemberModifyLogin.jsx";
 import MemberModify from "../Routes/auth/mypage/MemberModify.jsx";
-import MemberRemove from "../Routes/auth/mypage/MemberRemove.jsx";
 // 로그인 회원가입
 import MemberJoin from './MemberJoin.jsx';
 // 관리자 페이지 import 
@@ -37,7 +36,13 @@ import AdminCourse from "../Routes/admin/Page/AdminCourse.jsx";
 
 import ProductInner from "../Routes/shop/ProductInner.jsx";
 import MemberRemoveLogin from "../Routes/auth/mypage/MemberRemoveLogin.jsx";
+import GolfReserve from "../Routes/auth/mypage/GolfReserve.jsx";
+import GolfReserveCancel from "../Routes/auth/mypage/GolfReserveCancel.jsx";
+import FindAccount from "../Routes/auth/FindAccount.jsx";
+import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
 import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
+
+
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
   <>
@@ -73,9 +78,8 @@ function Router() {
         <Route path="/golf/info/:golf_no" element={<MainLayout><Infoinner /></MainLayout>} /> 
 
         {/* 골프장 예매 상세페이지 */}
-
         <Route path="/reservation/:eventname" element={<MainLayout><EventDetail /></MainLayout>} /> 
-          {/* 상품 메인 목록  */}
+        {/* 상품 메인 목록  */}
         <Route path="/shop" element={<MainLayout><Shop /></MainLayout>} />
         <Route path="/product" element={<MainLayout><Product /></MainLayout>} />
         <Route path="/product/pay" element={<MainLayout><Pay /></MainLayout>} />
@@ -86,17 +90,21 @@ function Router() {
         <Route path="/detail" element={<MainLayout><Detail/></MainLayout>} />
         {/* 로그인 회원 가입 */}
         <Route path="/member/join" element={<MainLayout><MemberJoin/></MainLayout>} />
-        
+        {/* 아이디/비밀번호 찾기 */}
+        <Route path="/member/find" element={<MainLayout><FindAccount/></MainLayout>} />
+        <Route path="/member/modify/pw/:email" element={<MainLayout><MemberModifyPw /></MainLayout>} />
         {/* 마이페이지 */}
         <Route path="/member/mypage/info" element={<MainLayout><Mypage/></MainLayout>} />
         {/* 회원정보 수정 로그인 */}
         <Route path="/member/mypage/login/modify" element={<MainLayout><MemberModifyLogin/></MainLayout>} />
         {/* 회원정보 수정 */}
         <Route path="/member/mypage/modify" element={<MainLayout><MemberModify /></MainLayout>} />
-        <Route path="/member/mypage/reserve" element={<MainLayout><Mypage/></MainLayout>} />
+        {/* 예약 내역 */}
+        <Route path="/member/mypage/reserve" element={<MainLayout><GolfReserve/></MainLayout>} />
+        {/* 예약 취소 내역 */}
+        <Route path="/member/mypage/cancel" element={<MainLayout><GolfReserveCancel/></MainLayout>} />
         {/* 회원 탈퇴 */}
         <Route path="/member/mypage/login/remove" element={<MainLayout><MemberRemoveLogin/></MainLayout>} />
-        <Route path="/member/mypage/remove" element={<MainLayout><MemberRemove/></MainLayout>} />
 
 
         {/* 어드민 라우트 */}

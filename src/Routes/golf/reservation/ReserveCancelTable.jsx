@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Container, styled } from "@mui/material";
 import { tableCellClasses } from '@mui/material/TableCell';
-import { cancelGolf, getCancelGolf, getReserve } from '../../../services/golf/apiReserve';
-import { useParams } from 'react-router-dom';
+import { getReserve } from '../../../services/golf/apiReserve';
+import { jwtDecode } from 'jwt-decode';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -10,9 +10,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white,
   },
 }));
-
+const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 function ReserveTable() {
-  const { email } = useParams();
+  // const { email } = useParams();
+  const email = ''
   const [userData, setUserData] = useState([]);
 
   const columns = [
@@ -52,13 +53,19 @@ function ReserveTable() {
   useEffect(() => {
     const fetchData = async (email) => {
       try {
-        const userData = await getReserve(email);
-        setUserData(userData);
-        console.log(userData);
+        if(ACCESS_TOKEN){
+          const token = jwtDecode(ACCESS_TOKEN);
+          const email = token.email;
+          const userData = await getReserve(email);
+          setUserData(userData);
+
+        }
+        
       } catch (error) {
-        // Handle error
+        throw error;
       }
-    }
+    };
+
     fetchData(email);
   }, [email]);
 
@@ -73,7 +80,7 @@ function ReserveTable() {
 
       <Paper>
         <TableContainer sx={{ maxHeight: 700 }}>
-          <Table stickyHeader aria-label="sticky table">
+          <Table sx={{minWidth: '550px'}} stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (

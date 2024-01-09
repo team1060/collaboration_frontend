@@ -30,7 +30,7 @@ function Header() {
     };
   
     fetchData();
-  }, [user]);
+  }, []);
   
   // 로그아웃
   const Logout = () => {

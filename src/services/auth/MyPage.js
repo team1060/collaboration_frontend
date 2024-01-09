@@ -1,11 +1,11 @@
 import axios from "axios";
-
+import axiosInstance from "../axiosInstance";
 /**
  * 회원 페이지 api 모음 , jwtDecode
  */
 
-// const baseURL = process.env.REACT_APP_BASE_URL;
-const baseURL = 'http://localhost:8081';
+const baseURL = process.env.REACT_APP_BASE_URL;
+// const baseURL = 'http://localhost:8081';
 const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN')
 
 const axiosAuth = axios.create({
@@ -39,9 +39,25 @@ export const PwUpdate = async (userData) => {
 // 닉네임 변경 
 export const NicknameUpdate = async (data) => {
     try {
-        const response = await axiosAuth.post("/api/member/mypage/nickname/modify", data);
+        const response = await axiosAuth.put("/api/member/mypage/modify", data);
         return response.data;
     } catch (error) {
         throw error;
     }
 }
+
+// 탈퇴 
+export const removeMember = async (email, password) => {
+    try {
+        const response = await axiosAuth.delete(`/api/member/mypage/login/remove/${email}`, {
+            data: { password }
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+
+  

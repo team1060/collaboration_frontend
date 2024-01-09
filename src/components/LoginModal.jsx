@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import { Button, Grid } from '@mui/material';
 import './style/LoginModal.scss';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { loginMember } from '../services/auth/Member';
 
 const style = {
@@ -129,14 +128,14 @@ export default function LoginModal() {
                 control={<Checkbox />}
                 label="자동로그인"
               />
-              <a href='/test' style={linkStyle}>
+              <a href='/member/find' style={linkStyle}>
                 아이디/비밀번호 찾기
               </a>
             </Grid>
             <Button sx={buttonStyle} variant="contained" type='submit'>
               로그인
             </Button>
-            <a href='/test' style={linkStyle}>
+            <a href='/member/join' style={linkStyle}>
               계정이 없으신가요? | 회원가입
             </a>
           </form>

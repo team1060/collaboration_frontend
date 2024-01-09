@@ -20,7 +20,7 @@ function Menu() {
                 예약관리
             </Typography>
             <NavLink to="/member/mypage/reserve">- 예약내역</NavLink>
-            <NavLink to="/member/mypage/reserve/cancel">- 취소내역</NavLink>
+            <NavLink to="/member/mypage/cancel">- 취소내역</NavLink>
             <hr />
             <Typography variant="h7" fontWeight="bold" className="spantext">
                 회원관리

@@ -30,7 +30,7 @@ function MemberModify() {
         email: email,
         password: password
       };
-
+      console.log(userData)
       try {
         await MypageLogin(userData);
         window.location.href = "/member/mypage/modify";

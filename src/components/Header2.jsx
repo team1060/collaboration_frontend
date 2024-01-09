@@ -17,10 +17,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useState } from "react";
 import LoginModal from "./LoginModal";
 import { Link } from "react-router-dom";
-
+// 멤버 
+import { jwtDecode } from 'jwt-decode';
+import { useState, useEffect } from "react";
+import { getNickname } from "../services/auth/Member";
 //아이콘 
 import HomeIcon from '@mui/icons-material/Home'; // 골프장 홈 
 import ZoomInIcon from '@mui/icons-material/ZoomIn'; // 골프장 상세조회
@@ -77,8 +79,11 @@ const conversionMap = {
 //   }
 // }
 // 영한 닉네임 
+const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 const convertToEnglishName = (koreanName) => {
   
+  
+
   const conversionMap  ={
     '골프장 메인' :  "/",
     '골프장 상세조회' :  'golf/info',
@@ -154,6 +159,29 @@ export default function PersistentDrawerLeft() {
     setModal(false);
   };
 
+  const [user, setUser] = useState('');
+
+    // 로그인한 유저 
+    useEffect(() => {
+      const fetchData = async () => {
+        if (ACCESS_TOKEN) {
+          const token = jwtDecode(ACCESS_TOKEN);
+          const email = token.email;
+          const UserData = await getNickname(email);
+          setUser(UserData.nickname);
+          // console.log(UserData.nickname)
+        }
+      };
+    
+      fetchData();
+    }, [user]);
+    
+    // 로그아웃
+    const Logout = () => {
+      localStorage.removeItem("ACCESS_TOKEN")
+      window.location.reload();
+    }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -185,13 +213,20 @@ export default function PersistentDrawerLeft() {
             </div>
             
             <div className="util">
-              <ul className="Ul">
-              <li><LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} /></li>
+              <ul className="Ul" style={{display: 'flex', gap: '15px'}}>
+                 {user ? <li style={{color: 'white', fontSize: '15px'}}>{user}님 환영합니다!</li> 
+                 : 
+            <li>
+              <LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} />
+            </li>
+          }
+                {user ? <li style={{color: '#000', fontSize: '15px'}}><Link onClick={() => {Logout()}} >로그아웃</Link></li> : ''}
+                {user ? <li style={{color: '#000', fontSize: '15px'}}>
+                  <Link to="/member/mypage/info">마이페이지</Link>
+                  </li> : 
+                <li><Link to="/member/join">회원가입</Link></li>
+        }
               </ul>
-              <ul className="Ul">
-              <li><Link to="/member/join"> 회원가입</Link></li>
-              </ul>
-              {/* <button className="rBtn" id="my_reserve">나의 예약</button> */}
             </div>
           </Toolbar>
         
