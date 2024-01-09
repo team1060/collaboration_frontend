@@ -1,20 +1,8 @@
-import axiosInstance from "../axiosInstance.js";
-import axios from "axios";
+import axiosAuth from '../apiAuth.js'
+
 /**
  * 예약페이지 api 모음 
  */
-
-const baseURL = 'http://localhost:8081/api';
-const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN')
-
-
-const axiosAuth = axios.create({
-    baseURL,
-    headers: {
-        'Content-Type' : 'application/json',
-        'Authorization' : ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}`:''
-    }
-})
 
 // 코스 전체조회
 export const getCourse = async () => {
@@ -55,6 +43,28 @@ export const getReserve = async (email) => {
     try {
         const response = await axiosAuth.get(`/reservation/confirm/${email}`);
         return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+// 예약취소
+export const cancelGolf = async (reserve_no) => {
+    try{
+        const response = await axiosAuth.post(`/reservation/cancel/${reserve_no}`)
+        return response.data;
+    } catch (error){
+        throw error
+    }
+}
+
+// 취소 내역 불러오기 
+export const getCancelGolf = async(email) => {
+    try {
+        const response = await axiosAuth.get(`/reservation/confirm/cancel/${email}`)
+        console.log(response)
+        return response.data;
+
     } catch (error) {
         throw error;
     }
