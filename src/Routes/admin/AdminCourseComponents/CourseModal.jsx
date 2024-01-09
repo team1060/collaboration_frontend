@@ -174,7 +174,7 @@ console.log(golfCourseData);
       <DialogActions>
         <Button onClick={onClose}>취소</Button>
         
-        <Button onClick={handleSave}>생성</Button>
+        <Button onClick={handleSave}>확인</Button>
         
       </DialogActions>
     </Dialog>
