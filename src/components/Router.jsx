@@ -30,6 +30,7 @@ import AdminGolf from "../Routes/admin/Page/AdminGolf.jsx";
 import AdminCourse from "../Routes/admin/Page/AdminCourse.jsx";
 
 import ProductInner from "../Routes/shop/ProductInner.jsx";
+import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
   <>
@@ -71,6 +72,7 @@ function Router() {
         <Route path="/product" element={<MainLayout><Product /></MainLayout>} />
         <Route path="/product/pay" element={<MainLayout><Pay /></MainLayout>} />
         <Route path="/product/view/:product_no" element={<MainLayout><ProductInner /></MainLayout>} />
+        <Route path="/payment/success" element={<MainLayout><PaymentSuccess /></MainLayout>} />
         {/* 배송 목록 배송지 등록 수정  */}
         <Route path="/addr" element={<MainLayout><Addr/></MainLayout>} />
         <Route path="/detail" element={<MainLayout><Detail/></MainLayout>} />

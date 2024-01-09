@@ -6,6 +6,12 @@
         padding: 0 50px;
         margin-bottom: 50px;
     }
+
+    .modalHeader {
+        text-align: end;
+        padding-top: 25px;
+        cursor: pointer;
+    }
     
     .inputtexthead {
         padding-left: 100px;
@@ -17,7 +23,14 @@
         align-items: center;
         justify-content: space-between;
         flex-direction: row-reverse;
+        // margin-bottom: 50px;
+    }
+
+    .jusoexample {
+        color: #186bb9;
+        text-align: end;
         margin-bottom: 50px;
+        padding-right: 25%;
     }
     
     .inputheadInner {
@@ -42,6 +55,9 @@
     
         .roadAddresstbody {
             text-align: start;
+            strong {
+                cursor: pointer;
+            }
         }
     }
 
@@ -49,5 +65,7 @@
         text-align: center;
         margin: 20px 0;
     }
+
+    
    
 } 

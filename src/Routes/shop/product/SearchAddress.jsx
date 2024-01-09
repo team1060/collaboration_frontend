@@ -4,6 +4,7 @@ import axios from 'axios';
 import "../style/SearchAddress.scss"
 import { Button, Container } from '@mui/material';
 import InputField from './InputField';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 const SearchAddress = ({ closeAddressModal, onSelectAddress, onSearchComplete }) => {
     const [addressList, setAddressList] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
@@ -13,6 +14,7 @@ const SearchAddress = ({ closeAddressModal, onSelectAddress, onSearchComplete })
     const [countPerPage, setCountPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [searchButtonClicked, setSearchButtonClicked] = useState(false);
+    
 
     const handleAddressSearch = async () => {
         try {
@@ -114,14 +116,24 @@ const SearchAddress = ({ closeAddressModal, onSelectAddress, onSearchComplete })
         console.log('상세주소 정보:', detailAddress);
         closeAddressModal(); // 모달 닫기
     };
+
+     // x 버튼 클릭 시 모달 닫기
+     const handleCloseModal = () => {
+        // 모달을 닫는 함수 호출
+        closeAddressModal();
+    };
+
     return (
         <Container className='addressFormWrap' id="SearchAddress">
             {/* 주소 검색 입력 폼과 검색 버튼 */}
+            <div className="modalHeader">
+                <span className="closeButton" onClick={handleCloseModal}><CloseOutlinedIcon /></span>
+            </div>
             <form>
                 <InputField
                     className="popSearchInput"
                     label={
-                        <Button onClick={handleAddressSearch} variant='contained'>
+                        <Button onClick={handleAddressSearch} variant='contained' size="large">
                             검색
                         </Button>
                     }
@@ -130,7 +142,7 @@ const SearchAddress = ({ closeAddressModal, onSelectAddress, onSearchComplete })
                     id="keyword"
                 />
             </form>
-            <span> 예시 : 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)</span>
+            <div className='jusoexample'> 예시 : 도로명(반포대로 58), 건물명(독립기념관), 지번(삼성동 25)</div>
 
             {/* 주소 검색 결과 목록 */}
             {searchButtonClicked && (
@@ -142,7 +154,7 @@ const SearchAddress = ({ closeAddressModal, onSelectAddress, onSearchComplete })
                             <th className='zipNo'>우편번호</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='tbody'>
                         {addressList?.map((address, index) => (
                             <tr key={address.bdMgtSn} onClick={() => handleAddressSelect(address)}>
                                 <td>{currentPage * 10 + index - 9}</td>
