@@ -40,6 +40,9 @@ import GolfReserve from "../Routes/auth/mypage/GolfReserve.jsx";
 import GolfReserveCancel from "../Routes/auth/mypage/GolfReserveCancel.jsx";
 import FindAccount from "../Routes/auth/FindAccount.jsx";
 import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
+import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
+
+
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
   <>
@@ -81,6 +84,7 @@ function Router() {
         <Route path="/product" element={<MainLayout><Product /></MainLayout>} />
         <Route path="/product/pay" element={<MainLayout><Pay /></MainLayout>} />
         <Route path="/product/view/:product_no" element={<MainLayout><ProductInner /></MainLayout>} />
+        <Route path="/payment/success" element={<MainLayout><PaymentSuccess /></MainLayout>} />
         {/* 배송 목록 배송지 등록 수정  */}
         <Route path="/addr" element={<MainLayout><Addr/></MainLayout>} />
         <Route path="/detail" element={<MainLayout><Detail/></MainLayout>} />
