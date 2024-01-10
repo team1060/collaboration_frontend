@@ -6,6 +6,8 @@ import { jwtDecode } from "jwt-decode";
 import SearchAddress from "./product/SearchAddress";
 import axios from "axios";
 
+
+
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
 function Pay() {
@@ -25,11 +27,20 @@ function Pay() {
             const userEmail = token.email;
             setUser(userEmail);
         }
+        else {
+            alert('잘못된 접근입니다.')
+            window.location.href = '/product'
+        }
         const productInfo = localStorage.getItem("productInfo");
         if (productInfo) {
             setProduct(JSON.parse(productInfo));
         }
+        else {
+            alert('잘못된 접근입니다.')
+            window.location.href = '/product'
+        }
     }, [user]);
+
     useEffect(() => {
         if (product) {
             console.log(product);
@@ -80,7 +91,7 @@ function Pay() {
     };
 
     // 배송 핸들러
-    const shippinghandler = async e => {
+    const payAndShippinghandler = async e => {
         e.preventDefault();
 
         // 주소 정보가 완전하지 않은 경우 처리
@@ -100,40 +111,63 @@ function Pay() {
 
         // tbl_p_buy 테이블에 대한 데이터 준비
         const pBuyData = {
-            status: '1', // 확인중(0), 배송중(1), 완료(2), 취소(3) 등
-            product_no: optionData.map(option => option.product_no).join(','),  // 각 상품의 product_no를 가정합니다.
-            payment_method: 'credit_card', // 결제 방법에 따라 조정이 필요할 수 있습니다.
+            status: '1',
+            product_no: optionData.map((option) => option.product_no).join(','),
+            payment_method: 'credit_card',
             payment_date: new Date().toISOString(),
-            option_no: optionData.map(option => option.option_no).join(','), // 각 상품의 option_no를 가정합니다.
-            installment: null, // 현재는 placeholder이며 로직에 따라 조정이 필요할 수 있습니다.
+            option_no: optionData.map((option) => option.option_no).join(','),
+            installment: null,
             email: user,
-            delivery_message: '', // 유저 입력에서 이 값을 가져와야 할 수도 있습니다.
-            cencel_reason: null, // 현재는 placeholder이며 로직에 따라 조정이 필요할 수 있습니다.
-            card: null, // 현재는 placeholder이며 로직에 따라 조정이 필요할 수 있습니다.
-            cancel_date: null, // 현재는 placeholder이며 로직에 따라 조정이 필요할 수 있습니다.
+            delivery_message: '',
+            cencel_reason: null,
+            card: null,
+            cancel_date: null,
             amount: totalAmount,
-        };
+        }
 
         // tbl_shipping 테이블에 대한 데이터 준비
         const shippingData = {
-            shipping_no: null, // 현재는 생성 중이며 나중에 배송 처리 과정에서 생성됩니다.
+            shipping_no: null,
             email: user,
-            recipient: document.getElementById('recipient').value, // 'recipient' id를 가진 입력 필드에서 값을 가져옵니다.
+            recipient: document.getElementById('recipient').value,
             destination: selectedAddress.roadAddr,
-            contact_number: contactNumber, // contactNumber를 제대로 설정했다고 가정합니다.
-            is_default_shipping: null, // 현재는 placeholder이며 로직에 따라 조정이 필요할 수 있습니다.
+            contact_number: contactNumber,
+            is_default_shipping: null,
             roadAddrPart1: selectedAddress.roadAddrPart1,
             roadAddrPart2: selectedAddress.roadAddrPart2,
             zipNo: selectedAddress.zipNo,
             addrDetail: selectedAddress.addrDetail,
         };
+
+        try {
+            // // 서버에 결제 및 배송 정보 전송
+            // const response = await axios.post('YOUR_SERVER_API_ENDPOINT', {
+            //     pBuyData,
+            //     optionData,
+            //     shippingData,
+            // });
+
+            // // 서버로부터의 응답 처리 (필요에 따라 추가)
+            // console.log('서버 응답:', response.data);
+            console.log('Option Data:', optionData);
+            console.log('PBuy Data:', pBuyData);
+            console.log('Shipping Data:', shippingData);
+            // 결제 및 배송 정보를 로컬 스토리지에 저장
+            localStorage.setItem('paymentInfo', JSON.stringify(pBuyData));
+            localStorage.setItem('shippingInfo', JSON.stringify(shippingData));
+
+            // paysuccess 화면으로 이동
+            // window.location.href = '/paysuccess';
+
+            handlePayment();
+        } catch (error) {
+            console.error('서버 API 호출 중 오류:', error);
+        }
     }
 
     // 결제 핸들러
     const KAKAO_PAY_READY_URL = "https://kapi.kakao.com/v1/payment/ready";
-    const KAKAO_PAY_APPROVE_URL = "https://kapi.kakao.com/v1/payment/approve";
     const SERVICE_APP_ADMIN_KEY = "ff6bb12c12dceb7251e95224fc91846c"
-    const [paymentResponse, setPaymentResponse] = useState(null);
 
     const handlePayment = async () => {
         // Prepare data for KakaoPay ready API
@@ -162,11 +196,11 @@ function Pay() {
             localStorage.setItem('kakaoPayResponse', JSON.stringify(response.data));
 
             // 응답에서 정보 추출
-            const {next_redirect_app_url, next_redirect_mobile_url, next_redirect_pc_url } = response.data;
+            const { next_redirect_app_url, next_redirect_mobile_url, next_redirect_pc_url } = response.data;
 
             // 사용자를 해당 장치에 따라 적절한 결제 URL로 리디렉션
             const paymentUrl = determinePaymentUrl(next_redirect_app_url, next_redirect_mobile_url, next_redirect_pc_url);
-           
+
             // 페이지 리디렉션하기 전에 로컬 스토리지에 저장된 데이터 확인
             const storedData = localStorage.getItem('kakaoPayResponse');
             console.log('Stored KakaoPay Response:', storedData);
@@ -227,7 +261,7 @@ function Pay() {
     };
 
     return (
-        <form onSubmit={shippinghandler}>
+        <form onSubmit={payAndShippinghandler}>
             <div id="productPay">
                 <h2 className="payTitle">주문결제</h2>
                 <div className="paySection">
@@ -395,7 +429,7 @@ function Pay() {
 
                 </div>
                 <div className="paymentButtonWrap">
-                    <Button size="large" className="paymentButton" variant="contained" onClick={handlePayment}>결제하기</Button>
+                    <Button size="large" className="paymentButton" variant="contained" type="submit">결제하기</Button>
                 </div>
             </div>
 

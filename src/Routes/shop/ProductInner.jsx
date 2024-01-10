@@ -92,7 +92,7 @@ function ProductInner() {
         return roundedPrice;
     };
     const originalPrice = prop?.price;
-    const discount = prop?.discount * 100;
+    const discount =  parseFloat((prop?.discount * 100).toFixed(1));
     const discountedPrice = calculateDiscountedPrice();
     const calculateTotalPrice = () => {
         let totalPrice = 0;
@@ -136,13 +136,15 @@ function ProductInner() {
             var option = optionInnerElement.querySelector('.optionInnerTit').innerText.trim();
             var count = optionInnerElement.querySelector('.productCount').innerText.trim();
             var price = optionInnerElement.querySelector('.price').innerText.trim();
+            var optionNo = optionInnerElement.getAttribute('data-option-no');
             // Add information to the array
             productInfo.push({
                 product: product,
                 option: option,
                 count: count,
                 price: price,
-                image: image
+                image: image,
+                optionNo: optionNo,
             });
         });
 
@@ -237,7 +239,7 @@ function ProductInner() {
                             <hr></hr>
                             {prop?.product_options?.map((option) => (
                                 selectedOption[option.option_no]?.quantity > 0 && (
-                                    <div className="optionInner" key={option.option_no} >
+                                    <div className="optionInner" key={option.option_no} data-option-no={option.option_no}>
                                         <div>
 
 

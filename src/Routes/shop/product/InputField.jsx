@@ -17,7 +17,7 @@ const InputField = ({ label, placeholder, name, id, value, onChange }) => {
           id={id}
           value={value}
           onChange={onChange}
-          // disabled
+        // disabled
         />
       </Grid>
     </Grid>
