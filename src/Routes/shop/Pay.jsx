@@ -15,6 +15,7 @@ function Pay() {
     const [user, setUser] = useState('');
 
     // 받아온 상품
+    const [productNo, setProductNo] = useState(null);
     const [product, setProduct] = useState(null);
 
     // 받아온 상품의 총 가격
@@ -33,6 +34,7 @@ function Pay() {
         }
         const productInfo = localStorage.getItem("productInfo");
         if (productInfo) {
+            setProductNo(JSON.parse(productInfo)[0].product_no);
             setProduct(JSON.parse(productInfo));
         }
         else {
@@ -102,27 +104,20 @@ function Pay() {
         }
 
         // tbl_p_option 테이블에 대한 데이터 준비
-        const optionData = product.map(item => ({
-            option_no: item.option_no,
-            product_no: item.product_no,
+        const optionData = product?.map(item => ({
+            option: item.option,
+            product: item.product,
             name: item.option, // 각 상품의 옵션 정보를 가져오거나, 옵션 정보를 어떻게 표현할지에 따라 조정이 필요할 수 있습니다.
             count: item.count,
         }));
+        
 
         // tbl_p_buy 테이블에 대한 데이터 준비
         const pBuyData = {
-            status: '1',
-            product_no: optionData.map((option) => option.product_no).join(','),
-            payment_method: 'credit_card',
-            payment_date: new Date().toISOString(),
-            option_no: optionData.map((option) => option.option_no).join(','),
-            installment: null,
+            status: '0',
+            product_no: productNo,
             email: user,
-            delivery_message: '',
-            cencel_reason: null,
-            card: null,
-            cancel_date: null,
-            amount: totalAmount,
+            delivery_message: document.getElementById('delivery_message').value,
         }
 
         // tbl_shipping 테이블에 대한 데이터 준비
@@ -149,7 +144,6 @@ function Pay() {
 
             // // 서버로부터의 응답 처리 (필요에 따라 추가)
             // console.log('서버 응답:', response.data);
-            console.log('Option Data:', optionData);
             console.log('PBuy Data:', pBuyData);
             console.log('Shipping Data:', shippingData);
             // 결제 및 배송 정보를 로컬 스토리지에 저장
@@ -421,8 +415,8 @@ function Pay() {
                             <InputField
                                 label="배송메세지"
                                 placeholder="메세지를 입력해주세요."
-                                name="contact"
-                                id="contact"
+                                name="delivery_message"
+                                id="delivery_message"
                             />
                         </div>
                     </Container>

@@ -6,6 +6,10 @@ import { useLocation } from 'react-router-dom';
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 const kakaoPayResponse = localStorage.getItem("kakaoPayResponse")
+const paymentData = localStorage.getItem("paymentInfo")
+const shippingData = localStorage.getItem("shippingInfo")
+const productData = localStorage.getItem("productInfo")
+
 const PaymentSuccess = () => {
     const [user, setUser] = useState('');
     const [paymentResponse, setPaymentResponse] = useState(null);

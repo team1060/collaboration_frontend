@@ -61,17 +61,23 @@ function ProductInner() {
         const fetchGolfInfo = async () => {
             try {
                 const post = await getProductInner(product_no)
-                console.log(post)   
-                post[0].image_details = JSON.parse(post[0].image_details);
-                post[0].image_prdts = JSON.parse(post[0].image_prdts);
-                post[0].product_options = JSON.parse(post[0].product_options)
+                console.log(post)
+                if (post[0].image_details) {
+                    post[0].image_details = JSON.parse(post[0].image_details);
+                }
+                if (post[0].image_prdts) {
+                    post[0].image_prdts = JSON.parse(post[0].image_prdts);
+                }
+                if (post[0].product_options) {
+                    post[0].product_options = JSON.parse(post[0].product_options)
+                }
                 console.log(post);
                 const filteredResult = post.map(item => ({
                     ...item,
                     image_details: Array.isArray(item.image_details) ? item.image_details.filter(img => img !== null) : [],
                     image_prdts: Array.isArray(item.image_prdts) ? item.image_prdts.filter(img => img !== null) : []
                 }));
-            
+
                 console.log(filteredResult)
                 setProp(filteredResult[0])
             } catch (error) {
@@ -92,7 +98,7 @@ function ProductInner() {
         return roundedPrice;
     };
     const originalPrice = prop?.price;
-    const discount =  parseFloat((prop?.discount * 100).toFixed(1));
+    const discount = parseFloat((prop?.discount * 100).toFixed(1));
     const discountedPrice = calculateDiscountedPrice();
     const calculateTotalPrice = () => {
         let totalPrice = 0;
@@ -139,6 +145,7 @@ function ProductInner() {
             var optionNo = optionInnerElement.getAttribute('data-option-no');
             // Add information to the array
             productInfo.push({
+                product_no: product_no,
                 product: product,
                 option: option,
                 count: count,
@@ -158,10 +165,10 @@ function ProductInner() {
         <div id="ProductInner">
             <Grid>
                 <Container className="mainContainer">
-                <div className='pickup'>
-                    {prop?.is_shop_delivery ? <StyledDelivery>배달가능</StyledDelivery> : ''}
-                    {prop?.is_shop_pickup ? <StyledPickup>픽업가능</StyledPickup> : ''}
-                </div>
+                    <div className='pickup'>
+                        {prop?.is_shop_delivery ? <StyledDelivery>배달가능</StyledDelivery> : ''}
+                        {prop?.is_shop_pickup ? <StyledPickup>픽업가능</StyledPickup> : ''}
+                    </div>
                     <div className="titleWrap" >
                         <h2>{prop?.product}</h2>
                     </div>
@@ -284,7 +291,7 @@ function ProductInner() {
                             <Grid className="" container>
                                 <Grid className="productInnerButton" item xs={4}><Button size="large" variant="outlined " >관심상품</Button></Grid>
                                 <Grid className="productInnerButton" item xs={4}><Button size="large" variant="contained" color="secondary" >장바구니</Button></Grid>
-                                <Grid className="productInnerButton" item xs={4}><Button onClick={()=>redirectToPayment()} size="large" variant="contained">바로구매</Button></Grid>
+                                <Grid className="productInnerButton" item xs={4}><Button onClick={() => redirectToPayment()} size="large" variant="contained">바로구매</Button></Grid>
                             </Grid>
                         </Grid>
                     </Grid>
