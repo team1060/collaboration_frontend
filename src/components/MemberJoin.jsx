@@ -71,7 +71,7 @@ function MemberJoin() {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    // 입력필드 완료 여부 확인 
+    //입력필드 완료 여부 확인 
     // if (
     //   !inputValue ||
     //   !nickname ||

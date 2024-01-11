@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button, Container, styled } from "@mui/material";
-import { getCourse } from '../../../services/golf/apiReserve';
+import { getCourse, getReserve } from '../../../services/golf/apiReserve';
 import { postGolf } from '../../../services/golf/apiReserve';
 import { tableCellClasses } from '@mui/material/TableCell';
 
@@ -89,10 +89,14 @@ const handleButtonClick = async (course) => {
       alert('예약신청이 취소되었습니다.');
     }
   } catch (error) {
-    console.error(error);
-    alert('이미 예약이 완료된 코스입니다')
-    window.location.reload();
-  }
+    if (error.message && error.message.includes("429")) {
+      alert('3회까지 예약이 가능합니다.')
+      // window.location.reload();
+    } else{
+      alert('이미 예약이 완료된 코스입니다')
+      window.location.reload();
+    }
+  } 
 };
 
   // 코스 테이블 이름 
