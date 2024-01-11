@@ -43,7 +43,7 @@ function FindAccount() {
                 alert(`${sendEmail} 이메일을 확인해주세요`);
                 window.location.href="/"
             } catch (error) {
-                alert('가입되지 않은 이메일입니다.')
+                alert('가입되지 않은 이메일입니다. 다시 확인해주세요')
                 window.location.href="/"
             }
         }
