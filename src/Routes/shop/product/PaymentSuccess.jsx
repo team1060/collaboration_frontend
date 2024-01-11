@@ -3,12 +3,10 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getMaxPaymentNo, getMaxShippingNo, postPayment, postPaymentOptions, postShipping } from '../../../services/shop/apiPayment';
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 const kakaoPayResponse = localStorage.getItem("kakaoPayResponse")
-const paymentData = localStorage.getItem("paymentInfo")
-const shippingData = localStorage.getItem("shippingInfo")
-const productData = localStorage.getItem("productInfo")
 
 const PaymentSuccess = () => {
     const [user, setUser] = useState('');
@@ -17,21 +15,56 @@ const PaymentSuccess = () => {
     const location = useLocation();
     const { search } = location;
 
-    // 로그인한 유저 
+    let paymentData, shippingData, productData;
+
+    // paymentData 파싱
+    const paymentInfoString = localStorage.getItem("paymentInfo");
+    if (paymentInfoString) {
+        try {
+            paymentData = JSON.parse(paymentInfoString);
+            console.log(paymentData);
+        } catch (error) {
+            console.error('Error parsing paymentInfo:', error);
+            // 파싱 오류에 대한 처리를 추가할 수 있습니다.
+        }
+    }
+
+    // shippingData 파싱
+    const shippingInfoString = localStorage.getItem("shippingInfo");
+    if (shippingInfoString) {
+        try {
+            shippingData = JSON.parse(shippingInfoString);
+            console.log(shippingData);
+        } catch (error) {
+            console.error('Error parsing shippingInfo:', error);
+            // 파싱 오류에 대한 처리를 추가할 수 있습니다.
+        }
+    }
+
+    // productData 파싱
+    const productInfoString = localStorage.getItem("productInfo");
+    if (productInfoString) {
+        try {
+            productData = JSON.parse(productInfoString);
+            console.log(productData);
+        } catch (error) {
+            console.error('Error parsing productInfo:', error);
+            // 파싱 오류에 대한 처리를 추가할 수 있습니다.
+        }
+    }
+
     useEffect(() => {
+        // 로그인한 유저 확인
         if (ACCESS_TOKEN) {
             const token = jwtDecode(ACCESS_TOKEN);
             const userEmail = token.email;
             setUser(userEmail);
         }
 
-    }, [user]);
-
-    // tid
-    useEffect(() => {
+        // tid 설정
         const responseTid = JSON.parse(kakaoPayResponse).tid;
         setTid(responseTid);
-    }, [kakaoPayResponse])
+    }, [kakaoPayResponse, ACCESS_TOKEN]);
 
     // pg_token
     useEffect(() => {
@@ -73,7 +106,88 @@ const PaymentSuccess = () => {
             approvePayment();
 
         }
-    }, [search, user, tid, kakaoPayResponse]);
+    }, [search, user, tid]);
+
+    const handlePaymentSuccess = async () => {
+
+        try {
+            const shippingResponse = await postShipping(shippingData);
+            console.log('Shipping response:', shippingResponse);
+            // 서버 응답에 따른 로직 추가
+
+        } catch (error) {
+            console.error('Error sending shipping:', error);
+            // 에러 처리 로직 추가
+        }
+        let shippingNo;
+        try {
+            shippingNo = await getMaxShippingNo();
+            console.log("shipping_no : " + shippingNo)
+        } catch (error) {
+            console.error('Error get max-shipping-no:', error);
+           
+        }
+
+        const payment = {
+            product_no: paymentData.product_no,
+            email: paymentData.email,
+            shipping_no: shippingNo,
+            status: paymentData.status,
+            payment_date: paymentResponse?.approved_at,
+            payment_method: paymentResponse?.payment_method_type,
+            amount: paymentResponse?.amount?.total,
+            delivery_message: paymentData.delivery_message,
+            installment: paymentResponse?.card_info !== undefined ? paymentData?.card_info?.install_month : null,
+            card: paymentResponse?.card_info !== undefined ? paymentData?.card_info?.kakaopay_purchase_corp : null
+        };
+
+        try {
+            console.log(payment);
+            const paymentResponse = await postPayment(payment);
+            console.log('Payment response:', paymentResponse);
+            // 서버 응답에 따른 로직 추가
+        } catch (error) {
+            console.error('Error sending payment:', error);
+            // 에러 처리 로직 추가
+        }
+
+        
+        let paymentNo;
+        try {
+            paymentNo = await getMaxPaymentNo();
+            console.log("payment_no : " + paymentNo)
+        } catch (error) {
+            console.error('Error get max-payment-no:', error);  
+        }
+        const options = productData.map((item) => {
+            return {
+              p_buy_no: paymentNo,
+              option_no: item.optionNo,
+              count: item.count,
+              price: item.price 
+
+              // 추가 필요한 필드가 있다면 여기에 추가
+            };
+          });
+
+        try {
+            console.log(options);
+            const optionsResponse = await postPaymentOptions(options);
+            console.log('Options response:', optionsResponse);
+            // 서버 응답에 따른 로직 추가
+        } catch (error) {
+            console.error('Error sending options:', error);
+            // 에러 처리 로직 추가
+        }
+    }
+    console.log(paymentResponse);
+    if (paymentResponse !== null && paymentResponse.code === undefined && paymentResponse.code !== -702) {
+        console.log("handlePaymentSuccess() + 실행 직전");
+        handlePaymentSuccess();
+        console.log("handlePaymentSuccess() + 실행 직후");
+    } else {
+        console.log('실행 실패');
+    }
 
     return (
         <div>

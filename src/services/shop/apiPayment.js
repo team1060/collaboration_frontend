@@ -1,29 +1,49 @@
 import axiosInstance from "../axiosInstance"
 
-// 상품목록 
-export const postPayment = async () => {
+// 주문상품 
+export const postPayment = async (payment) => {
     try {
-        const response = await axiosInstance.post("")
+        const response = await axiosInstance.post("/payment", payment)
         return response.data;
     } catch (error) {
         throw error
     }
 }
 
-// 브랜드목록
-export const getBrand = async () => {
+// 주문상품-옵션
+export const postPaymentOptions = async (options) => {
     try {
-        const response = await axiosInstance.post("")
+        const response = await axiosInstance.post("/payment/options", options)
         return response.data;
     } catch (error) {
         throw error
     }
 }
 
-// 상품목록 
-export const getProductInner = async () => {
+// 배송지
+export const postShipping = async (shipping) => {
     try {
-        const response = await axiosInstance.post("")
+        const response = await axiosInstance.post("/shipping", shipping)
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+}
+
+// 배송지 PK 받아오기
+export const getMaxShippingNo = async () => {
+    try {
+        const response = await axiosInstance.get("/shippingno")
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+}
+
+// 주문상품 PK 받아오기
+export const getMaxPaymentNo = async () => {
+    try {
+        const response = await axiosInstance.get("/paymentno")
         return response.data;
     } catch (error) {
         throw error
