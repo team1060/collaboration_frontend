@@ -67,7 +67,7 @@ const AdminCourse = () => {
     { field: 'golf_time', headerName: '티오프 시간', width: 90 },
     { field: 'golf_date', headerName: '예약 날짜', width: 130 },
     { field: 'golf_status', headerName: '예약 상태', width: 130, 
-      valueGetter: (params) => params.row.golf_status === 1 ? '예약 가능' : '예약 불가' },
+      valueGetter: (params) => params.row.golf_status === 0 ? '예약 가능' : '예약 불가' },
     // 여기에 추가적인 컬럼을 정의할 수 있습니다.
   ];
   // "생성" 버튼 클릭 핸들러

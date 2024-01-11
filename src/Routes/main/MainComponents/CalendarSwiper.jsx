@@ -47,13 +47,16 @@ useEffect(() => {
 const fetchCourses = async () => {
   try {
     const fetchedCourses = await getCourse();
-    setCourses(fetchedCourses);
+    // 예약 가능한 코스를 우선적으로 정렬하고 최대 10개만 선택
+    const sortedAndLimitedCourses = fetchedCourses
+      .sort((a, b) => b.golf_status - a.golf_status) // 예약 가능한 코스 우선
+      .slice(0, 10); // 최대 10개만
+    setCourses(sortedAndLimitedCourses);
   } catch (error) {
     console.error('Error fetching courses:', error);
   }
 };
-
-const handleDateClick = (date) => {
+const handleDateClick = async (date) => {
   if (!ACCESS_TOKEN) {
     alert("로그인이 필요합니다.");
     window.location.href = '/';
@@ -62,10 +65,22 @@ const handleDateClick = (date) => {
 
   const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   setSelectedDate(formattedDate);
+
+  try {
+    const fetchedCourses = await getCourse();
+    const filteredCourses = fetchedCourses.filter(course => course.golf_date === formattedDate);
+    const sortedAndLimitedCourses = filteredCourses
+      .sort((a, b) => b.golf_status - a.golf_status)
+      .slice(0, 10);
+
+    setCourses(sortedAndLimitedCourses);
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+  }
 };
 
 const getStatusText = (status) => {
-  return status === 1 ? "예약가능" : "예약불가";
+  return status === 0 ? "예약가능" : "예약불가";
 };
 
   return (
@@ -102,7 +117,7 @@ const getStatusText = (status) => {
           <div className="data-grid">
             {courses.filter(course => course.golf_date === selectedDate )
                      .map((course, index) => (
-              <div key={index} className={`course-detail ${course.golf_status === 1 ? 'status-available' : 'status-unavailable'}`}>
+              <div key={index} className={`course-detail ${course.golf_status === 1 ?  'status-unavailable':'status-available' }`}>
                 <p>코스: {course.course_name}</p>
                 <p> {getStatusText(course.golf_status)}</p>
                 {/* 추가 코스 정보 표시 */}
