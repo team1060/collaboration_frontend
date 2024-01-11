@@ -1,6 +1,6 @@
 import "./style/Pay.scss"
 import InputField from "./product/InputField";
-import { Button, Container, FormControlLabel, Grid, Modal, Radio, RadioGroup, TextField } from "@mui/material";
+import { Button, Checkbox, Container, FormControlLabel, Grid, Modal, Radio, RadioGroup, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import SearchAddress from "./product/SearchAddress";
@@ -48,7 +48,7 @@ function Pay() {
             console.log(product);
 
             // Calculate total amount
-            const totalAmount = product.reduce((acc, item) => acc + parseFloat(item.price.replace(/[^\d.]/g, '')), 0);
+            const totalAmount = product.reduce((acc, item) => acc + parseFloat(item.price), 0);
             setTotalAmount(totalAmount);
 
             // Calculate total quantity
@@ -57,6 +57,7 @@ function Pay() {
             console.log(totalQuantity);
         }
     }, [product]);
+
     // 휴대폰 & 연락처
     const [phoneNumber, setPhoneNumber] = useState('');
     const [contactNumber, setContactNumber] = useState('');
@@ -110,7 +111,7 @@ function Pay() {
             name: item.option, // 각 상품의 옵션 정보를 가져오거나, 옵션 정보를 어떻게 표현할지에 따라 조정이 필요할 수 있습니다.
             count: item.count,
         }));
-        
+
 
         // tbl_p_buy 테이블에 대한 데이터 준비
         const pBuyData = {
@@ -122,12 +123,11 @@ function Pay() {
 
         // tbl_shipping 테이블에 대한 데이터 준비
         const shippingData = {
-            shipping_no: null,
             email: user,
             recipient: document.getElementById('recipient').value,
-            destination: selectedAddress.roadAddr,
+            destination: document.getElementById('destination').value,
             contact_number: contactNumber,
-            is_default_shipping: null,
+            is_default_shipping: isDefaultShipping ? 1 : 0,
             roadAddrPart1: selectedAddress.roadAddrPart1,
             roadAddrPart2: selectedAddress.roadAddrPart2,
             zipNo: selectedAddress.zipNo,
@@ -158,6 +158,9 @@ function Pay() {
             console.error('서버 API 호출 중 오류:', error);
         }
     }
+
+    // 기본 배송지 여부
+    const [isDefaultShipping, setIsDefaultShipping] = useState(false);
 
     // 결제 핸들러
     const KAKAO_PAY_READY_URL = "https://kapi.kakao.com/v1/payment/ready";
@@ -211,6 +214,41 @@ function Pay() {
     };
 
     const [selectedDeliveryOption, setSelectedDeliveryOption] = useState('');
+    // 상태값 추가
+    const [deliveryOption, setDeliveryOption] = useState(''); // 기본값은 빈 문자열로 설정
+    const [otherFormInput, setOtherFormInput] = useState('');
+    const [isOtherOptionSelected, setIsOtherOptionSelected] = useState(false);
+
+    // 다른 배송 옵션의 입력값이 변경될 때 실행되는 핸들러
+    const handleOtherFormInputChange = (e) => {
+        setOtherFormInput(e.target.value);
+        setDeliveryOption(e.target.value); // TextField 값이 변경되면 deliveryOption도 업데이트
+        setIsOtherOptionSelected(true); // Radio 버튼이 선택된 것으로 처리
+    };
+
+    // 선택된 배송 옵션을 업데이트하고, 다른 옵션을 선택하면 입력값 초기화
+    const handleOptionChange = (value) => {
+        setSelectedDeliveryOption(value);
+    
+        // "그 외" 옵션을 선택했을 때 destination 값을 텍스트로 설정
+        if (value === '그 외') {
+            document.getElementById('destination').value = otherFormInput;
+        } else {
+            document.getElementById('destination').value = value;
+        }
+    
+        setOtherFormInput(value === deliveryOption ? otherFormInput : ''); // '그 외' 옵션일 때만 입력값 초기화
+        setIsOtherOptionSelected(value === deliveryOption || false); // '그 외' 옵션이면 활성화, 아니면 비활성화
+    };
+
+    // "그 외" 옵션을 토글하는 핸들러
+    const handleOtherOptionToggle = () => {
+        setIsOtherOptionSelected(!isOtherOptionSelected); // 현재 상태 값을 토글
+        if (!isOtherOptionSelected) {
+            // "그 외" 옵션 선택 시 다른 옵션들 해제
+            setSelectedDeliveryOption('');
+        }
+    };
 
     // 주소 검색 모달 상태
     const [addressModalOpen, setAddressModalOpen] = useState(false);
@@ -231,7 +269,7 @@ function Pay() {
     // SearchAddress 컴포넌트에서 선택한 주소를 처리하는 콜백 함수
     const handleSelectAddress = (address) => {
         // 주소에서 ()로 나누기
-        const addrParts = address.roadAddr.split(/[\(\)]/);
+        const addrParts = address.roadAddr.split(/[( )]/);
 
         // 주소 정보로 state 업데이트
         setSelectedAddress({
@@ -239,9 +277,14 @@ function Pay() {
             roadAddr: address.roadAddr, // 전체 주소
             roadAddrPart1: addrParts[0].trim(), // 첫 번째 부분은 roadAddrPart1
             roadAddrPart2: addrParts[1] ? addrParts[1].trim() : '', // 두 번째 부분은 roadAddrPart2 (없으면 빈 문자열)
-            addrDetail: '', // 두 번째 부분은 addrDetail (없으면 빈 문자열)
+
         });
         closeAddressModal();
+    };
+
+    // addrDetail 변경을 위한 핸들러
+    const handleAddrDetailChange = (e) => {
+        setSelectedAddress((prev) => ({ ...prev, addrDetail: e.target.value }));
     };
 
     // 주소 검색 모달 열기
@@ -253,6 +296,8 @@ function Pay() {
     const closeAddressModal = () => {
         setAddressModalOpen(false);
     };
+
+    // 배송지 추가 버튼 클릭 시 ShippingInfoComponent로 이동
 
     return (
         <form onSubmit={payAndShippinghandler}>
@@ -287,7 +332,7 @@ function Pay() {
                                                 </div>
                                             </td>
                                             <td>{item.option}<span className="count">{item.count}개</span></td>
-                                            <td>{item.price}</td>
+                                            <td>{item.price?.toLocaleString()}원</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -345,20 +390,45 @@ function Pay() {
                                 <Grid className="inputtexthead" container direction="row" flexWrap="nowrap" item xs={8} lg={9}>
                                     <RadioGroup
                                         aria-label="배송지 선택"
-                                        name="deliveryOption"
+                                        name="destination"
+                                        id="destination"
                                         value={selectedDeliveryOption}
-                                        onChange={(e) => setSelectedDeliveryOption(e.target.value)}
+                                        onChange={(e) => handleOptionChange(e.target.value)}
                                         row
                                     >
                                         <FormControlLabel
-                                            value="home"
+                                            className="deliveryOption"
+                                            value="집"
                                             control={<Radio />}
                                             label="집"
+                                            checked={selectedDeliveryOption === '집'}
                                         />
                                         <FormControlLabel
-                                            value="company"
+                                            className="deliveryOption"
+                                            value="회사"
                                             control={<Radio />}
                                             label="회사"
+                                            checked={selectedDeliveryOption === '회사'}
+                                        />
+                                        <FormControlLabel
+                                            className="deliveryOption"
+                                            value={deliveryOption}
+                                            control={<Radio />}
+                                            label={
+                                                <div className="Inputlabel">
+                                                    <div>그 외</div>
+                                                    <TextField
+                                                        id="otherFormInput"
+                                                        label="기타 정보 입력"
+                                                        variant="outlined"
+                                                        value={otherFormInput}
+                                                        onChange={handleOtherFormInputChange}
+                                                        disabled={!isOtherOptionSelected}
+                                                    />
+                                                </div>
+                                            }
+                                            checked={isOtherOptionSelected}
+                                            onChange={handleOtherOptionToggle}
                                         />
                                     </RadioGroup>
                                 </Grid>
@@ -408,7 +478,8 @@ function Pay() {
                                         placeholder='상세주소를 입력해주세요.'
                                         name='addrDetail'
                                         id='addrDetail'
-                                        onChange={(e) => setSelectedAddress((prev) => ({ ...prev, addrDetail: e.target.value }))}
+                                        value={selectedAddress.addrDetail}
+                                        onChange={handleAddrDetailChange}
                                     />
                                 </Grid>
                             </Grid>
@@ -417,6 +488,17 @@ function Pay() {
                                 placeholder="메세지를 입력해주세요."
                                 name="delivery_message"
                                 id="delivery_message"
+                            />
+                        </div>
+                        <div className="isDefaultShippingButtonWrap">
+                            <FormControlLabel
+                                value={isDefaultShipping ? 1 : 0}
+                                control={<Checkbox />}
+                                name="isDefaultShipping"
+                                id="isDefaultShipping"
+                                label="기본 배송지로 추가"
+                                checked={isDefaultShipping}
+                                onChange={() => setIsDefaultShipping(!isDefaultShipping)}
                             />
                         </div>
                     </Container>

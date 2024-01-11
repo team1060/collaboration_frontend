@@ -58,6 +58,17 @@ export const removeMember = async (email, password) => {
     }
 };
 
+export const orderHistory = async (email) => {
+    try {
+        const response = await axiosAuth.get('/api/paymentByMember', {
+            params: { email }
+        })
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+
+}
 
 
   

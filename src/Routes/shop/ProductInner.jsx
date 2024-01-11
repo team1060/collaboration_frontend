@@ -141,7 +141,7 @@ function ProductInner() {
             var image = document.querySelector('.swiper-slide-active img').getAttribute('src').trim();
             var option = optionInnerElement.querySelector('.optionInnerTit').innerText.trim();
             var count = optionInnerElement.querySelector('.productCount').innerText.trim();
-            var price = optionInnerElement.querySelector('.price').innerText.trim();
+            var price = discountedPrice;
             var optionNo = optionInnerElement.getAttribute('data-option-no');
             // Add information to the array
             productInfo.push({

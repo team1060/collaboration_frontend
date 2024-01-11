@@ -154,4 +154,17 @@
         }
     }
 
+    .deliveryOption {
+        .Inputlabel {
+            div:nth-child(1){
+                padding-right: 10px;
+            }
+            display: flex;
+        }
+    }
+
+    .isDefaultShippingButtonWrap {
+        padding-top: 10px;
+        margin-left: calc(1/12*100% );
+    }
 }
