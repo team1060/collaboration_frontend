@@ -1,0 +1,25 @@
+// AdminProduct.scss
+.AdminProduct {
+  .formControl {
+    margin: 1rem;
+    min-width: 120px;
+    width: 100%;
+  }
+
+  .imageUploadPreview {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .imageUploadButton {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  // ... 추가 스타일링
+}

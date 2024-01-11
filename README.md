@@ -120,6 +120,10 @@ npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
 
 npm install @mui/x-date-pickers
 npm install @mui/x-date-pickers @mui/lab
+npm install @mui/system
 
 ### 리액트 스크롤
 npm install react-scroll
+
+npm install @material-ui/core
+npm install @mui/styles

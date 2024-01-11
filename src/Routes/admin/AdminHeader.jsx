@@ -37,9 +37,9 @@ const convertToEnglishName = (koreanName) => {
   const conversionMap = {
     '통계': 'admin',
     '회원목록': 'admin/member',
-    '상품목록': 'admin/test3',
-    '상품관리': 'admin/test4',
-    '게시판관리': 'admin/test5',
+    '상품목록': 'admin/productlist',
+    '상품관리': 'admin/Product',
+    '게시판관리': 'admin/board',
     '골프장관리': 'admin/course',
 
     //사이드바 한글이름 영어로 url 추가하기 이름에 한글이름 제거 하기 

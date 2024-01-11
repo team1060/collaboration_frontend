@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 
 const CalendarSwiper = () => {
+  const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
+
   // 현재 날짜로부터 2달치 날짜를 저장할 상태
   const [dates, setDates] = useState([]); 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -29,41 +31,64 @@ const CalendarSwiper = () => {
   }
   return datesArray;
 };
+useEffect(() => {
+  if (ACCESS_TOKEN) { // 로그인 상태일 때만 API 호출
+    fetchCourses();
+  } else {
+    // 로그인하지 않은 경우에 대한 처리 (예: 경고 메시지 표시)
+  }
+}, [ACCESS_TOKEN]);
 
-// useEffect(() => {
-//   setDates(generateTwoMonthsDates());
-// }, []);
 
-//   useEffect(() => {
-//     const fetchCourses = async () => {
-//       try {
-//         const fetchedCourses = await getCourse();
-//         setCourses(fetchedCourses);
-//       } catch (error) {
-//         console.error('Error fetching courses:', error);
-//       }
-//     };
+useEffect(() => {
+  setDates(generateTwoMonthsDates());
+}, []);
 
-//     fetchCourses();
-//   }, []);
+const fetchCourses = async () => {
+  try {
+    const fetchedCourses = await getCourse();
+    // 예약 가능한 코스를 우선적으로 정렬하고 최대 10개만 선택
+    const sortedAndLimitedCourses = fetchedCourses
+      .sort((a, b) => b.golf_status - a.golf_status) // 예약 가능한 코스 우선
+      .slice(0, 10); // 최대 10개만
+    setCourses(sortedAndLimitedCourses);
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+  }
+};
+const handleDateClick = async (date) => {
+  if (!ACCESS_TOKEN) {
+    alert("로그인이 필요합니다.");
+    window.location.href = '/';
+    return;
+  }
 
-  // 날짜 선택 함수
-  const handleDateClick = (selectedDate) => {
-    const formattedDate = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`;
+  const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   setSelectedDate(formattedDate);
-  };
 
-  // 예약 가능 여부 텍스트 변환 함수
-  const getStatusText = (status) => {
-    return status === 1 ? "예약가능" : "예약불가";
-  };
-  
+  try {
+    const fetchedCourses = await getCourse();
+    const filteredCourses = fetchedCourses.filter(course => course.golf_date === formattedDate);
+    const sortedAndLimitedCourses = filteredCourses
+      .sort((a, b) => b.golf_status - a.golf_status)
+      .slice(0, 10);
+
+    setCourses(sortedAndLimitedCourses);
+  } catch (error) {
+    console.error('Error fetching courses:', error);
+  }
+};
+
+const getStatusText = (status) => {
+  return status === 0 ? "예약가능" : "예약불가";
+};
+
   return (
     <div className='container' id="calendarSwiper">
         <div className='mu'>
           <h2 className="month-header">{currentYearMonth}</h2> {/* 현재 연도와 월을 표시 */}
           {/* <h2 className=''>예약 가능날짜 확인하기</h2> */}
-          <Link to={"/reservation"}>
+          <Link to={"/reservation/detail"}>
             <Button variant="contained" color="primary">
             골프 예약하기
             </Button>
@@ -92,7 +117,7 @@ const CalendarSwiper = () => {
           <div className="data-grid">
             {courses.filter(course => course.golf_date === selectedDate )
                      .map((course, index) => (
-              <div key={index} className={`course-detail ${course.golf_status === 1 ? 'status-available' : 'status-unavailable'}`}>
+              <div key={index} className={`course-detail ${course.golf_status === 1 ?  'status-unavailable':'status-available' }`}>
                 <p>코스: {course.course_name}</p>
                 <p> {getStatusText(course.golf_status)}</p>
                 {/* 추가 코스 정보 표시 */}

@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const GolfCourseCard = ({ course, loading, error }) => {
   if (loading) return <div>Loading...</div>;
@@ -51,11 +51,11 @@ const GolfCourseCard = ({ course, loading, error }) => {
           </div>
           <div style={{ position: "absolute", right: 0, bottom: 0 }}>
 
-            <Link to={`golf/info`}>
+          <a href={`/golf/info/${course.golf_no}`}>
               <Button variant="contained" color="primary">
                 상세보기
               </Button>
-            </Link>
+            </a>
           </div>
         </CardContent>
       </Card >

@@ -165,8 +165,8 @@ console.log(golfCourseData);
               onChange={handleChange}
             >
              
-              <MenuItem value={1}>예약 가능</MenuItem>
-              <MenuItem value={0}>예약 불가</MenuItem>
+              <MenuItem value={0}>예약 가능</MenuItem>
+              <MenuItem value={1}>예약 불가</MenuItem>
             </Select>
           </FormControl>
         
@@ -174,7 +174,7 @@ console.log(golfCourseData);
       <DialogActions>
         <Button onClick={onClose}>취소</Button>
         
-        <Button onClick={handleSave}>생성</Button>
+        <Button onClick={handleSave}>확인</Button>
         
       </DialogActions>
     </Dialog>
