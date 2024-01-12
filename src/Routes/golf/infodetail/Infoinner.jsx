@@ -51,7 +51,7 @@ function Infoinner() {
                 </Grid>
                 <Grid>
                     <div className="reserve">
-                        <a href="/reservation">
+                        <a href="/reservation/detail">
                             <Button className="reserveButton" variant="contained">예약하기</Button>
                         </a>
                     </div>

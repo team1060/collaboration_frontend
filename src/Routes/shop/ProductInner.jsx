@@ -91,11 +91,14 @@ function ProductInner() {
         // Calculate the discounted price based on selected options and quantities
         const totalPrice = prop?.price || 0;
         const totalDiscount = prop?.discount || 0;
-
         const discountedPrice = totalPrice * (1 - totalDiscount);
         const roundedPrice = Math.floor(discountedPrice);
-
-        return roundedPrice;
+        const formatPrice = (price, decimalPlaces) => {
+            return price.toFixed(decimalPlaces);
+        };
+    
+        // 소수점 이하 2자리로 조절하여 반환
+        return parseFloat(formatPrice(discountedPrice, 2));
     };
     const originalPrice = prop?.price;
     const discount = parseFloat((prop?.discount * 100).toFixed(1));
@@ -177,13 +180,15 @@ function ProductInner() {
                             <Grid className="productImgSwiperWrap">
                                 <ProductImgSwiper prop={prop}></ProductImgSwiper>
                             </Grid>
+                            {/* 
                             <Grid className="rating">
                                 <Grid className="ratingInner" item container justifyContent="flex-start"
                                     alignItems="center">
                                     <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
                                     <Typography component="legend">{2.5}(46)</Typography>
                                 </Grid>
-                            </Grid>
+                            </Grid> 
+                            */}
                         </Grid>
                         <Grid container direction="column" item md={6} >
                             <hr></hr>
@@ -289,9 +294,8 @@ function ProductInner() {
                                 <Grid className="" item xs={6}>{calculateTotalPrice()}원</Grid>
                             </Grid>
                             <Grid className="" container>
-                                <Grid className="productInnerButton" item xs={4}><Button size="large" variant="outlined " >관심상품</Button></Grid>
-                                <Grid className="productInnerButton" item xs={4}><Button size="large" variant="contained" color="secondary" >장바구니</Button></Grid>
-                                <Grid className="productInnerButton" item xs={4}><Button onClick={() => redirectToPayment()} size="large" variant="contained">바로구매</Button></Grid>
+                                <Grid className="productInnerButton" item xs={6}><Button size="large" variant="contained" color="secondary" disabled >장바구니</Button></Grid>
+                                <Grid className="productInnerButton" item xs={6}><Button onClick={() => redirectToPayment()} size="large" variant="contained">바로구매</Button></Grid>
                             </Grid>
                         </Grid>
                     </Grid>

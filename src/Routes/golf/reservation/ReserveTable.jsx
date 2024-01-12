@@ -86,61 +86,61 @@ function ReserveTable() {
   };
 
   return (
-    <Container>
-      <div className="parent">
-        <div className='internet'>
-          <h2>예약내역</h2>
-          <br />
+      <Container>
+        <div className="parent">
+          <div className='internet'>
+            <h2>예약내역</h2>
+            <br />
+          </div>
         </div>
-      </div>
 
-      <Paper>
-        <TableContainer sx={{ maxHeight: 700 }}>
-          <Table sx={{minWidth: '550px'}} stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <StyledTableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </StyledTableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {userData
-                .filter(data => data.golf_status === 1)
-                .map((data, index) => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={data.reserve_no}>
-                    {columns.map((column) => (
-                      <StyledTableCell key={column.id} align={column.align}>
-                        {column.id === 'id' ? index + 1 : column.id === 'actions' ? (
-                          <Button
-                            onClick={() => handleCancel(data.reserve_no, data)}
-                            disabled={Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7}
-                          >
-                            {Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7 ? "취소 불가" : "취소"}
-                          </Button>
-                        ) : column.id === 'golf_time' ? (
-                          formatTime(data[column.id])
-                        ) : column.id === 'greenpee' ? (
-                          formatGreen(data[column.id])
-                        ) : (
-                          data[column.id]
-                        )}
-                      </StyledTableCell>
-                    ))}
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      <br />
-    </Container>
+        <Paper>
+          <TableContainer sx={{ maxHeight: 700 }}>
+            <Table sx={{minWidth: '550px'}} stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <StyledTableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </StyledTableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {userData
+                  .filter(data => data.golf_status === 1)
+                  .map((data, index) => (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={data.reserve_no}>
+                      {columns.map((column) => (
+                        <StyledTableCell key={column.id} align={column.align}>
+                          {column.id === 'id' ? index + 1 : column.id === 'actions' ? (
+                            <Button
+                              onClick={() => handleCancel(data.reserve_no, data)}
+                              disabled={Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7}
+                            >
+                              {Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7 ? "취소 불가" : "취소"}
+                            </Button>
+                          ) : column.id === 'golf_time' ? (
+                            formatTime(data[column.id])
+                          ) : column.id === 'greenpee' ? (
+                            formatGreen(data[column.id])
+                          ) : (
+                            data[column.id]
+                          )}
+                        </StyledTableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+        <br />
+      </Container>
   );
 }
 

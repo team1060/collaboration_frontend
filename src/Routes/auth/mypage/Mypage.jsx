@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import Menu from "../Menu";
 import '../style/Mypage.scss';
 import MemberTop from "../MemberTop";
@@ -53,24 +53,32 @@ function Mypage() {
                         주문내역
                     </Typography>
                     <hr />
-                    <div className="ordertext">
-                        <div className="texttitle">상품</div>
-                        <h4>상품명</h4>
-                        <h4>주문일시</h4>
-                        <h4>주문금액</h4>
-                        <h4>취소</h4>
-                    </div>
-                    {orderHistoryData.map(order => (
-                        <div className="ordercontent" key={order.p_buy_no}>
-                            <div className="texttitle">
-                                <img src={order.path} alt={`Product ${order.product_no}`} />
-                            </div>
-                            <h4>{order.product}</h4>
-                            <h4>{order.payment_date}</h4>
-                            <h4>{order.amount}</h4>
-                            {/* <button onClick={() => handleCancelOrder(order.p_buy_no)}>취소</button> */}
-                        </div>
-                    ))}
+                    <TableContainer>
+                        <Table className="table">
+                            <TableHead className="thead">
+                                <TableRow>
+                                    <TableCell>상품명</TableCell>
+                                    <TableCell>주문일시</TableCell>
+                                    <TableCell>주문금액</TableCell>
+                                    <TableCell>취소</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody className="tbody">
+                                {orderHistoryData.map(order => (
+                                    <TableRow key={order.p_buy_no}>
+                                        <TableCell className="tproduct"> 
+                                            <img className="timage" src={order.path} alt={`Product ${order.product_no}`} />
+                                            <div className="tproducttit">{order.product}</div> 
+                                        </TableCell>
+                                        <TableCell>{order.payment_date}</TableCell>
+                                        <TableCell>{parseFloat(order.amount).toLocaleString()}원</TableCell>
+                                        <TableCell><Button variant="contained" size="small">주문취소</Button></TableCell>
+                                        {/* <TableCell><button onClick={() => handleCancelOrder(order.p_buy_no)}>취소</button></TableCell> */}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                     <hr />
                 </Grid>
             </Grid>
