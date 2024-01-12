@@ -57,6 +57,7 @@ const Course = ({ golf, index, view, user }) => {
 const handleButtonClick = async (course) => {
   try {
     const email = user;
+    console.log(email)
     const plusData = { ...course, email };
     const today = new Date();
 

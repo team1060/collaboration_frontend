@@ -58,7 +58,7 @@ function MemberModifyPw () {
                                   id="password"
                                   label="새 비밀번호를 입력해주세요"
                                   name="password"
-                                  type="search"
+                                  type="password"
                                   value={password}
                                   onChange={(e) => setPassword(e.target.value)}
                                   variant="standard"
@@ -77,7 +77,7 @@ function MemberModifyPw () {
                                     id="newPw"
                                     name="newPw"
                                     label="새 비밀번호를 입력해주세요"
-                                    type="search"
+                                    type="password"
                                     variant="standard"
                                     value={newPw}
                                     onChange={(e) => setNewPw(e.target.value)}

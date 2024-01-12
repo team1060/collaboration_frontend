@@ -6,6 +6,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Button, Container } from '@mui/material';
 import { getGolf } from '../../../services/golf/apiReserve';
 import { jwtDecode } from 'jwt-decode';
+import { getNickname } from '../../../services/auth/Member';
 
 export default function StaticDualCalendars({ parentView,parentGolf, parentUser}) {
   const today = new Date();
@@ -48,6 +49,7 @@ export default function StaticDualCalendars({ parentView,parentGolf, parentUser}
   };
   const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
   const [user, setUser] = useState('')
+  const [nickname, setNickname] = useState('')
   // 골프장 버튼 get 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,8 +58,10 @@ export default function StaticDualCalendars({ parentView,parentGolf, parentUser}
         setGolfName(golfData);
         if (ACCESS_TOKEN) {
           const token = jwtDecode(ACCESS_TOKEN);
-          const userEmail = token.email;
-          setUser(userEmail);
+          const email = token.email;
+          const userData = await getNickname(email);
+          setUser(email);
+          setNickname(userData.nickname)
         }
       } catch (error) {
         console.error(error);
@@ -109,8 +113,8 @@ export default function StaticDualCalendars({ parentView,parentGolf, parentUser}
         <div className="calen2">
           <div className="calen">
             <Grid className='cal'>
-              <h3>예약자: {user}님</h3>
-              <h3>선택일: {view}</h3> {/* 선택한 날짜 표시 */}
+              <h3>예약자: {nickname}님</h3>
+              <h3>선택일: {view}</h3>
             </Grid>
           </div>
         </div>
