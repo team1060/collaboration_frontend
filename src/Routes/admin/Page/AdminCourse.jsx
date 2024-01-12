@@ -95,17 +95,39 @@ const handleUpdateClick = () => {
   }
 };
 
+
   //삭제
   const handleDeleteClick = async () => {
     if (selectedRowIds.length > 0) {
+      // 예약 불가 상태인 코스가 있는지 확인
+      const hasBookedCourse = selectedRowIds.some(course_no => {
+        const course = courses.find(c => c.course_no === course_no);
+        return course && course.golf_status === 1; // '예약 불가' 상태를 1로 가정
+      });
+  
+      if (hasBookedCourse) {
+        alert('코스 데이터 내부에 예약이 되어있습니다. 확인해주세요.');
+        return; // 함수 실행 중단
+      }
+  
+      // 예약 불가 상태가 아닌 경우, 사용자에게 삭제를 확인
       if (window.confirm('선택한 코스를 삭제하시겠습니까?')) {
-        await Promise.all(selectedRowIds.map(course_no => deleteCourse(course_no)));
-        window.location.reload(); // 페이지 새로고침
+        try {
+          await Promise.all(selectedRowIds.map(course_no => deleteCourse(course_no)));
+          window.location.reload(); // 페이지 새로고침
+        } catch (error) {
+          console.error("Error deleting course:", error);
+          // 에러 처리 로직을 여기에 추가
+        }
       }
     } else {
       alert('삭제할 코스를 선택해주세요.');
     }
   };
+  
+  
+
+  
   // 검색 입력 핸들러
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

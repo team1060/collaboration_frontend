@@ -46,8 +46,6 @@ import FindAccount from "../Routes/auth/FindAccount.jsx";
 import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
 import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
 
-
-
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
   <>
@@ -56,15 +54,31 @@ const MainLayout = ({ children }) => (
     <Footer />
   </>
 );
+// const checkAdminAccess = () => {
+//   const user = JSON.parse(localStorage.getItem("user"));
+//   const accessGranted = user && ((user.type === "2" || user.type === "1") && user.role === "admin");
+//   console.log(user, accessGranted); // Debugging
+//   return accessGranted;
+// };
 
-const AdminLayout = ({ children }) => (
-  <>
-    <AdminHeader />
-    {children}
-    <AdminFooter />
-  </>
-);
+const AdminLayout = ({ children }) => {
+  // 관리자 권한 확인
+  // const hasAdminAccess = checkAdminAccess();
 
+  // if (!hasAdminAccess) {
+  //   alert("비정상적인 접속입니다.");
+  //   window.location.href = '/';
+  //   return;
+  // }
+
+  return (
+    <>
+      <AdminHeader />
+      {children}
+      <AdminFooter />
+    </>
+  );
+};
 function Router() {
   return (
     <BrowserRouter>

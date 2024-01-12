@@ -127,3 +127,9 @@ npm install react-scroll
 
 npm install @material-ui/core
 npm install @mui/styles
+
+### 게시판 관련 라이브 러리 
+npm install @tinymce/tinymce-react
+npm uninstall @tinymce/tinymce-react
+
+npm install --save @ckeditor/ckeditor5-react @ckeditor/ckeditor5-build-classic
