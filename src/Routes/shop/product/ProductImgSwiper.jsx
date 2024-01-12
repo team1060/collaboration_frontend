@@ -17,12 +17,13 @@ function ProductImgSwiper({ prop }) {
                 slidesPerView={1}
                 navigation={true}
                 modules={[Navigation, Autoplay]}
-                // autoplay={{ delay: 3000 }}
+            // autoplay={{ delay: 3000 }}
             >
                 {prop?.image_prdts?.map((image, index) => (
-                    <SwiperSlide key={index}>
+                    <SwiperSlide key={image.uuid}>
                         <img style={{ maxWidth: "100%", objectFit: "cover" }} src={image.path} alt={`Slide ${index}`} />
                     </SwiperSlide>
+
                 ))}
 
             </Swiper>

@@ -104,15 +104,6 @@ function Pay() {
             return;
         }
 
-        // tbl_p_option 테이블에 대한 데이터 준비
-        const optionData = product?.map(item => ({
-            option: item.option,
-            product: item.product,
-            name: item.option, // 각 상품의 옵션 정보를 가져오거나, 옵션 정보를 어떻게 표현할지에 따라 조정이 필요할 수 있습니다.
-            count: item.count,
-        }));
-
-
         // tbl_p_buy 테이블에 대한 데이터 준비
         const pBuyData = {
             status: '0',
@@ -135,13 +126,7 @@ function Pay() {
         };
 
         try {
-            // // 서버에 결제 및 배송 정보 전송
-            // const response = await axios.post('YOUR_SERVER_API_ENDPOINT', {
-            //     pBuyData,
-            //     optionData,
-            //     shippingData,
-            // });
-
+            
             // // 서버로부터의 응답 처리 (필요에 따라 추가)
             // console.log('서버 응답:', response.data);
             console.log('PBuy Data:', pBuyData);
@@ -229,14 +214,14 @@ function Pay() {
     // 선택된 배송 옵션을 업데이트하고, 다른 옵션을 선택하면 입력값 초기화
     const handleOptionChange = (value) => {
         setSelectedDeliveryOption(value);
-    
+
         // "그 외" 옵션을 선택했을 때 destination 값을 텍스트로 설정
         if (value === '그 외') {
             document.getElementById('destination').value = otherFormInput;
         } else {
             document.getElementById('destination').value = value;
         }
-    
+
         setOtherFormInput(value === deliveryOption ? otherFormInput : ''); // '그 외' 옵션일 때만 입력값 초기화
         setIsOtherOptionSelected(value === deliveryOption || false); // '그 외' 옵션이면 활성화, 아니면 비활성화
     };
@@ -297,20 +282,20 @@ function Pay() {
         setAddressModalOpen(false);
     };
 
-    // 배송지 추가 버튼 클릭 시 ShippingInfoComponent로 이동
-
     return (
         <form onSubmit={payAndShippinghandler}>
             <div id="productPay">
                 <h2 className="payTitle">주문결제</h2>
                 <div className="paySection">
-                    <div className="title ">
-                        <h3 className="">01. 주문상품</h3>
-                    </div>
+                    <Container>
+
+                        <div className="title ">
+                            <h3 className="">01. 주문상품</h3>
+                        </div>
+                    </Container>
                     <div className="sellerContent bgGray ">
                         <Container>
                             <div className="sellerSection">
-                                <span>골프의민족 스토어</span>
                             </div>
                             <table>
                                 <thead>
@@ -380,7 +365,7 @@ function Pay() {
 
                     <Container>
                         <div className="title shippingTitle">
-                            <h3 className=""> 03. 배송정보</h3> <Button size="large" variant="contained">배송지 추가</Button>
+                            <h3 className=""> 03. 배송정보</h3>
                         </div>
                         <div className="shippingContent">
                             <Grid className="inputhead" container>
@@ -488,17 +473,6 @@ function Pay() {
                                 placeholder="메세지를 입력해주세요."
                                 name="delivery_message"
                                 id="delivery_message"
-                            />
-                        </div>
-                        <div className="isDefaultShippingButtonWrap">
-                            <FormControlLabel
-                                value={isDefaultShipping ? 1 : 0}
-                                control={<Checkbox />}
-                                name="isDefaultShipping"
-                                id="isDefaultShipping"
-                                label="기본 배송지로 추가"
-                                checked={isDefaultShipping}
-                                onChange={() => setIsDefaultShipping(!isDefaultShipping)}
                             />
                         </div>
                     </Container>
