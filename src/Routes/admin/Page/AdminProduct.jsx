@@ -4,7 +4,11 @@ import { getProductInner as getProduct , updateProduct, postProduct ,getBrand} f
 import '../Style/AdminGlobal.scss';
 import '../Style/AdminProduct.scss';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
+
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const AdminProduct = () => {
   const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지 상태
@@ -25,11 +29,17 @@ const AdminProduct = () => {
   const [mainImage, setMainImage] = useState(null); // 대표 이미지 상태
   const [subImages, setSubImages] = useState([]); // 서브 이미지 배열 상태
 
+  const location = useLocation();
+  const { product } = location.state || {};
+  
   useEffect(() => {
-    if (product_no) {
+    if (product) {
+      setProductData(product);
+    } else if (product_no) {
       fetchProductData(product_no);
     }
-  }, [product_no]);
+  }, [product, product_no]);
+
 
   const fetchProductData = async (product_no) => {
     const data = await getProduct(product_no);
@@ -40,20 +50,35 @@ const AdminProduct = () => {
     const { name, value } = e.target;
     setProductData({ ...productData, [name]: value });
   };
-
   const handleSubmit = async () => {
     try {
+      const formData = new FormData();
+      // 기존의 productData 필드들을 formData에 추가
+      for (const key in productData) {
+        formData.append(key, productData[key]);
+      }
+      // 제품 설명을 formData에 추가
+      formData.append('description', productData.description);
+  
+      // 이미지 파일을 formData에 추가
+      if (mainImage) {
+        formData.append('mainImage', mainImage);
+      }
+      subImages.forEach((subImage, index) => {
+        formData.append(`subImage${index}`, subImage);
+      });
+  
       let response;
       if (product_no) {
-        response = await updateProduct(product_no, productData);
+        // 제품 수정 로직
+        response = await updateProduct(product_no, formData);
       } else {
-        response = await postProduct(productData);
+        // 제품 등록 로직
+        response = await postProduct(formData);
       }
-      // 성공 처리 로직
       alert('상품이 성공적으로 저장되었습니다.');
-      navigate('/admin/productlist'); // 혹은 상품 목록으로 돌아가기
+      navigate('/admin/productlist');
     } catch (error) {
-      // 에러 처리 로직
       alert('상품 저장에 실패하였습니다: ' + error.message);
     }
   };
@@ -88,6 +113,22 @@ const AdminProduct = () => {
 
   // 컴포넌트 반환 로직에 필요한 입력 필드들을 추가합니다.
   // 예를 들어, 상품명, 가격, 할인률, 브랜드 번호 등
+    // 상품 설명을 위한 에디터 상태
+    const [productDescription, setProductDescription] = useState('');
+
+    // 상품 설명 에디터 핸들러
+    const handleEditorChange = (content, editor) => {
+      setProductDescription(content);
+    };
+
+    const handleProductRegister = async () => {
+      // 파일 업로드를 포함한 상품 등록 로직
+      // 예시:
+      // const response = await postProduct({ ...productData, productDescription }, mainImage, subImages);
+      // ...
+    };
+
+
   return (
     <Box className="AdminGlobal AdminProduct" display="flex" justifyContent="space-between">
     <Box width="48%">
@@ -145,6 +186,26 @@ const AdminProduct = () => {
               shrink: true,
             }}
           />
+            <CKEditor
+            editor={ClassicEditor}
+            data={productData.description || "<p>제품 설명을 적어주세요</p>"}
+            onReady={editor => {
+              // You can store the "editor" and use when it is needed.
+              console.log('Editor is ready to use!', editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              console.log({ event, editor, data });
+              setProductData({ ...productData, description: data });
+            }}
+            onBlur={(event, editor) => {
+              console.log('Blur.', editor);
+            }}
+            onFocus={(event, editor) => {
+              console.log('Focus.', editor);
+            }}
+          />
+        
 
           <FormControlLabel
             control={<Checkbox checked={productData.is_shop_pickup} onChange={handleChange} name="is_shop_pickup" />}

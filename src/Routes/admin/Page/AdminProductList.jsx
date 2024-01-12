@@ -39,11 +39,19 @@ const AdminProductList = () => {
     const handleRegister = () => {
       navigate('/admin/product'); // 새 상품을 등록하는 경로로 이동
     };
-
     // 상품 수정 버튼 핸들러
-    const handleEdit = (product_no) => {
-      navigate(`/admin/product/${product_no}`); // 상품을 수정하는 경로로 이동
+    const handleEdit = () => {
+      if (selectedProducts.length !== 1) {
+        console.log(selectedProducts.length);
+        console.log(selectedProducts);
+        alert("하나의 상품만 선택해주세요.");
+        return;
+      }
+      const productNo = selectedProducts[0];
+      const selectedProduct = products.find(product => product.product_no === productNo);
+      navigate(`/admin/product/${productNo}`, { state: { product: selectedProduct } });
     };
+
 
   const handleDelete = async () => {
     if (window.confirm('선택한 상품을 삭제하시겠습니까?')) {
@@ -139,15 +147,17 @@ const AdminProductList = () => {
 
       <div style={{ height: 800, width: '100%' }}>
       <DataGrid
-          rows={filteredProducts}
-          columns={columns}
-          pageSize={10}
-          checkboxSelection
-          getRowId={(row) => row.product_no}
-          onSelectionModelChange={(newSelection) => {
-            setSelectedProducts(newSelection);
-          }}
-        />
+        rows={filteredProducts}
+        columns={columns}
+        pageSize={10}
+        checkboxSelection
+      
+        getRowId={(row) => row.product_no}
+        onRowSelectionModelChange={(newSelection) => {
+          console.log("Selection Changed", newSelection);
+          setSelectedProducts(newSelection);
+        }}
+      />
       </div>
     </div>
   );
