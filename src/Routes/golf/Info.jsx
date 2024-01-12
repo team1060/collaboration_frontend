@@ -6,6 +6,7 @@ import Print from "@mui/icons-material/Print";
 import Call from "@mui/icons-material/Call";
 import LocationOn from "@mui/icons-material/LocationOn";
 import InfoRemote from "./infodetail/InfoRemote";
+import InfoHead from "./infodetail/InfoHead";
 
 function Info() {
   const [golfInfo, setGolfInfo] = useState(null);
@@ -45,13 +46,14 @@ function Info() {
   const regions = groupedByRegion ? Object.keys(groupedByRegion) : [];
 
   return (
-    <div>
+    <div id="info">
 
 
-      <Container id="info">
-        <InfoRemote regions={regions}></InfoRemote>
+      <InfoHead regions={regions}></InfoHead>
+      <Container >
         <Grid className="golfInfo">
           <h2>골프장 소개</h2>
+
         </Grid>
         {groupedByRegion &&
           regions.map((region) => (
@@ -80,9 +82,9 @@ function Info() {
                       <br></br>
                       <p>홀: {golf.holes}, 파: {golf.pars}, 전장: {golf.land_area?.toLocaleString()}m²</p>
                       <br></br>
-                      <p><LocationOn /> {golf.address}</p>
-                      <p><Call /> {golf.contact}</p>
-                      <p> <Print /> {golf.fax}</p>
+                      <p><LocationOn /><span>{golf.address}</span></p>
+                      <p><Call /> <span>{golf.contact}</span></p>
+                      <p> <Print /> <span>{golf.fax}</span></p>
                     </Grid>
                   </Grid>
                 ))}
