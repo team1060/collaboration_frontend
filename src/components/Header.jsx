@@ -7,6 +7,8 @@ import { jwtDecode } from 'jwt-decode';
 import { getNickname } from "../services/auth/Member";
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
+const accessToken = localStorage.getItem("accessToken");
+const naverToken = localStorage.getItem("naverToken");
 function Header() {
   const [modal, setModal] = useState(false);
 
@@ -26,17 +28,32 @@ function Header() {
         const UserData = await getNickname(email);
         setUser(UserData.nickname);
         // console.log(UserData.nickname)
+      } 
+      if(accessToken) {
+        const token = jwtDecode(accessToken);
+        const nickname = token.sub;
+        console.log(nickname)
+        console.log(token)
+        setUser(nickname);
       }
+      // if(naverToken) {
+      //   const token = jwtDecode(naverToken);
+      //   const nickname = token.exp;
+      //   // console.log(token.role)
+      //   setUser(nickname);
+      // }
     };
   
     fetchData();
-  }, []);
+  }, [accessToken]);
   
   // 로그아웃
   const Logout = () => {
-    localStorage.removeItem("ACCESS_TOKEN")
+    localStorage.removeItem("ACCESS_TOKEN");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("naverToken");
     window.location.reload();
-  }
+}
   return (
     <>
 

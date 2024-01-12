@@ -24,7 +24,9 @@ import Mypage from "../Routes/auth/mypage/Mypage.jsx";
 import MemberModifyLogin from "../Routes/auth/mypage/MemberModifyLogin.jsx";
 import MemberModify from "../Routes/auth/mypage/MemberModify.jsx";
 // 로그인 회원가입
+import KakaoRedirectPage from "../components/KakaoRedirectPage.jsx"
 import MemberJoin from './MemberJoin.jsx';
+import NaverRedirectPage from "../components/NaverRedirectPage.jsx";
 // 관리자 페이지 import 
 import Admin from "../Routes/admin/Admin";
 import AdminHeader from "../Routes/admin/AdminHeader";
@@ -43,6 +45,7 @@ import GolfReserveCancel from "../Routes/auth/mypage/GolfReserveCancel.jsx";
 import FindAccount from "../Routes/auth/FindAccount.jsx";
 import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
 import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
+
 
 
 // 공통 레이아웃 컴포넌트
@@ -91,6 +94,8 @@ function Router() {
         <Route path="/addr" element={<MainLayout><Addr/></MainLayout>} />
         <Route path="/detail" element={<MainLayout><Detail/></MainLayout>} />
         {/* 로그인 회원 가입 */}
+        <Route path="/oauth/redirected/kakao" element={<KakaoRedirectPage />}></Route>
+        <Route path="/oauth/redirected/Naver" element={<NaverRedirectPage />}></Route>
         <Route path="/member/join" element={<MainLayout><MemberJoin/></MainLayout>} />
         {/* 아이디/비밀번호 찾기 */}
         <Route path="/member/find" element={<MainLayout><FindAccount/></MainLayout>} />

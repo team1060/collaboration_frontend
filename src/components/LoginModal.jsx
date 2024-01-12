@@ -83,6 +83,16 @@ export default function LoginModal() {
     }
   };
 
+  // 카카오로그인 
+  const handleButtonClick = () => {
+    window.location.href = 'http://localhost:8081/oauth/kakao';
+
+};
+
+const handleNaverButtonClick = () => {
+  window.location.href = 'http://localhost:8081/oauth/naver';
+
+};
   return (
     <div id='LoginModal'>
       <button className='loginbutton' onClick={handleOpen}>
@@ -121,13 +131,13 @@ export default function LoginModal() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
             <Grid container alignItems="center">
-              <FormControlLabel
-                sx={checkboxStyle}
-                control={<Checkbox />}
-                label="자동로그인"
-              />
+            <Button onClick={handleButtonClick}>
+              <img style={{width: '30px'}} src='../img/kakao.png'></img>
+              </Button>
+            <Button onClick={handleNaverButtonClick}>
+            <img style={{width: '30px'}} src='../img/naver.png'></img>
+            </Button>
               <a href='/member/find' style={linkStyle}>
                 아이디/비밀번호 찾기
               </a>
