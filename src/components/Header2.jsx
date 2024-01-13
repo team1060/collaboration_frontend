@@ -84,11 +84,11 @@ const convertToEnglishName = (koreanName) => {
   
   
 
-  const conversionMap  ={
+  const conversionMap = {
     '골프장 메인' :  "/",
-    '골프장 상세조회' :  'golf/info',
-    '골프 예약' :  'reservation',
-    '상품메인' :  '/shop',
+    '골프장 상세조회' :  '/golf/info',
+    '골프 예약' :  'reservation/detail',
+    '상품메인' :  '/product',
     '상품목록' :  '/product',
     '결제 페이지' :  "",
     '배송지 목록' :  "",
@@ -264,7 +264,7 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['상품메인', '상품목록', '결제 페이지'].map((text, index) => (
+          {['상품목록'].map((text, index) => (
             <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
             <ListItemIcon>
@@ -308,7 +308,7 @@ export default function PersistentDrawerLeft() {
      
       <Divider />
         <List>
-          {['마이페이지', '회원정보수정', '회원탈퇴','구매 및 취소', '장바구니', '구매내역', '예약확인 및 취소', '상품평'].map((text, index) => (
+          {['마이페이지', '회원정보수정','구매 및 취소', '장바구니', '구매내역', '예약확인 및 취소', '상품평'].map((text, index) => (
              <ListItem key={text} disablePadding>
              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
              <ListItemIcon>

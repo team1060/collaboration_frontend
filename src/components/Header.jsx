@@ -89,7 +89,7 @@ function Header() {
                   </div>
                 </li>
                 <li>
-                  <Link to="/shop">상품</Link>
+                  <Link to="/product">상품</Link>
                   <div className="two-depth">
                     <div className="innerWrap">
 
