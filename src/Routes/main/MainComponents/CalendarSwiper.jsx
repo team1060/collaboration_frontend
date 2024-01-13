@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 
 const CalendarSwiper = () => {
   const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
-console.log(ACCESS_TOKEN);
+// console.log(ACCESS_TOKEN);
   // 현재 날짜로부터 2달치 날짜를 저장할 상태
   const [dates, setDates] = useState([]); 
   const [selectedDate, setSelectedDate] = useState(null);

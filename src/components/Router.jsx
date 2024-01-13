@@ -5,7 +5,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 // 메인
 import HomeList from "../Routes/main/Home"; // 메인 홈페이지 
-import EventDetail from "../Routes/main/Page/EventDetail"; // 골프 
 import Reservation from "../Routes/golf/Reservation.jsx"; // 골프 예매 페이지 
 import ReservationConfirm from "../Routes/golf/ReservationConfirm.jsx"; // 예약확인 
 import ReserveCancel from "../Routes/golf/ReservationCancel.jsx" // 예약취소 
@@ -13,12 +12,9 @@ import ReserveCancel from "../Routes/golf/ReservationCancel.jsx" // 예약취소
 import Info from "../Routes/golf/Info";// 골프 목록 페이지 
 
 // 상품
-import Shop from "../Routes/shop/Shop"; //상품 메인
 import Product from "../Routes/shop/Product";// 상품 목록 
 import Pay from "../Routes/shop/Pay.jsx"; // 결제 페이지 
-// 배송
-import Addr from "../Routes/addr/Addr";
-import Detail from "../Routes/addr/Detail";
+
 // 고객 지원
 // 마이페이지 
 import Mypage from "../Routes/auth/mypage/Mypage.jsx";
@@ -45,7 +41,6 @@ import GolfReserve from "../Routes/auth/mypage/GolfReserve.jsx";
 import GolfReserveCancel from "../Routes/auth/mypage/GolfReserveCancel.jsx";
 import FindAccount from "../Routes/auth/FindAccount.jsx";
 import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
-import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
 
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
@@ -60,22 +55,9 @@ const MainLayout = ({ children }) => (
     <Footer />
   </>
 );
-// const checkAdminAccess = () => {
-//   const user = JSON.parse(localStorage.getItem("user"));
-//   const accessGranted = user && ((user.type === "2" || user.type === "1") && user.role === "admin");
-//   console.log(user, accessGranted); // Debugging
-//   return accessGranted;
-// };
+
 
 const AdminLayout = ({ children }) => {
-  // 관리자 권한 확인
-  // const hasAdminAccess = checkAdminAccess();
-
-  // if (!hasAdminAccess) {
-  //   alert("비정상적인 접속입니다.");
-  //   window.location.href = '/';
-  //   return;
-  // }
 
   return (
     <>
@@ -88,15 +70,19 @@ const AdminLayout = ({ children }) => {
 const Router = () => {
 
   const [token, setToken] = useState('');
+  const [admin, setAdmin] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       if (ACCESS_TOKEN) {
         const token = jwtDecode(ACCESS_TOKEN);
         setToken(token)
-      } 
+        const admin = token.email;
+        console.log(admin)
+        setAdmin(admin)
+      }
     };
-  
+
     fetchData();
   }, []);
 
@@ -104,76 +90,78 @@ const Router = () => {
     alert("로그인 후 이용이 가능합니다.");
     window.location.href = "/";
   };
-  
+
+  const AdminBack = () => {
+    alert("허용되지 않은 접근입니다.");
+    window.location.href = "/";
+  }
+
   return (
     <BrowserRouter>
       <Routes>
+        {/* -----------------시큐리티----------------------------------------------- */}
+        {/* 골프예약 */}
+        <Route path="/reservation/detail"
+          element={token ? <MainLayout><Reservation /></MainLayout> : <Back />} />
+        {/* 골프예약확인 */}
+        <Route path="/reservation/confirm/:email"
+          element={token ? <MainLayout><ReservationConfirm /></MainLayout> : <Back />} />
+        {/* 골프예약취소 */}
+        <Route path="/reservation/confirm/cancel/:email"
+          element={token ? <MainLayout><ReserveCancel /></MainLayout> : <Back />} />
+        {/* 결제페이지 */}
+        <Route path="/product/pay" element={token ? <MainLayout><Pay /></MainLayout> : <Back />} />
+
+        {/* 마이페이지 */}
+        <Route path="/member/mypage/info" element={token ? <MainLayout><Mypage /></MainLayout> : <Back />} />
+        {/* 회원정보 수정 로그인 */}
+        <Route path="/member/mypage/login/modify" element={token ? <MainLayout><MemberModifyLogin /></MainLayout> : <Back />} />
+        {/* 회원정보 수정 */}
+        <Route path="/member/mypage/modify" element={token ? <MainLayout><MemberModify /></MainLayout> : <Back />} />
+        {/* 예약 내역 */}
+        <Route path="/member/mypage/reserve" element={token ? <MainLayout><GolfReserve /></MainLayout> : <Back />} />
+        {/* 예약 취소 내역 */}
+        <Route path="/member/mypage/cancel" element={token ? <MainLayout><GolfReserveCancel /></MainLayout> : <Back />} />
+        {/* 회원 탈퇴 */}
+        <Route path="/member/mypage/login/remove" element={token ? <MainLayout><MemberRemoveLogin /></MainLayout> : <Back />} />
+
+        {/* -----------------노시큐리티----------------------------------------------- */}
         {/* 메인 라우트 */}
         <Route
           path="/"
           element={<MainLayout><HomeList /></MainLayout>}
         />
-        
-       {/* 골프예약 */}
-        <Route path="/reservation/detail" 
-        element={token ? <MainLayout><Reservation /></MainLayout> : <Back/>}/>
-        {/* 골프예약확인 */}
-        <Route path="/reservation/confirm/:email" 
-        element={token ? <MainLayout><ReservationConfirm /></MainLayout> : <Back /> } />
-        {/* 골프예약취소 */}
-        <Route path="/reservation/confirm/cancel/:email" 
-        element={token ? <MainLayout><ReserveCancel/></MainLayout> : <Back />} />
         {/* 골프장 리스트  */}
-        <Route path="/golf/info" element={<MainLayout><Info /></MainLayout>} /> 
-        <Route path="/golf/info/:golf_no" element={<MainLayout><Infoinner /></MainLayout>} /> 
+        <Route path="/golf/info" element={<MainLayout><Info /></MainLayout>} />
+        <Route path="/golf/info/:golf_no" element={<MainLayout><Infoinner /></MainLayout>} />
 
-        {/* 골프장 예매 상세페이지 */}
-        <Route path="/reservation/:eventname" element={<MainLayout><EventDetail /></MainLayout>} /> 
         {/* 상품 메인 목록  */}
-        <Route path="/shop" element={<MainLayout><Shop /></MainLayout>} />
         <Route path="/product" element={<MainLayout><Product /></MainLayout>} />
-        <Route path="/product/pay" element={<MainLayout><Pay /></MainLayout>} />
         <Route path="/product/view/:product_no" element={<MainLayout><ProductInner /></MainLayout>} />
-        <Route path="/payment/success" element={<MainLayout><PaymentSuccess /></MainLayout>} />
         {/* 배송 목록 배송지 등록 수정  */}
-        <Route path="/addr" element={<MainLayout><Addr/></MainLayout>} />
-        <Route path="/detail" element={<MainLayout><Detail/></MainLayout>} />
+        {/* <Route path="/addr" element={<MainLayout><Addr /></MainLayout>} />
+        <Route path="/detail" element={<MainLayout><Detail /></MainLayout>} /> */}
+
         {/* 로그인 회원 가입 */}
         <Route path="/oauth/redirected/kakao" element={<KakaoRedirectPage />}></Route>
         <Route path="/oauth/redirected/Naver" element={<NaverRedirectPage />}></Route>
-        <Route path="/member/join" element={<MainLayout><MemberJoin/></MainLayout>} />
-        {/* 아이디/비밀번호 찾기 */}
-        <Route path="/member/find" element={<MainLayout><FindAccount/></MainLayout>} />
-        <Route path="/member/modify/pw/:email" element={<MainLayout><MemberModifyPw /></MainLayout>} />
-        {/* 마이페이지 */}
-        <Route path="/member/mypage/info" element={<MainLayout><Mypage/></MainLayout>} />
-        {/* 회원정보 수정 로그인 */}
-        <Route path="/member/mypage/login/modify" element={<MainLayout><MemberModifyLogin/></MainLayout>} />
-        {/* 회원정보 수정 */}
-        <Route path="/member/mypage/modify" element={<MainLayout><MemberModify /></MainLayout>} />
-        {/* 예약 내역 */}
-        <Route path="/member/mypage/reserve" element={<MainLayout><GolfReserve/></MainLayout>} />
-        {/* 예약 취소 내역 */}
-        <Route path="/member/mypage/cancel" element={<MainLayout><GolfReserveCancel/></MainLayout>} />
-        {/* 회원 탈퇴 */}
-        <Route path="/member/mypage/login/remove" element={<MainLayout><MemberRemoveLogin/></MainLayout>} />
+        <Route path="/member/join" element={<MainLayout><MemberJoin /></MainLayout>} />
 
+        {/* 아이디/비밀번호 찾기 */}
+        <Route path="/member/find" element={<MainLayout><FindAccount /></MainLayout>} />
+        <Route path="/member/modify/pw/:email" element={<MainLayout><MemberModifyPw /></MainLayout>} />
 
         {/* 어드민 라우트 */}
-        <Route
-          path="/admin/*"
-          element={<AdminLayout>
-            <Routes>
-              <Route path="/" element={<Admin />} />
-              <Route path="/golf" element={<AdminGolf />} />
-              <Route path="/member" element={<AdminMember/>} />
-              
-              <Route path="/course" element={<AdminCourse/>} />
-              <Route path="/product" element={<AdminProduct/>} />
-              <Route path="/productlist" element={<AdminProductList/>} />
-            </Routes>
-          </AdminLayout>}
-        />
+        <Route path="/admin" element={admin ? <AdminLayout><Admin /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/golf" element={admin ? <AdminLayout><AdminGolf /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/member" element={admin ? <AdminLayout><AdminMember /></AdminLayout> : <AdminBack />} />
+
+        <Route path="/admin/course" element={admin ? <AdminLayout><AdminCourse /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/product" element={admin ? <AdminLayout><AdminProduct /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/productlist" element={admin ? <AdminLayout><AdminProductList /></AdminLayout> : <AdminBack />} />
+
+
+
       </Routes>
     </BrowserRouter>
   );

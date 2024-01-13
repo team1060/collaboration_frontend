@@ -1,3 +1,4 @@
+import axios from 'axios';
 import axiosAuth from '../apiAuth.js'
 
 /**
@@ -11,9 +12,6 @@ export const getCourse = async () => {
         return response.data;
     } catch (error) {
         console.log(error)
-        // if(error.response.status == 403) {
-        //     window.location.href="/";
-        // }
         throw error;
     }
 }
