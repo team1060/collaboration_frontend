@@ -26,7 +26,6 @@ function Header() {
         const UserData = await getNickname(email);
         setUser(UserData.nickname);
       } 
-
     };
   
     fetchData();
@@ -35,8 +34,6 @@ function Header() {
   // 로그아웃
   const Logout = () => {
     localStorage.removeItem("ACCESS_TOKEN");
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("naverToken");
     window.location.reload();
 }
   return (
@@ -50,7 +47,7 @@ function Header() {
           <div className="inner">
             <h1 className="logo">
               <Link to="/">
-                <img src="/img/img001.png" alt="logo" />
+                <img src="/img/logo4.png" alt="logo" />
               </Link>
             </h1>
             <div className="util">

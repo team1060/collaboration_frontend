@@ -208,7 +208,7 @@ export default function PersistentDrawerLeft() {
             
             <div className="logo">
               <Link to="/">
-                <img src="/img/img001.png" alt="logo" />
+                <img src="/img/header2Logo.png" alt="logo" />
               </Link>
             </div>
             
