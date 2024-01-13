@@ -14,7 +14,7 @@ const NaverRedirectPage = () => {
                 }
             });
             const token = response.data;
-        localStorage.setItem('accessToken', token);
+        localStorage.setItem('ACCESS_TOKEN', token);
 
         window.location.href = "/";
         } catch (error) {
