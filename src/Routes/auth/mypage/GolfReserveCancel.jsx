@@ -8,6 +8,13 @@ import ReserveTable from "../../golf/reservation/ReserveCancelTable";
 function GolfReserveCancel() {
     return (
             <Container>
+              <div className="parent">
+                <div className='internet'>
+                    <h2>예약관리</h2>
+                    <br />
+                </div>
+                {/* 박스 */}
+            </div>
             <MemberTop />
       
               <Grid container className="menu">

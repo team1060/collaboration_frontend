@@ -47,7 +47,7 @@ function MemberModify() {
     <Container>
       <div className="parent">
         <div className='internet'>
-          <h2>회원 정보 수정</h2>
+          <h2>회원관리</h2>
           <br />
         </div>
       </div>
