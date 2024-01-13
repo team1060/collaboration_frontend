@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes , Route} from "react-router-dom";
+import { BrowserRouter, useNavigate, } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Header from "./Header";
 import Footer from "./Footer";
@@ -46,6 +47,11 @@ import FindAccount from "../Routes/auth/FindAccount.jsx";
 import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
 import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
 
+import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from "react";
+
+const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
+
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
   <>
@@ -79,7 +85,26 @@ const AdminLayout = ({ children }) => {
     </>
   );
 };
-function Router() {
+const Router = () => {
+
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (ACCESS_TOKEN) {
+        const token = jwtDecode(ACCESS_TOKEN);
+        setToken(token)
+      } 
+    };
+  
+    fetchData();
+  }, []);
+
+  const Back = () => {
+    alert("로그인 후 이용이 가능합니다.");
+    window.location.href = "/";
+  };
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -88,11 +113,17 @@ function Router() {
           path="/"
           element={<MainLayout><HomeList /></MainLayout>}
         />
-        {/* 골프장 상세페이지, 골프 예약 */}
-        <Route path="/reservation/detail" element={<MainLayout><Reservation /></MainLayout>} />
-        {/* 예약확인 */}
-        <Route path="/reservation/confirm/:email" element={<MainLayout><ReservationConfirm /></MainLayout>} />
-        <Route path="/reservation/confirm/cancel/:email" element={<MainLayout><ReserveCancel/></MainLayout>} />
+        
+       {/* 골프예약 */}
+        <Route path="/reservation/detail" 
+        element={token ? <MainLayout><Reservation /></MainLayout> : <Back/>}/>
+        {/* 골프예약확인 */}
+        <Route path="/reservation/confirm/:email" 
+        element={token ? <MainLayout><ReservationConfirm /></MainLayout> : <Back /> } />
+        {/* 골프예약취소 */}
+        <Route path="/reservation/confirm/cancel/:email" 
+        element={token ? <MainLayout><ReserveCancel/></MainLayout> : <Back />} />
+        {/* 골프장 리스트  */}
         <Route path="/golf/info" element={<MainLayout><Info /></MainLayout>} /> 
         <Route path="/golf/info/:golf_no" element={<MainLayout><Infoinner /></MainLayout>} /> 
 
