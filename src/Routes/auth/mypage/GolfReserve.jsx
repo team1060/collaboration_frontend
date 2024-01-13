@@ -6,23 +6,30 @@ import ReserveTable from "../../golf/reservation/ReserveTable";
 
 
 function GolfReserve() {
-    return(
-        <Container>
-        <MemberTop />
-  
-          <Grid container className="menu">
-            <Grid item lg={2} md={2} xs={3} className="menuinner" style={{marginTop: '30px'}}>
-              <Menu />
-            </Grid>
-        
-            <Grid item lg={10} md={10} xs={12} className="content" >
-              <ReserveTable />
-          </Grid>
+  return (
+    <Container>
+      <div className="parent">
+        <div className='internet'>
+          <h2>예약관리</h2>
+          <br />
+        </div>
+        {/* 박스 */}
+      </div>
+      <MemberTop />
+
+      <Grid container className="menu">
+        <Grid item lg={2} md={2} xs={3} className="menuinner" style={{ marginTop: '30px' }}>
+          <Menu />
         </Grid>
-  
-        <div className="footer"></div>
-      </Container>
-    )
+
+        <Grid item lg={10} md={10} xs={12} className="content" >
+          <ReserveTable />
+        </Grid>
+      </Grid>
+
+      <div className="footer"></div>
+    </Container>
+  )
 }
 
 export default GolfReserve;

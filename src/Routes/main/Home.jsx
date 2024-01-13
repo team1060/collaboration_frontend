@@ -68,10 +68,6 @@ function HomeList() {
 
 
     </div>
-    {/* <Button color='primary'></Button> */}
-    <div>
-    <a href="/admin" style={{color:"black"}}>관리자 페이지 들어가기</a>
-    </div>
     
     </>
   )

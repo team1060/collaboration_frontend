@@ -4,19 +4,19 @@ import Header2 from "./Header2";
 import { useState, useEffect } from "react";
 import LoginModal from "./LoginModal";
 import { jwtDecode } from 'jwt-decode';
-import { getNickname } from "../services/auth/Member";
+import { getNickname, isAdmin } from "../services/auth/Member";
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 function Header() {
   const [modal, setModal] = useState(false);
-
+  const [admin, setAdmin] = useState(false);
   // 이메일
   const [user, setUser] = useState('');
   const handleLogin = (loginData) => {
     console.log(loginData);
     setModal(false);
   };
-  
+
   // 로그인한 유저 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,17 +25,28 @@ function Header() {
         const email = token.email;
         const UserData = await getNickname(email);
         setUser(UserData.nickname);
-      } 
+        try {
+          const isAdminUser = await isAdmin(email);
+          console.log(email)
+          console.log(isAdminUser);
+          setAdmin(isAdminUser)
+        } catch (error) {
+          // 오류 처리
+          console.error('Error fetching admin status:', error);
+        }
+      }
     };
-  
+
     fetchData();
-  }, []);
-  
+  }, [ACCESS_TOKEN]);
+
   // 로그아웃
   const Logout = () => {
     localStorage.removeItem("ACCESS_TOKEN");
     window.location.reload();
-}
+  }
+
+
   return (
     <>
 
@@ -52,21 +63,50 @@ function Header() {
             </h1>
             <div className="util">
               <ul className="Ul">
-                 {user ? <li style={{color: '#000', fontSize: '12px'}}>{user}님 환영합니다!</li> 
-                 : 
-            <li>
-              <LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} />
-            </li>
-          }
-                {user ? <li style={{color: '#000', fontSize: '12px'}}><Link onClick={() => {Logout()}} >로그아웃</Link></li> : ''}
-                {user ? <li style={{color: '#000', fontSize: '12px'}}>
-                  <Link to="/member/mypage/info">마이페이지</Link>
-                  </li> : 
-                <li><Link to="/member/join">회원가입</Link></li>
-        }
+                {
+                  user ? (
+                    // Logged-in user
+                    <>
+                      <li style={{ color: '#000', fontSize: '12px' }}>{user}님 환영합니다!</li>
+                      <li style={{ color: '#000', fontSize: '12px' }}>
+                        <Link onClick={() => { Logout() }}>로그아웃</Link>
+                      </li>
+                    </>
+                  ) : (
+                    // Non-logged-in user
+                    <>
+                      <li>
+                        <LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} />
+                      </li>
+                      <li><Link to="/member/join">회원가입</Link></li>
+                    </>
+                  )
+                }
+                {
+                  admin ? (
+                    // Admin
+                    <li style={{ color: '#000', fontSize: '12px' }}>
+                      <Link to="/admin">관리자페이지</Link>
+                    </li>
+                  ) : (
+                    user ? (
+                      // Logged-in user
+                      <li style={{ color: '#000', fontSize: '12px' }}>
+                        <Link to="/member/mypage/info">마이페이지</Link>
+                      </li>
+                    ) : (
+                      // No admin and not logged in
+                      <></>
+                    )
+                  )
+                }
               </ul>
             </div>
-            <button className="rBtn" id="my_reserve">나의 예약</button>
+            <a href="/member/mypage/reserve">
+              <button className="rBtn" id="my_reserve">
+                나의 예약
+              </button>
+            </a>
           </div>
 
           {/* gnb */}
@@ -92,7 +132,7 @@ function Header() {
 
                       {/* <div><h3><Link to="/shop">상품 메인</Link></h3></div> */}
                       <div><h3><Link to="/product">상품 목록</Link></h3></div>
-                      <div><h3><Link to="/product/pay">결제 내역</Link></h3></div>
+                      <div><h3><Link to="/member/mypage/info">주문 내역</Link></h3></div>
                       {/* <div><h3><Link to="/">골프 용품</Link></h3></div> */}
 
 
@@ -128,28 +168,37 @@ function Header() {
                 </li>
 
                 <li>
-                  <Link to="/member/mypage/info">마이페이지</Link>
-                  <div className="two-depth">
-                    <div className="innerWrap">
-                      <div>
+                  {
+                    admin ?
+                      <>
+                        <Link to="/admin">관리자페이지</Link>
+                      </>
+                      :
+                      <>
+                        <Link to="/member/mypage/info">마이페이지</Link>
+                        <div className="two-depth">
+                          <div className="innerWrap">
+                            <div>
 
 
-                        <div><h3><Link to="/member/mypage/login/modify">회원정보수정</Link></h3></div>
-                        <div><h3><Link to="/member/mypage/login/remove">회원탈퇴</Link></h3></div>
-                      </div>
+                              <div><h3><Link to="/member/mypage/login/modify">회원정보수정</Link></h3></div>
+                              <div><h3><Link to="/member/mypage/login/remove">회원탈퇴</Link></h3></div>
+                            </div>
 
-                      <div>
-                        {/* <div><h3><Link to="/out">장바구니</Link></h3></div> */}
-                        <div><h3><Link to="/member/mypage/reserve">예약내역</Link></h3></div>
-                        <div><h3><Link to="/member/mypage/cancel">취소내역</Link></h3></div>
-                        {/* <div><h3><Link to="/basket">구매내역</Link></h3></div> */}
-                      </div>
-
-                    
+                            <div>
+                              {/* <div><h3><Link to="/out">장바구니</Link></h3></div> */}
+                              <div><h3><Link to="/member/mypage/reserve">예약내역</Link></h3></div>
+                              <div><h3><Link to="/member/mypage/cancel">취소내역</Link></h3></div>
+                              {/* <div><h3><Link to="/basket">구매내역</Link></h3></div> */}
+                            </div>
 
 
-                    </div>
-                  </div>
+
+
+                          </div>
+                        </div>
+                      </>
+                  }
                 </li>
 
               </ul>
@@ -167,7 +216,7 @@ function Header() {
         {/* // header include 처리부분 */}
 
 
-      </div>
+      </div >
     </>
   )
 }
