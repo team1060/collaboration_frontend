@@ -12,6 +12,7 @@ const PaymentSuccess = () => {
     const [user, setUser] = useState('');
     const [paymentResponse, setPaymentResponse] = useState(null);
     const [tid, setTid] = useState('');
+    const [showModal, setShowModal] = useState(false);
     const location = useLocation();
     const { search } = location;
 
@@ -125,7 +126,7 @@ const PaymentSuccess = () => {
             console.log("shipping_no : " + shippingNo)
         } catch (error) {
             console.error('Error get max-shipping-no:', error);
-           
+
         }
 
         const payment = {
@@ -151,24 +152,24 @@ const PaymentSuccess = () => {
             // 에러 처리 로직 추가
         }
 
-        
+
         let paymentNo;
         try {
             paymentNo = await getMaxPaymentNo();
             console.log("payment_no : " + paymentNo)
         } catch (error) {
-            console.error('Error get max-payment-no:', error);  
+            console.error('Error get max-payment-no:', error);
         }
         const options = productData.map((item) => {
             return {
-              p_buy_no: paymentNo,
-              option_no: item.optionNo,
-              count: item.count,
-              price: item.price 
+                p_buy_no: paymentNo,
+                option_no: item.optionNo,
+                count: item.count,
+                price: item.price
 
-              // 추가 필요한 필드가 있다면 여기에 추가
+                // 추가 필요한 필드가 있다면 여기에 추가
             };
-          });
+        });
 
         try {
             console.log(options);
@@ -178,22 +179,26 @@ const PaymentSuccess = () => {
         } catch (error) {
             console.error('Error sending options:', error);
             // 에러 처리 로직 추가
+        } finally {
+            localStorage.removeItem("shippingInfo");
+            localStorage.removeItem("productInfo");
+            localStorage.removeItem("kakaoPayResponse");
+            localStorage.removeItem("paymentInfo");
+            window.location.href = '/member/mypage/info';
         }
     }
-    console.log(paymentResponse);
-    if (paymentResponse !== null && paymentResponse.code === undefined && paymentResponse.code !== -702) {
-        console.log("handlePaymentSuccess() + 실행 직전");
-        handlePaymentSuccess();
-        console.log("handlePaymentSuccess() + 실행 직후");
-    } else {
-        console.log('실행 실패');
-    }
 
+    useEffect(() => {
+        console.log(paymentResponse);
+        if (paymentResponse !== null && paymentResponse.code === undefined && paymentResponse.code !== -702) {
+            handlePaymentSuccess();
+        } else {
+            console.log('실행 실패');
+        }
+
+    }, [paymentResponse]);
     return (
-        <div>
-            <h2>Payment Success</h2>
-            {/* 여기에 결제 성공 정보를 표시할 UI 추가 */}
-        </div>
+        <></>
     );
 };
 
