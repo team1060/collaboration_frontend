@@ -13,8 +13,9 @@ function Menu() {
                 주문관리
             </Typography>
             <NavLink to="/member/mypage/info">- 주문내역</NavLink>
-            <NavLink to="/member/mypage/review">- 나의 상품평</NavLink>
-            <NavLink to="/member/mypage/cart">- 장바구니</NavLink>
+            <NavLink to="/member/mypage/review" style={{ pointerEvents: 'none' }}>- 나의 상품평</NavLink>
+            <NavLink to="/member/mypage/cart" style={{ pointerEvents: 'none' }}>- 장바구니</NavLink>
+
             <hr />
             <Typography variant="h7" fontWeight="bold" className="spantext">
                 예약관리

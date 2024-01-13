@@ -12,12 +12,9 @@ import ReserveCancel from "../Routes/golf/ReservationCancel.jsx" // 예약취소
 import Info from "../Routes/golf/Info";// 골프 목록 페이지 
 
 // 상품
-import Shop from "../Routes/shop/Shop"; //상품 메인
 import Product from "../Routes/shop/Product";// 상품 목록 
 import Pay from "../Routes/shop/Pay.jsx"; // 결제 페이지 
-// 배송
-import Addr from "../Routes/addr/Addr";
-import Detail from "../Routes/addr/Detail";
+
 // 고객 지원
 // 마이페이지 
 import Mypage from "../Routes/auth/mypage/Mypage.jsx";
@@ -44,7 +41,6 @@ import GolfReserve from "../Routes/auth/mypage/GolfReserve.jsx";
 import GolfReserveCancel from "../Routes/auth/mypage/GolfReserveCancel.jsx";
 import FindAccount from "../Routes/auth/FindAccount.jsx";
 import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
-import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
 
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
@@ -74,12 +70,16 @@ const AdminLayout = ({ children }) => {
 const Router = () => {
 
   const [token, setToken] = useState('');
+  const [admin, setAdmin] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       if (ACCESS_TOKEN) {
         const token = jwtDecode(ACCESS_TOKEN);
         setToken(token)
+        const admin = token.email;
+        console.log(admin)
+        setAdmin(admin)
       }
     };
 
@@ -90,6 +90,11 @@ const Router = () => {
     alert("로그인 후 이용이 가능합니다.");
     window.location.href = "/";
   };
+
+  const AdminBack = () => {
+    alert("허용되지 않은 접근입니다.");
+    window.location.href = "/";
+  }
 
   return (
     <BrowserRouter>
@@ -106,21 +111,19 @@ const Router = () => {
           element={token ? <MainLayout><ReserveCancel /></MainLayout> : <Back />} />
         {/* 결제페이지 */}
         <Route path="/product/pay" element={token ? <MainLayout><Pay /></MainLayout> : <Back />} />
-         {/* 아이디/비밀번호 찾기 */}
-         <Route path="/member/find" element={token ? <MainLayout><FindAccount /></MainLayout> : <Back />} />
-        <Route path="/member/modify/pw/:email" element={token ?<MainLayout><MemberModifyPw /></MainLayout> : <Back />} />
-         {/* 마이페이지 */}
-         <Route path="/member/mypage/info" element={token ? <MainLayout><Mypage /></MainLayout> : <Back />} />
+
+        {/* 마이페이지 */}
+        <Route path="/member/mypage/info" element={token ? <MainLayout><Mypage /></MainLayout> : <Back />} />
         {/* 회원정보 수정 로그인 */}
         <Route path="/member/mypage/login/modify" element={token ? <MainLayout><MemberModifyLogin /></MainLayout> : <Back />} />
         {/* 회원정보 수정 */}
-        <Route path="/member/mypage/modify" element={token ?<MainLayout><MemberModify /></MainLayout> : <Back />} />
+        <Route path="/member/mypage/modify" element={token ? <MainLayout><MemberModify /></MainLayout> : <Back />} />
         {/* 예약 내역 */}
-        <Route path="/member/mypage/reserve" element={token ?<MainLayout><GolfReserve /></MainLayout> : <Back />} />
+        <Route path="/member/mypage/reserve" element={token ? <MainLayout><GolfReserve /></MainLayout> : <Back />} />
         {/* 예약 취소 내역 */}
         <Route path="/member/mypage/cancel" element={token ? <MainLayout><GolfReserveCancel /></MainLayout> : <Back />} />
         {/* 회원 탈퇴 */}
-        <Route path="/member/mypage/login/remove" element={token ?<MainLayout><MemberRemoveLogin /></MainLayout> : <Back />} />
+        <Route path="/member/mypage/login/remove" element={token ? <MainLayout><MemberRemoveLogin /></MainLayout> : <Back />} />
 
         {/* -----------------노시큐리티----------------------------------------------- */}
         {/* 메인 라우트 */}
@@ -144,24 +147,21 @@ const Router = () => {
         <Route path="/oauth/redirected/Naver" element={<NaverRedirectPage />}></Route>
         <Route path="/member/join" element={<MainLayout><MemberJoin /></MainLayout>} />
 
-
-
+        {/* 아이디/비밀번호 찾기 */}
+        <Route path="/member/find" element={<MainLayout><FindAccount /></MainLayout>} />
+        <Route path="/member/modify/pw/:email" element={<MainLayout><MemberModifyPw /></MainLayout>} />
 
         {/* 어드민 라우트 */}
-        <Route
-          path="/admin/*"
-          element={<AdminLayout>
-            <Routes>
-              <Route path="/" element={<Admin />} />
-              <Route path="/golf" element={<AdminGolf />} />
-              <Route path="/member" element={<AdminMember />} />
+        <Route path="/admin" element={admin ? <AdminLayout><Admin /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/golf" element={admin ? <AdminLayout><AdminGolf /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/member" element={admin ? <AdminLayout><AdminMember /></AdminLayout> : <AdminBack />} />
 
-              <Route path="/course" element={<AdminCourse />} />
-              <Route path="/product" element={<AdminProduct />} />
-              <Route path="/productlist" element={<AdminProductList />} />
-            </Routes>
-          </AdminLayout>}
-        />
+        <Route path="/admin/course" element={admin ? <AdminLayout><AdminCourse /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/product" element={admin ? <AdminLayout><AdminProduct /></AdminLayout> : <AdminBack />} />
+        <Route path="/admin/productlist" element={admin ? <AdminLayout><AdminProductList /></AdminLayout> : <AdminBack />} />
+
+
+
       </Routes>
     </BrowserRouter>
   );

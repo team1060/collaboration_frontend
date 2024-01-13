@@ -7,7 +7,7 @@ const GolfCourseSection = ({ onCourseSelection, onError }) => {
 
   const fetchCoursesByRegion = useCallback(async (selectedRegion) => {
     try {
-      const response = await axiosInstance.get(`/admin/golf`);
+      const response = await axiosInstance.get(`/golf`);
       const allCourses = response.data;
       const filteredCourses = allCourses.filter(course => course.region === selectedRegion);
 
