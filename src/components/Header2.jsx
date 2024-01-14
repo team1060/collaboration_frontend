@@ -52,23 +52,23 @@ const drawerWidth = 240;
 const conversionMap = {
   '골프장 메인': HomeIcon,
   '골프장 상세조회': ZoomInIcon,
-  '골프 예약': EditCalendarIcon,
+  '예약하기': EditCalendarIcon,
   '상품메인': LocalGroceryStoreIcon,
   '상품목록': WidgetsIcon,
   '결제 페이지': CreditCardIcon,
   '배송지 목록': LocalShippingIcon,
-  '배송지 등록/수정': BorderColorIcon,
+  '예약내역': BorderColorIcon,
   '공지사항': CampaignIcon,
   'FAQ': ContactSupportIcon,
   '마이페이지': AccountCircleIcon,
   '회원탈퇴': PersonOffIcon,
-  '구매내역': ArticleIcon,
+  '주문내역': ArticleIcon,
   '회원정보수정': ManageAccountsIcon,
   '구매 및 취소': ProductionQuantityLimitsIcon,
   '장바구니': LocalMallIcon,
-  '예약확인 및 취소': AccessAlarmIcon,
-  '상품평': RecommendIcon,
-  '나의 예약': NoteAltIcon,
+  '취소내역': AccessAlarmIcon,
+  // '예약내역': RecommendIcon,
+  // '나의 예약': NoteAltIcon,
 
 };
 // function navigateTo(path) {
@@ -86,23 +86,24 @@ const convertToEnglishName = (koreanName) => {
 
   const conversionMap = {
     '골프장 메인': "/",
-    '골프장 상세조회': '/golf/info',
-    '골프 예약': 'reservation/detail',
-    '상품메인': '/product',
-    '상품목록': '/product',
-    '결제 페이지': "",
-    '배송지 목록': "",
-    '배송지 등록/수정': "",
-    '공지사항': "",
-    'FAQ': "",
-    '마이페이지': "",
-    '회원정보수정': "",
-    '구매 및 취소': "",
-    '장바구니': "",
-    '예약확인 및 취소': "",
-    '상품평': "",
-    '나의예약': "",
+    '골프장 상세조회': 'golf/info',
+    '상품목록': "product",
+    '주문내역': 'member/mypage/info',
+    '예약하기': 'reservation/detail',
+    '예약내역': 'member/mypage/reserve',
+    '공지사항': "/",
+    'FAQ': "/",
+    '회원정보수정': "member/mypage/login/modify",
+    '회원탈퇴': "member/mypage/login/remove",
+    '예약내역': "member/mypage/reserve",
+    '취소내역': "member/mypage/cancel",
+    // '구매 및 취소': "",
+    // '장바구니': "",
+    // '예약확인 및 취소': "",
+    // '상품평': "",
+    // '나의예약': "",
     //사이드바 한글이름 영어로 url 추가하기 이름에 한글이름 제거 하기 
+    // 상품 목록 , 주문내역 ,예약하기, 예약내역, 공지사항, FAQ, 회원정보수정,ㅎ회원탈퇴, 예약내역 취소내역
   };
   // '/'로 설정된 항목이면 무시하고 빈 문자열 반환, 그 외에는 변환 맵에서 찾아서 반환
   // 안하면 오류 '//' 로 인식 일단 '/'로 읽고 던져야함 
@@ -276,7 +277,7 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['골프장 메인', '골프장 상세조회', '골프 예약'].map((text, index) => (
+          {['골프장 메인', '골프장 상세조회'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
                 <ListItemIcon>
@@ -289,7 +290,7 @@ export default function PersistentDrawerLeft() {
         </List>
         <Divider />
         <List>
-          {['상품목록'].map((text, index) => (
+          {['상품목록','주문내역'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
                 <ListItemIcon>
@@ -304,7 +305,7 @@ export default function PersistentDrawerLeft() {
         <Divider />
 
         <List>
-          {['배송지 목록', '배송지 등록/수정'].map((text, index) => (
+          {['예약하기', '예약내역'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
                 <ListItemIcon>
@@ -333,7 +334,7 @@ export default function PersistentDrawerLeft() {
 
         <Divider />
         <List>
-          {['마이페이지', '회원정보수정', '구매 및 취소', '장바구니', '구매내역', '예약확인 및 취소', '상품평'].map((text, index) => (
+          {[ '회원정보수정', '회원탈퇴', '예약내역', '취소내역'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
                 <ListItemIcon>
@@ -345,18 +346,7 @@ export default function PersistentDrawerLeft() {
           ))}
         </List>
         <Divider />
-        <List>
-          {['나의 예약'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
-                <ListItemIcon>
-                  {conversionMap[text] && React.createElement(conversionMap[text])}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+       
 
       </Drawer>
     </Box>

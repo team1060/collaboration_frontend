@@ -23,6 +23,7 @@ const CalendarSwiper = () => {
   const end = new Date(today.getFullYear(), today.getMonth() + 2, 0);
   const datesArray = [];
 
+  
   // 현재 연도와 월을 상태에 저장
   setCurrentYearMonth(`${today.getFullYear()}년 ${(today.getMonth() + 1).toString().padStart(2, '0')}월`);
 
@@ -80,6 +81,7 @@ const handleDateClick = async (date) => {
 };
 
 const getStatusText = (status) => {
+  
   return status === 0 ? "예약가능" : "예약불가";
 };
 
@@ -88,11 +90,11 @@ const getStatusText = (status) => {
         <div className='mu'>
           <h2 className="month-header">{currentYearMonth}</h2> {/* 현재 연도와 월을 표시 */}
           {/* <h2 className=''>예약 가능날짜 확인하기</h2> */}
-          <Link to={"/reservation/detail"}>
-            <Button variant="contained" color="primary">
+          {/* <Link to={"/reservation/detail"}>
+            <Button variant="contained" color="primary" onClick={checkAccessToken}>
             골프 예약하기
             </Button>
-            </Link>
+            </Link> */}
         </div>
       <Swiper
         modules={[Navigation]}

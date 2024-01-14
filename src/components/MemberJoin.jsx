@@ -73,21 +73,21 @@ function MemberJoin() {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    // 입력필드 완료 여부 확인 
-    if (
-      !inputValue ||
-      !nickname ||
-      !name ||
-      !phoneNumber ||
-      response !== pwchecked ||
-      viewMessage.includes("불가") ||
-      pwViewMessage.includes("특수") ||
-      pwCheckMessage.includes("일치하지 않습니다") ||
-      pwInput !== pwInputche
-    ) {
-      alert("문항들을 한번 더 확인해주세요!");
-      return;
-    }
+    // // 입력필드 완료 여부 확인 
+    // if (
+    //   !inputValue ||
+    //   !nickname ||
+    //   !name ||
+    //   !phoneNumber ||
+    //   response !== pwchecked ||
+    //   viewMessage.includes("불가") ||
+    //   pwViewMessage.includes("특수") ||
+    //   pwCheckMessage.includes("일치하지 않습니다") ||
+    //   pwInput !== pwInputche
+    // ) {
+    //   alert("문항들을 한번 더 확인해주세요!");
+    //   return;
+    // }
 
     // 필수 약관 체크 여부 확인
     if (!checked[0] || !checked[1]) {
