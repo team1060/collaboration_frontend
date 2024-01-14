@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 // 멤버 
 import { jwtDecode } from 'jwt-decode';
 import { useState, useEffect } from "react";
-import { getNickname } from "../services/auth/Member";
+import { getNickname, isAdmin } from "../services/auth/Member";
 //아이콘 
 import HomeIcon from '@mui/icons-material/Home'; // 골프장 홈 
 import ZoomInIcon from '@mui/icons-material/ZoomIn'; // 골프장 상세조회
@@ -50,30 +50,30 @@ const drawerWidth = 240;
 
 // 아이콘 박스 
 const conversionMap = {
-  '골프장 메인' :  HomeIcon,
-  '골프장 상세조회' :  ZoomInIcon,
-  '골프 예약' :  EditCalendarIcon,
-  '상품메인' :  LocalGroceryStoreIcon,
-  '상품목록' :  WidgetsIcon,
-  '결제 페이지' :  CreditCardIcon,
-  '배송지 목록' :  LocalShippingIcon,
-  '배송지 등록/수정' :  BorderColorIcon,
-  '공지사항' :  CampaignIcon,
-  'FAQ' :  ContactSupportIcon,
-  '마이페이지' :  AccountCircleIcon,
-  '회원탈퇴' :  PersonOffIcon,
-  '구매내역' :  ArticleIcon,
-  '회원정보수정' :  ManageAccountsIcon,
-  '구매 및 취소' :  ProductionQuantityLimitsIcon,
-  '장바구니' :  LocalMallIcon,
-  '예약확인 및 취소' :  AccessAlarmIcon,
-  '상품평' :  RecommendIcon,
-  '나의 예약' :  NoteAltIcon,
+  '골프장 메인': HomeIcon,
+  '골프장 상세조회': ZoomInIcon,
+  '골프 예약': EditCalendarIcon,
+  '상품메인': LocalGroceryStoreIcon,
+  '상품목록': WidgetsIcon,
+  '결제 페이지': CreditCardIcon,
+  '배송지 목록': LocalShippingIcon,
+  '배송지 등록/수정': BorderColorIcon,
+  '공지사항': CampaignIcon,
+  'FAQ': ContactSupportIcon,
+  '마이페이지': AccountCircleIcon,
+  '회원탈퇴': PersonOffIcon,
+  '구매내역': ArticleIcon,
+  '회원정보수정': ManageAccountsIcon,
+  '구매 및 취소': ProductionQuantityLimitsIcon,
+  '장바구니': LocalMallIcon,
+  '예약확인 및 취소': AccessAlarmIcon,
+  '상품평': RecommendIcon,
+  '나의 예약': NoteAltIcon,
 
 };
 // function navigateTo(path) {
 //   const currentPath = window.location.pathname;
-  
+
 //   if (currentPath !== path) {
 //     window.location.assign(path);
 //   }
@@ -81,36 +81,36 @@ const conversionMap = {
 // 영한 닉네임 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 const convertToEnglishName = (koreanName) => {
-  
-  
+
+
 
   const conversionMap = {
-    '골프장 메인' :  "/",
-    '골프장 상세조회' :  '/golf/info',
-    '골프 예약' :  'reservation/detail',
-    '상품메인' :  '/product',
-    '상품목록' :  '/product',
-    '결제 페이지' :  "",
-    '배송지 목록' :  "",
-    '배송지 등록/수정' : "",
-    '공지사항' : "",
-    'FAQ' :  "",
-    '마이페이지' : "",
-    '회원정보수정' : "",
-    '구매 및 취소' :  "",
-    '장바구니' : "",
-    '예약확인 및 취소' : "",
-    '상품평' : "",
-    '나의예약' : "",
+    '골프장 메인': "/",
+    '골프장 상세조회': '/golf/info',
+    '골프 예약': 'reservation/detail',
+    '상품메인': '/product',
+    '상품목록': '/product',
+    '결제 페이지': "",
+    '배송지 목록': "",
+    '배송지 등록/수정': "",
+    '공지사항': "",
+    'FAQ': "",
+    '마이페이지': "",
+    '회원정보수정': "",
+    '구매 및 취소': "",
+    '장바구니': "",
+    '예약확인 및 취소': "",
+    '상품평': "",
+    '나의예약': "",
     //사이드바 한글이름 영어로 url 추가하기 이름에 한글이름 제거 하기 
   };
- // '/'로 설정된 항목이면 무시하고 빈 문자열 반환, 그 외에는 변환 맵에서 찾아서 반환
- // 안하면 오류 '//' 로 인식 일단 '/'로 읽고 던져야함 
- if (conversionMap[koreanName] === '/') {
-  return '';
-} else {
-  return conversionMap[koreanName] || koreanName;
-}
+  // '/'로 설정된 항목이면 무시하고 빈 문자열 반환, 그 외에는 변환 맵에서 찾아서 반환
+  // 안하면 오류 '//' 로 인식 일단 '/'로 읽고 던져야함 
+  if (conversionMap[koreanName] === '/') {
+    return '';
+  } else {
+    return conversionMap[koreanName] || koreanName;
+  }
 };
 
 
@@ -144,6 +144,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [admin, setAdmin] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -161,75 +162,99 @@ export default function PersistentDrawerLeft() {
 
   const [user, setUser] = useState('');
 
-    // 로그인한 유저 
-    useEffect(() => {
-      const fetchData = async () => {
-        if (ACCESS_TOKEN) {
-          const token = jwtDecode(ACCESS_TOKEN);
-          const email = token.email;
-          const UserData = await getNickname(email);
-          setUser(UserData.nickname);
-          // console.log(UserData.nickname)
+  // 로그인한 유저 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (ACCESS_TOKEN) {
+        const token = jwtDecode(ACCESS_TOKEN);
+        const email = token.email;
+        const UserData = await getNickname(email);
+        setUser(UserData.nickname);
+        try {
+          const isAdminUser = await isAdmin(email);
+          console.log(email)
+          console.log(isAdminUser);
+          setAdmin(isAdminUser)
+        } catch (error) {
+          // 오류 처리
+          console.error('Error fetching admin status:', error);
         }
-      };
-    
-      fetchData();
-    }, [user]);
-    
-    // 로그아웃
-    const Logout = () => {
-      localStorage.removeItem("ACCESS_TOKEN")
-      window.location.reload();
-    }
+      }
+    };
+
+    fetchData();
+  }, [user]);
+
+  // 로그아웃
+  const Logout = () => {
+    localStorage.removeItem("ACCESS_TOKEN")
+    window.location.reload();
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-      <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                sx={{ mr: 2, ...(open && { display: 'none' }) }}      
-                
-              >
-                <MenuIcon />
-              </IconButton>
+        <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-           
-              <Typography variant="h6" noWrap component="div">
-                메인 메뉴
-              </Typography>
-            </div>
-            
-            <div className="logo">
-              <Link to="/">
-                <img src="/img/header2Logo.png" alt="logo" />
-              </Link>
-            </div>
-            
-            <div className="util">
-              <ul className="Ul" style={{display: 'flex', gap: '15px'}}>
-                 {user ? <li style={{color: 'white', fontSize: '15px'}}>{user}님 환영합니다!</li> 
-                 : 
-            <li>
-              <LoginModal open={modal} onClose={() => setModal(false)} onLogin={handleLogin} />
-            </li>
-          }
-                {user ? <li style={{color: '#000', fontSize: '15px'}}><Link onClick={() => {Logout()}} >로그아웃</Link></li> : ''}
-                {user ? <li style={{color: '#000', fontSize: '15px'}}>
-                  <Link to="/member/mypage/info">마이페이지</Link>
-                  </li> : 
-                <li><Link to="/member/join">회원가입</Link></li>
-        }
-              </ul>
-            </div>
-          </Toolbar>
-        
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+
+            >
+              <MenuIcon />
+            </IconButton>
+
+
+            <Typography variant="h6" noWrap component="div">
+              메인 메뉴
+            </Typography>
+          </div>
+
+          <div className="logo">
+            <Link to="/">
+              <img src="/img/header2Logo.png" alt="logo" />
+            </Link>
+          </div>
+
+          <div className="util">
+            <ul className="Ul" style={{ display: 'flex', gap: '15px' }}>
+              {user ? <li style={{ color: 'white', fontSize: '15px' }}>
+                {user}님 환영합니다!</li>
+                :
+                <li>
+                  <LoginModal open={modal} onClose={() => setModal(false)}
+                    onLogin={handleLogin} />
+                </li>
+              }
+              {user ? <li style={{ color: '#000', fontSize: '15px' }}>
+                <Link onClick={() => { Logout() }} >로그아웃</Link></li> : ''}
+              {
+                admin ? (
+                  // Admin
+                  <li style={{ color: '#000', fontSize: '15px' }}>
+                    <Link to="/admin">관리자페이지</Link>
+                  </li>
+                ) : (
+                  user ? (
+                    // Logged-in user
+                    <li style={{ color: '#000', fontSize: '15px' }}>
+                      <Link to="/member/mypage/info">마이페이지</Link>
+                    </li>
+                  ) : (
+                    // No admin and not logged in
+                    <li><Link to="/member/join">회원가입</Link></li>
+                  )
+                )
+              }
+            </ul>
+          </div>
+        </Toolbar>
+
       </AppBar>
       <Drawer
         sx={{
@@ -253,26 +278,26 @@ export default function PersistentDrawerLeft() {
         <List>
           {['골프장 메인', '골프장 상세조회', '골프 예약'].map((text, index) => (
             <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
-            <ListItemIcon>
-                {conversionMap[text] && React.createElement(conversionMap[text])}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
+                <ListItemIcon>
+                  {conversionMap[text] && React.createElement(conversionMap[text])}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
           ))}
         </List>
         <Divider />
         <List>
           {['상품목록'].map((text, index) => (
             <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
-            <ListItemIcon>
-                {conversionMap[text] && React.createElement(conversionMap[text])}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
+                <ListItemIcon>
+                  {conversionMap[text] && React.createElement(conversionMap[text])}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
           ))}
         </List>
 
@@ -281,13 +306,13 @@ export default function PersistentDrawerLeft() {
         <List>
           {['배송지 목록', '배송지 등록/수정'].map((text, index) => (
             <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
-            <ListItemIcon>
-                {conversionMap[text] && React.createElement(conversionMap[text])}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
+                <ListItemIcon>
+                  {conversionMap[text] && React.createElement(conversionMap[text])}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
           ))}
         </List>
 
@@ -296,44 +321,44 @@ export default function PersistentDrawerLeft() {
         <List>
           {['공지사항', 'FAQ'].map((text, index) => (
             <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
-            <ListItemIcon>
-                {conversionMap[text] && React.createElement(conversionMap[text])}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
+                <ListItemIcon>
+                  {conversionMap[text] && React.createElement(conversionMap[text])}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
           ))}
         </List>
-     
-      <Divider />
+
+        <Divider />
         <List>
-          {['마이페이지', '회원정보수정','구매 및 취소', '장바구니', '구매내역', '예약확인 및 취소', '상품평'].map((text, index) => (
-             <ListItem key={text} disablePadding>
-             <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
-             <ListItemIcon>
-                 {conversionMap[text] && React.createElement(conversionMap[text])}
-               </ListItemIcon>
-               <ListItemText primary={text} />
-             </ListItemButton>
-           </ListItem>
+          {['마이페이지', '회원정보수정', '구매 및 취소', '장바구니', '구매내역', '예약확인 및 취소', '상품평'].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
+                <ListItemIcon>
+                  {conversionMap[text] && React.createElement(conversionMap[text])}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {[ '나의 예약'].map((text, index) => (
+          {['나의 예약'].map((text, index) => (
             <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
-            <ListItemIcon>
-                {conversionMap[text] && React.createElement(conversionMap[text])}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+              <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
+                <ListItemIcon>
+                  {conversionMap[text] && React.createElement(conversionMap[text])}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
           ))}
         </List>
 
-        </Drawer>
+      </Drawer>
     </Box>
   );
 }
