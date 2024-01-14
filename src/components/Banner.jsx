@@ -8,8 +8,8 @@ function Banner() {
     'b001.png', 
     'b004.png', 
     'b005.png',
-    'b007.png',
-    'b008.png'
+    // 'b007.jpg',
+    'b008.jpg'
   ], []);
 //useMemo  React의 Hook 중 하나로, 계산 비용이 높은 연산의 결과를 기억하고 필요할 때 캐시된 값을 반환하는 데 사용
   // 랜덤 이미지 선택을 위한 상태 변수
