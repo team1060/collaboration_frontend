@@ -45,6 +45,15 @@ export const getReserve = async (email) => {
         throw error;
     }
 }
+// 예약 갯수 불러오기 
+export const getReserveCount = async (email) => {
+    try {
+        const response = await axiosAuth.get(`/reservation/confirmcount/${email}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 // 예약취소
 export const cancelGolf = async (reserve_no) => {
