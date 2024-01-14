@@ -1,5 +1,6 @@
 import axios from 'axios';
 import axiosAuth from '../apiAuth.js'
+import axiosInstance from '../axiosInstance.js';
 
 /**
  * 예약페이지 api 모음 
@@ -19,7 +20,7 @@ export const getCourse = async () => {
 // 골프장 이름 조회 
 export const getGolf = async () => {
     try {
-        const response = await axiosAuth.get("/reservation/golf");
+        const response = await axiosInstance.get("/reservation/golf");
         return response.data;
     } catch (error) {
         throw error;

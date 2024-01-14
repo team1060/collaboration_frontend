@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 function ProductImg() {
-    return(
-        <img src="../img/Productimg.jpeg" style={{width: '100%'}}></img>
+    return (
+        <img src="/img/banner/pb001.jpg" style={{ width: '100%' }}></img>
     )
 }
 
