@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
 import "./style/FooterStyle.scss"
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookSquare, faInstagramSquare, faTwitterSquare, faYoutubeSquare, faWhatsappSquare } from '@fortawesome/free-brands-svg-icons';
+
+
+
 function Footer() {
   return(
    
@@ -13,34 +19,27 @@ function Footer() {
               <li>윤리 경영</li>
             </ul>
           </div>
-          <div className="footer-section">
-            <h3>골프 마켓 협력업체</h3>
-            <ul>
-              <li>조은 컴퓨터</li>
-              <li>촐싹이는 배그를 하고싶어</li>
-            </ul>
-          </div>
+        
+        
           <div className="footer-section">
             <h3>Support</h3>
             <ul>
-              <li>세상 제일 꼰대 길부장</li>
-              <li>FPS 고수 촐싹</li>
-              <li>지갑전사 JYP</li>
+              <li>고객 지원</li>
+              <li>찾아오는 길</li>
+              <li>법률 상담</li>
             </ul>
           </div>
           <div className="footer-section"> 
           <div className="sns">
-              <div>
-                <Link to={"https://redapgod.netlify.app/"} className="facebook" target="_blank">
-                <img src="/img/icon/i_fbook.png" alt="facebook" />facebook
-                </Link>
-              {/* </div>
-              <div> */}
-                <Link to={"https://redapgod.netlify.app/"} className="instagram" target="_blank">
-                <img src="/img/icon/i_instagram.png" alt="instagram" />instagram
-                </Link>
+                    <h3>S N S</h3>
+                    <div className="social">
+                <FontAwesomeIcon icon={faFacebookSquare} />
+                
+                <FontAwesomeIcon icon={faInstagramSquare} />
+                <FontAwesomeIcon icon={faTwitterSquare} />
+                <FontAwesomeIcon icon={faYoutubeSquare} />
+                <FontAwesomeIcon icon={faWhatsappSquare} />
               </div>
-
            </div>
           </div>
         </div>
