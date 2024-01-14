@@ -18,7 +18,7 @@ function Event() {
     <div className="content-container">
 
             <div className="left-box">
-          <div className="image-box1" style={{ backgroundImage: 'url(./img/e002.jpg)' }}>
+          <div className="image-box1" style={{ backgroundImage: 'url(/img/event/ev002.jpg)' }}>
             
             {/* <Link to={"/"}>
             <Button variant="contained" color="primary">
@@ -29,28 +29,28 @@ function Event() {
         </div>
 
         <div className="right-box">
-          <div className="image-box2" style={{ backgroundImage: 'url(./img/e002.jpg)' }}>
+          <div className="image-box2" style={{ backgroundImage: 'url(/img/event/ev001.jpg)' }}>
           {/* <Link to={"/"}>
             <Button variant="contained" color="primary">
               이벤트 확인하기
             </Button>
             </Link> */}
           </div>
-          <div className="image-box2" style={{ backgroundImage: 'url(./img/e001.jpg)' }}>
+          <div className="image-box2" style={{ backgroundImage: 'url(/img/event/ev002.jpg)' }}>
           {/* <Link to={"/"}>
             <Button variant="contained" color="primary">
             이벤트 확인하기
             </Button>
             </Link> */}
           </div>
-          <div className="image-box2" style={{ backgroundImage: 'url(./img/product/2/20200916023241973_300.jpg)' }}>
+          <div className="image-box2" style={{ backgroundImage: 'url(/img/event/ev003.jpg)' }}>
           {/* <Link to={"/이벤트1"}>
             <Button variant="contained" color="primary">
             이벤트 확인하기
             </Button>
             </Link> */}
           </div>
-          <div className="image-box2" style={{ backgroundImage: 'url(./img/product/2/20200916023241973_300.jpg)' }}>
+          <div className="image-box2" style={{ backgroundImage: 'url(/img/event/ev001.jpg)' }}>
           {/* <Link to={"/"}>
             <Button variant="contained" color="primary">
             이벤트 확인하기

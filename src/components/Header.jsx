@@ -68,7 +68,7 @@ function Header() {
           <div className="inner">
             <h1 className="logo">
               <Link to="/">
-                <img src="/img/logo4.png" alt="logo" />
+                <img src="/img/logo/logo4.png" alt="logo" />
               </Link>
             </h1>
             <div className="util">
