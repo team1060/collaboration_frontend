@@ -19,7 +19,7 @@ export const getCourse = async () => {
 // 골프장 이름 조회 
 export const getGolf = async () => {
     try {
-        const response = await axiosAuth.get("/admin/golf");
+        const response = await axiosAuth.get("/reservation/golf");
         return response.data;
     } catch (error) {
         throw error;
