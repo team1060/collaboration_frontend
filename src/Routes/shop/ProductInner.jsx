@@ -14,6 +14,7 @@ function ProductInner() {
 
     const [prop, setProp] = useState(null);
     const [selectedOption, setSelectedOption] = useState([]);
+    const [postData, setPostData] = useState([]);
 
     // 배달버튼 
     const StyledDelivery = styled(Box)`
@@ -61,7 +62,12 @@ function ProductInner() {
         const fetchGolfInfo = async () => {
             try {
                 const post = await getProductInner(product_no)
-                console.log(post)
+                setPostData(post)
+                if (post.length === 0) {
+                    alert("잘못된 접근입니다");
+                    window.location.href = '/product';
+                    return;
+                }
                 if (post[0].image_details) {
                     post[0].image_details = JSON.parse(post[0].image_details);
                 }
@@ -96,7 +102,7 @@ function ProductInner() {
         const formatPrice = (price, decimalPlaces) => {
             return price.toFixed(decimalPlaces);
         };
-    
+
         // 소수점 이하 2자리로 조절하여 반환
         return parseFloat(formatPrice(discountedPrice, 2));
     };
@@ -166,21 +172,24 @@ function ProductInner() {
     }
     return (
         <div id="ProductInner">
-            <Grid>
-                <Container className="mainContainer">
-                    <div className='pickup'>
-                        {prop?.is_shop_delivery ? <StyledDelivery>배달가능</StyledDelivery> : ''}
-                        {prop?.is_shop_pickup ? <StyledPickup>픽업가능</StyledPickup> : ''}
-                    </div>
-                    <div className="titleWrap" >
-                        <h2>{prop?.product}</h2>
-                    </div>
-                    <Grid container style={{ justifyContent: "center" }}>
-                        <Grid item md={6} style={{ textAlign: "center" }}>
-                            <Grid className="productImgSwiperWrap">
-                                <ProductImgSwiper prop={prop}></ProductImgSwiper>
-                            </Grid>
-                            {/* 
+            {
+                postData.length !== 0 ?
+
+                    <Grid>
+                        <Container className="mainContainer">
+                            <div className='pickup'>
+                                {prop?.is_shop_delivery ? <StyledDelivery>배달가능</StyledDelivery> : ''}
+                                {prop?.is_shop_pickup ? <StyledPickup>픽업가능</StyledPickup> : ''}
+                            </div>
+                            <div className="titleWrap" >
+                                <h2>{prop?.product}</h2>
+                            </div>
+                            <Grid container style={{ justifyContent: "center" }}>
+                                <Grid item md={6} style={{ textAlign: "center" }}>
+                                    <Grid className="productImgSwiperWrap">
+                                        <ProductImgSwiper prop={prop}></ProductImgSwiper>
+                                    </Grid>
+                                    {/* 
                             <Grid className="rating">
                                 <Grid className="ratingInner" item container justifyContent="flex-start"
                                     alignItems="center">
@@ -189,120 +198,122 @@ function ProductInner() {
                                 </Grid>
                             </Grid> 
                             */}
-                        </Grid>
-                        <Grid container direction="column" item md={6} >
-                            <hr></hr>
-                            <Grid className="productInfo" container>
-                                <Grid className="productInfoInner" container>
-                                    <Grid className="" item xs={6}>
-                                        판매가
-                                    </Grid>
-                                    <Grid item xs={6} className="" style={{ textDecoration: originalPrice !== discountedPrice ? 'line-through' : 'none' }}>
-                                        {originalPrice?.toLocaleString()}원
-                                    </Grid>
                                 </Grid>
-                                {originalPrice !== discountedPrice && (
-                                    <Grid className="productInfoInner discountedPriceWrap" container>
-                                        <Grid className="discountedPrice" item xs={6}>
-                                            할인가
+                                <Grid container direction="column" item md={6} >
+                                    <hr></hr>
+                                    <Grid className="productInfo" container>
+                                        <Grid className="productInfoInner" container>
+                                            <Grid className="" item xs={6}>
+                                                판매가
+                                            </Grid>
+                                            <Grid item xs={6} className="" style={{ textDecoration: originalPrice !== discountedPrice ? 'line-through' : 'none' }}>
+                                                {originalPrice?.toLocaleString()}원
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={6} className="discountedPrice">
-                                            {discountedPrice?.toLocaleString()}원 ({discount}%)
+                                        {originalPrice !== discountedPrice && (
+                                            <Grid className="productInfoInner discountedPriceWrap" container>
+                                                <Grid className="discountedPrice" item xs={6}>
+                                                    할인가
+                                                </Grid>
+                                                <Grid item xs={6} className="discountedPrice">
+                                                    {discountedPrice?.toLocaleString()}원 ({discount}%)
+                                                </Grid>
+                                            </Grid>
+                                        )}
+                                        <Grid className="productInfoInner" container>
+                                            <Grid className="" item xs={6}>카드혜택</Grid>
+                                            <Grid item xs={6} className="">국민 최대 10% 할인</Grid>
+                                        </Grid>
+                                        <Grid className="productInfoInner" container>
+                                            <Grid className="" item xs={6}>무이자할부</Grid>
+                                            <Grid item xs={6} className="">2~6개월 카드 무이자</Grid>
                                         </Grid>
                                     </Grid>
-                                )}
-                                <Grid className="productInfoInner" container>
-                                    <Grid className="" item xs={6}>카드혜택</Grid>
-                                    <Grid item xs={6} className="">국민 최대 10% 할인</Grid>
-                                </Grid>
-                                <Grid className="productInfoInner" container>
-                                    <Grid className="" item xs={6}>무이자할부</Grid>
-                                    <Grid item xs={6} className="">2~6개월 카드 무이자</Grid>
-                                </Grid>
-                            </Grid>
-                            <hr></hr>
-                            <Grid className="optionWrap" container>
-                                <Grid className="optionTit" item xs={3}>
-                                    옵션 선택
-                                </Grid>
-                                <Grid className="option" item xs={9}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-multiple-select-label">Options</InputLabel>
-                                        <Select
-                                            labelId="demo-select-label"
-                                            id="demo-select"
-                                            value={selectedOption?.option_no || ""}
-                                            onChange={handleChange}
-                                            label="Options"
-                                        >
-                                            {prop?.product_options?.map((option) => (
-                                                <MenuItem
-                                                    key={option.option_no}
-                                                    value={option.option_no}
-                                                    disabled={option.option_count === 0}
+                                    <hr></hr>
+                                    <Grid className="optionWrap" container>
+                                        <Grid className="optionTit" item xs={3}>
+                                            옵션 선택
+                                        </Grid>
+                                        <Grid className="option" item xs={9}>
+                                            <FormControl fullWidth>
+                                                <InputLabel id="demo-multiple-select-label">Options</InputLabel>
+                                                <Select
+                                                    labelId="demo-select-label"
+                                                    id="demo-select"
+                                                    value={selectedOption?.option_no || ""}
+                                                    onChange={handleChange}
+                                                    label="Options"
                                                 >
-                                                    {[option.option_count === 0 ? "[품절]" : ""]}{option.option_name}({option.option_count}개)
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
+                                                    {prop?.product_options?.map((option) => (
+                                                        <MenuItem
+                                                            key={option.option_no}
+                                                            value={option.option_no}
+                                                            disabled={option.option_count === 0}
+                                                        >
+                                                            {[option.option_count === 0 ? "[품절]" : ""]}{option.option_name}({option.option_count}개)
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+                                    <hr></hr>
+                                    {prop?.product_options?.map((option) => (
+                                        selectedOption[option.option_no]?.quantity > 0 && (
+                                            <div className="optionInner" key={option.option_no} data-option-no={option.option_no}>
+                                                <div>
+
+
+                                                    <Grid container justifyContent="space-between">
+                                                        <Grid item>
+                                                            <Typography className="optionInnerTit" variant="h6">{option.option_name}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Button
+                                                                color="primary"
+
+                                                                onClick={() => handleRemoveOption(option.option_no)}
+                                                            >
+                                                                <Clear></Clear>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid className="options" container alignItems="center" justifyContent="space-between" spacing={2}>
+                                                        <Grid item>
+                                                            <Typography variant="body2">
+                                                                <Button variant="outlined" onClick={() => handleQuantityChange(option.option_no, -1)}><Remove></Remove></Button>
+                                                                <Button className="productCount" variant="disabled">{selectedOption[option.option_no]?.quantity}</Button>
+                                                                <Button variant="outlined" onClick={() => handleQuantityChange(option.option_no, 1)}><Add></Add></Button>
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item >
+                                                            <Typography className="price" variant="body2">
+                                                                {((selectedOption[option.option_no]?.quantity || 0) * discountedPrice)?.toLocaleString()}원
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                </div>
+                                                <hr></hr>
+                                            </div>
+                                        )
+                                    ))}
+                                    {/* {renderSelectedOptions()} */}
+                                    <Grid className="totalWrap" container alignItems="center">
+                                        <Grid className="" item xs={6}>총 상품 금액</Grid>
+                                        <Grid className="" item xs={6}>{calculateTotalPrice()}원</Grid>
+                                    </Grid>
+                                    <Grid className="" container>
+                                        <Grid className="productInnerButton" item xs={6}><Button size="large" variant="contained" color="secondary" disabled >장바구니</Button></Grid>
+                                        <Grid className="productInnerButton" item xs={6}><Button onClick={() => redirectToPayment()} size="large" variant="contained">바로구매</Button></Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <hr></hr>
-                            {prop?.product_options?.map((option) => (
-                                selectedOption[option.option_no]?.quantity > 0 && (
-                                    <div className="optionInner" key={option.option_no} data-option-no={option.option_no}>
-                                        <div>
-
-
-                                            <Grid container justifyContent="space-between">
-                                                <Grid item>
-                                                    <Typography className="optionInnerTit" variant="h6">{option.option_name}</Typography>
-                                                </Grid>
-                                                <Grid item>
-                                                    <Button
-                                                        color="primary"
-
-                                                        onClick={() => handleRemoveOption(option.option_no)}
-                                                    >
-                                                        <Clear></Clear>
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid className="options" container alignItems="center" justifyContent="space-between" spacing={2}>
-                                                <Grid item>
-                                                    <Typography variant="body2">
-                                                        <Button variant="outlined" onClick={() => handleQuantityChange(option.option_no, -1)}><Remove></Remove></Button>
-                                                        <Button className="productCount" variant="disabled">{selectedOption[option.option_no]?.quantity}</Button>
-                                                        <Button variant="outlined" onClick={() => handleQuantityChange(option.option_no, 1)}><Add></Add></Button>
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item >
-                                                    <Typography className="price" variant="body2">
-                                                        {((selectedOption[option.option_no]?.quantity || 0) * discountedPrice)?.toLocaleString()}원
-                                                    </Typography>
-                                                </Grid>
-                                            </Grid>
-                                        </div>
-                                        <hr></hr>
-                                    </div>
-                                )
-                            ))}
-                            {/* {renderSelectedOptions()} */}
-                            <Grid className="totalWrap" container alignItems="center">
-                                <Grid className="" item xs={6}>총 상품 금액</Grid>
-                                <Grid className="" item xs={6}>{calculateTotalPrice()}원</Grid>
-                            </Grid>
-                            <Grid className="" container>
-                                <Grid className="productInnerButton" item xs={6}><Button size="large" variant="contained" color="secondary" disabled >장바구니</Button></Grid>
-                                <Grid className="productInnerButton" item xs={6}><Button onClick={() => redirectToPayment()} size="large" variant="contained">바로구매</Button></Grid>
-                            </Grid>
-                        </Grid>
+                        </Container>
+                        <ProductHead prop={prop}></ProductHead>
                     </Grid>
-                </Container>
-                <ProductHead prop={prop}></ProductHead>
-            </Grid>
-
+                    :
+                    <Grid style={{ height: "500px" }}></Grid>
+            }
 
 
         </div>
