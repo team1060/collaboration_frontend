@@ -15,20 +15,18 @@ function ImgSwiper() {
 
     <div className="swiper-container" id="imgSwiper">
 
-       <Swiper
-      slidesPerView={1}
-      centeredSlides={true}
-      navigation={true}   modules={[Navigation]}
-      spaceBetween={20} 
-      
-
+      <Swiper
+        slidesPerView={1}
+        centeredSlides={true}
+        navigation={true} modules={[Navigation]}
+        spaceBetween={20}
       >
-        <SwiperSlide><img src="./img/pc04.jpg" alt="Slide 1" /></SwiperSlide>
-        <SwiperSlide><img src="./img/pc05.jpg"  alt="Slide 2" /></SwiperSlide>
-        <SwiperSlide><img src="./img/pc06.jpg"  alt="Slide 3" /></SwiperSlide>
-        
+        <SwiperSlide><img src="/img/main/pc04.jpg" alt="Slide 1" /></SwiperSlide>
+        <SwiperSlide><img src="/img/main/pc05.jpg" alt="Slide 2" /></SwiperSlide>
+        <SwiperSlide><img src="/img/main/pc06.jpg" alt="Slide 3" /></SwiperSlide>
+
       </Swiper>
-      
+
     </div>
   );
 }
