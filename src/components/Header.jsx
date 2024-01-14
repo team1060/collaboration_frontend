@@ -26,10 +26,10 @@ function Header() {
         const UserData = await getNickname(email);
         setUser(UserData.nickname);
         try {
-          // const isAdminUser = await isAdmin(email);
+          const isAdminUser = await isAdmin(email);
           console.log(email)
           // console.log(isAdminUser);
-          // setAdmin(isAdminUser)
+          setAdmin(isAdminUser)
         } catch (error) {
           // 오류 처리
           console.error('Error fetching admin status:', error);
@@ -43,9 +43,19 @@ function Header() {
   // 로그아웃
   const Logout = () => {
     localStorage.removeItem("ACCESS_TOKEN");
-    window.location.reload();
+    window.location.href = "/";
   }
 
+  const checkAccessToken = (e) => {
+    if (!ACCESS_TOKEN) {
+      alert("로그인 후 이용이 가능합니다.");
+      e.preventDefault();
+      // window.location.href = "/";
+    } else {
+    }
+  };
+  
+  
 
   return (
     <>
@@ -86,13 +96,13 @@ function Header() {
                   admin ? (
                     // Admin
                     <li style={{ color: '#000', fontSize: '12px' }}>
-                      <Link to="/admin">관리자페이지</Link>
+                      <Link to="/admin" onClick={checkAccessToken}>관리자페이지</Link>
                     </li>
                   ) : (
                     user ? (
                       // Logged-in user
                       <li style={{ color: '#000', fontSize: '12px' }}>
-                        <Link to="/member/mypage/info">마이페이지</Link>
+                        <Link to="/member/mypage/info" onClick={checkAccessToken}>마이페이지</Link>
                       </li>
                     ) : (
                       // No admin and not logged in
@@ -103,7 +113,7 @@ function Header() {
               </ul>
             </div>
             <a href="/member/mypage/reserve">
-              <button className="rBtn" id="my_reserve">
+              <button className="rBtn" id="my_reserve" onClick={checkAccessToken}>
                 나의 예약
               </button>
             </a>
@@ -132,7 +142,7 @@ function Header() {
 
                       {/* <div><h3><Link to="/shop">상품 메인</Link></h3></div> */}
                       <div><h3><Link to="/product">상품 목록</Link></h3></div>
-                      <div><h3><Link to="/member/mypage/info">주문 내역</Link></h3></div>
+                      <div><h3><Link to="/member/mypage/info" onClick={checkAccessToken}>주문 내역</Link></h3></div>
                       {/* <div><h3><Link to="/">골프 용품</Link></h3></div> */}
 
 
@@ -140,12 +150,12 @@ function Header() {
                   </div>
                 </li>
                 <li>
-                  <Link to="/reservation/detail">예약</Link>
+                  <Link to="/reservation/detail" onClick={checkAccessToken}>예약</Link>
                   <div className="two-depth">
                     <div className="innerWrap">
 
-                      <div><h3><Link to="/reservation/detail">예약 하기</Link></h3></div>
-                      <div><h3><Link to="/member/mypage/reserve">예약 내역</Link></h3></div>
+                      <div><h3><Link to="/reservation/detail" onClick={checkAccessToken}>예약 하기</Link></h3></div>
+                      <div><h3><Link to="/member/mypage/reserve" onClick={checkAccessToken}>예약 내역</Link></h3></div>
 
                       {/* <div><h3><Link to="/">위약 처리규정</Link></h3></div> */}
 
@@ -171,24 +181,24 @@ function Header() {
                   {
                     admin ?
                       <>
-                        <Link to="/admin">관리자페이지</Link>
+                        <Link to="/admin" onClick={checkAccessToken}>관리자페이지</Link>
                       </>
                       :
                       <>
-                        <Link to="/member/mypage/info">마이페이지</Link>
+                        <Link to="/member/mypage/info" onClick={checkAccessToken}>마이페이지</Link>
                         <div className="two-depth">
                           <div className="innerWrap">
                             <div>
 
 
-                              <div><h3><Link to="/member/mypage/login/modify">회원정보수정</Link></h3></div>
-                              <div><h3><Link to="/member/mypage/login/remove">회원탈퇴</Link></h3></div>
+                              <div><h3><Link to="/member/mypage/login/modify" onClick={checkAccessToken}>회원정보수정</Link></h3></div>
+                              <div><h3><Link to="/member/mypage/login/remove" onClick={checkAccessToken}>회원탈퇴</Link></h3></div>
                             </div>
 
                             <div>
                               {/* <div><h3><Link to="/out">장바구니</Link></h3></div> */}
-                              <div><h3><Link to="/member/mypage/reserve">예약내역</Link></h3></div>
-                              <div><h3><Link to="/member/mypage/cancel">취소내역</Link></h3></div>
+                              <div><h3><Link to="/member/mypage/reserve" onClick={checkAccessToken}>예약내역</Link></h3></div>
+                              <div><h3><Link to="/member/mypage/cancel" onClick={checkAccessToken}>취소내역</Link></h3></div>
                               {/* <div><h3><Link to="/basket">구매내역</Link></h3></div> */}
                             </div>
 

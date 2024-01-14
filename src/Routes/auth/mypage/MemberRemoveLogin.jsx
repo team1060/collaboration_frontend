@@ -4,13 +4,16 @@ import { Button, Container, Grid, Typography, TextField } from "@mui/material";
 import MemberTop from "../MemberTop";
 import Menu from "../Menu";
 import { removeMember } from "../../../services/auth/MyPage";
+import { getNickname } from "../../../services/auth/Member";
 
 function MemberRemoveLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [server, setServer] = useState('');
+
   const handleLogout = () => {
     localStorage.removeItem("ACCESS_TOKEN");
-    window.location.href="/";
+    window.location.href = "/";
   };
 
   useEffect(() => {
@@ -20,6 +23,11 @@ function MemberRemoveLogin() {
       if (ACCESS_TOKEN) {
         const token = jwtDecode(ACCESS_TOKEN);
         setEmail(token.email);
+        const UserData = await getNickname(token.email);
+        setServer(UserData.oauthServerType);
+      } else {
+        alert("로그인이 필요합니다.");
+        window.location.href = '/';
       }
     };
 
@@ -29,17 +37,14 @@ function MemberRemoveLogin() {
   const handleSubmit2 = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    if(email && password){
+    if (email && password) {
       try {
         const userCheck = window.confirm(
           `탈퇴이후에는 30일 뒤에 재가입이 가능합니다.
           탈퇴 하시겠습니까?
           `
         )
-        if(userCheck){
-          // formData.append("email", email);
-          // formData.append("password", password);
-          // await removeMember(formData);
+        if (userCheck) {
           await removeMember(email, password)
           alert('탈퇴가 완료되었습니다.')
           handleLogout();
@@ -48,7 +53,7 @@ function MemberRemoveLogin() {
         }
       } catch (error) {
         alert('비밀번호가 맞지 않습니다. 다시 확인해주세요')
-    }      
+      }
     }
   };
 
@@ -93,7 +98,7 @@ function MemberRemoveLogin() {
               </div>
             </div>
 
-            <Grid container spacing={3} className="inputfield" style={{marginLeft: '0px'}}>
+            <Grid container spacing={3} className="inputfield" style={{ marginLeft: '0px' }}>
               <Grid item xs={3} lg={2} className="inputtext">
                 이메일
               </Grid>
@@ -110,7 +115,7 @@ function MemberRemoveLogin() {
               </Grid>
             </Grid>
 
-            <Grid container spacing={3} className="inputfield inputBot" style={{marginLeft: '0px'}}>
+            <Grid container spacing={3} className="inputfield inputBot" style={{ marginLeft: '0px' }}>
               <Grid item xs={3} lg={2} className="inputtext">
                 비밀번호
               </Grid>
@@ -124,6 +129,7 @@ function MemberRemoveLogin() {
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={server === 'NAVER' || server === 'KAKAO'}
                 />
               </Grid>
             </Grid>
@@ -131,7 +137,7 @@ function MemberRemoveLogin() {
             <hr />
 
             <div className="but">
-              <Button variant="contained" type='submit' style={{ width: '100px', marginTop:'30px' }}>
+              <Button variant="contained" type='submit' style={{ width: '100px', marginTop: '30px' }}>
                 확인
               </Button>
             </div>
