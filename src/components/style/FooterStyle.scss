@@ -5,19 +5,19 @@
   justify-content: center;
  
   
-  .sns {
-    display: flex;
-    justify-content: space-around;
-    a{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: 13px;
-      img{
-        padding-top: 10px;
-      }
-    }
-  }
+//   .sns {
+//     display: flex;
+//     justify-content: space-around;
+//     a{
+//       display: flex;
+//       flex-direction: column;
+//       align-items: center;
+//       font-size: 13px;
+//       img{
+//         padding-top: 10px;
+//       }
+//     }
+//   }
 }
 
 .footer-content {
@@ -57,4 +57,24 @@
   margin-top: 20px;
   text-align: center;
   color: #888;
+}
+div.social {
+  // display: flex;
+  // justify-content: space-around;
+  font-size: 2.4em;
+  flex-direction: row;
+  margin-top: 0.5em;
+  margin-left: 5px;
+  
+}
+.social {
+  display: flex;
+  justify-content: space-between; /* 요소들 사이에 균등한 간격을 줍니다 */
+  align-items: center;
+}
+.social i {
+  color: #bac6d9;
+}
+.social .fa-brands { /* Font Awesome 브랜드 아이콘에 대한 스타일 */
+  margin: 0 50px; /* 양쪽에 10px의 마진을 추가합니다 */
 }
