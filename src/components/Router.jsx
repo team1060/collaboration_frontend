@@ -102,7 +102,7 @@ const Router = () => {
         {/* -----------------시큐리티----------------------------------------------- */}
         {/* 골프예약 */}
         <Route path="/reservation/detail"
-          element={token ? <MainLayout><Reservation /></MainLayout> : <Back />} />
+          element={ <MainLayout><Reservation /></MainLayout>} />
         {/* 골프예약확인 */}
         <Route path="/reservation/confirm/:email"
           element={token ? <MainLayout><ReservationConfirm /></MainLayout> : <Back />} />

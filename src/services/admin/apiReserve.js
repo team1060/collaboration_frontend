@@ -10,9 +10,6 @@ export const getCourse = async () => {
         return response.data;
     } catch (error) {
         console.log(error)
-        // if(error.response.status == 403) {
-        //     window.location.href="/";
-        // }
         throw error;
     }
 }
@@ -20,22 +17,22 @@ export const getCourse = async () => {
 // 골프장 이름 조회 
 export const getGolf = async () => {
     try {
-        const response = await axiosAdmin.get("/admin/golf");
+        const response = await axiosAdmin.get("/reservation/golf");
         return response.data;
     } catch (error) {
         throw error;
     }
 }
 
-// 예약 신청 
-export const postGolf = async (course) => {
-    try {
-        const response = await axiosAdmin.post("/reservation/detail", course);
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
-}
+// // 예약 신청 
+// export const postGolf = async (course) => {
+//     try {
+//         const response = await axiosAdmin.post("/reservation/detail", course);
+//         return response.data;
+//     } catch (error) {
+//         throw error;
+//     }
+// }
 
 // 예약 내역 불러오기 
 export const getReserve = async (email) => {
