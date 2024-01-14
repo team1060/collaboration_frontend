@@ -17,11 +17,12 @@ function Mypage() {
                 if (!ACCESS_TOKEN) {
                     alert("로그인이 필요합니다.");
                     window.location.href = '/';
-                  }
+                }
+                console.log("테스트1")
                 const token = jwtDecode(ACCESS_TOKEN);
                 const userEmail = token.email;
                 setUser(userEmail);
-
+                console.log(token.email)
                 const email = userEmail;
                 const result = await orderHistory(email);
                 setOrderHistoryData(result);

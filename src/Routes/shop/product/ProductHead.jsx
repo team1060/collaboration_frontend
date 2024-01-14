@@ -17,12 +17,12 @@ function ProductHead({ prop }) {
                         >
                             상품 상세설명
                         </Button>
-                        <Button
+                        {/* <Button
                             onClick={() => setActiveTab('reviews')}
                             className={activeTab === 'reviews' ? 'active' : ''}
                         >
                             상품평
-                        </Button>
+                        </Button> */}
                     </Grid>
                 </Container>
             </div>

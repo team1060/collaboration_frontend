@@ -44,6 +44,7 @@ import MemberModifyPw from "../Routes/auth/MemberModifyPw.jsx";
 
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
+import PaymentSuccess from "../Routes/shop/product/PaymentSuccess.jsx";
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
@@ -104,7 +105,7 @@ const Router = () => {
           element={  <MainLayout><ReserveCancel /></MainLayout> } />
         {/* 결제페이지 */}
         <Route path="/product/pay" element={  <MainLayout><Pay /></MainLayout>} />
-
+        <Route path="/payment/success" element={<PaymentSuccess/>} />
         {/* 마이페이지 */}
         <Route path="/member/mypage/info" element={  <MainLayout><Mypage /></MainLayout>} />
         {/* 회원정보 수정 로그인 */}
