@@ -80,6 +80,9 @@ function MemberModify() {
                     setEmail(token.email);
                     const userData = await getNickname(token.email);
                     setUserData(userData);
+                } else {
+                    alert("로그인이 필요합니다.");
+                    window.location.href = '/';
                 }
             } catch (error) {
                 console.error(error);
@@ -93,21 +96,21 @@ function MemberModify() {
         e.preventDefault();
 
         // 입력필드 완료 여부 확인 
-    if (
-      pwViewMessage.includes("특수") ||
-      pwCheckMessage.includes("일치하지 않습니다") ||
-      pwInput !== pwInputche
-    ) {
-      alert("문항들을 한번 더 확인해주세요!");
-      return;
-    }
+        if (
+            pwViewMessage.includes("특수") ||
+            pwCheckMessage.includes("일치하지 않습니다") ||
+            pwInput !== pwInputche
+        ) {
+            alert("문항들을 한번 더 확인해주세요!");
+            return;
+        }
 
         if (email && currentPw && pwInput) {
             const userData = {
                 email: email,
                 currentPassword: currentPw,
                 password: pwInput
-            } 
+            }
             try {
                 const updateData = await PwUpdate(userData)
                 if (updateData) {
@@ -133,20 +136,20 @@ function MemberModify() {
             alert('닉네임을 입력해주세요');
             return;
         }
-        try{
+        try {
             const data = {
                 email: email,
                 nickname: nickname
             }
             const response = await NicknameUpdate(data);
-            if(response){
+            if (response) {
                 alert('닉네임 변경이 완료되었습니다.')
                 window.location.reload();
             } else {
                 alert('다시 시도해주세요')
                 window.location.reload();
             }
-        }catch (error) {
+        } catch (error) {
             console.error(error)
         }
     }
@@ -168,7 +171,7 @@ function MemberModify() {
                         <Menu />
                     </Grid>
                     {/* Dom warning 방지용 */}
-                    <input type="text" name="username" autoComplete="username" style={{display:'none'}}/>
+                    <input type="text" name="username" autoComplete="username" style={{ display: 'none' }} />
                     <Grid item lg={10} md={10} xs={12} className="content">
                         <div className="modifyTitle">
                             <Typography variant="h6">
@@ -244,7 +247,7 @@ function MemberModify() {
                         {/* 새비밀번호 확인 */}
                         <Grid container spacing={3} className="inputfield">
                             <Grid item xs={3} lg={2} className="inputtext">
-                                새 비밀번호 확인
+                                비밀번호 확인
                                 <span>*</span>
                             </Grid>
                             <Grid item xs={8} lg={7}>
@@ -325,7 +328,7 @@ function MemberModify() {
                                 />
                             </Grid>
                         </Grid>
-                    <div className="but" style={{ marginLeft: '30px' }}><Button variant="contained" type='submit' style={{ width: '100px', marginTop: '50px'}}>확인</Button></div>
+                        <div className="but" style={{ marginLeft: '30px' }}><Button variant="contained" type='submit' style={{ width: '100px', marginTop: '50px' }}>확인</Button></div>
                     </Grid>
                 </Grid>
             </form>

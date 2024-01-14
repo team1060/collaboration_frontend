@@ -42,21 +42,23 @@ function ReserveTable() {
   useEffect(() => {
     const fetchData = async (email) => {
       try {
-        if(ACCESS_TOKEN){
+        if (ACCESS_TOKEN) {
           const token = jwtDecode(ACCESS_TOKEN);
           const email = token.email;
           const userData = await getReserve(email);
           setUserData(userData);
-
+        } else {
+          alert("로그인이 필요합니다.");
+          window.location.href = '/';
         }
-        
+
       } catch (error) {
         throw error;
       }
     };
 
     fetchData(email);
-  }, [email]);
+  }, [ACCESS_TOKEN]);
 
   // 예약 취소 
   const handleCancel = async (reserveNo, data) => {
@@ -69,13 +71,13 @@ function ReserveTable() {
       [코스이름] ${data.course_name} 
       취소하시겠습니까?`);
 
-    if (userCheck) {
-      await cancelGolf(reserveNo);
-      alert('취소 완료되었습니다.');
-      window.location.reload();
-    } else {
-      alert('취소 신청이 취소되었습니다.');
-    }
+      if (userCheck) {
+        await cancelGolf(reserveNo);
+        alert('취소 완료되었습니다.');
+        window.location.reload();
+      } else {
+        alert('취소 신청이 취소되었습니다.');
+      }
 
       // 예약이 취소되면 새로운 데이터로 업데이트
       const updatedUserData = await getReserve(email);
@@ -86,61 +88,61 @@ function ReserveTable() {
   };
 
   return (
-      <Container>
-        <div className="parent">
-          <div className='internet'>
-            <h2>예약내역</h2>
-            <br />
-          </div>
+    <Container>
+      <div className="parent">
+        <div className='internet'>
+          <h2>예약내역</h2>
+          <br />
         </div>
+      </div>
 
-        <Paper>
-          <TableContainer sx={{ maxHeight: 700 }}>
-            <Table sx={{minWidth: '550px'}} stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <StyledTableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth }}
-                    >
-                      {column.label}
-                    </StyledTableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {userData
-                  .filter(data => data.golf_status === 1)
-                  .map((data, index) => (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={data.reserve_no}>
-                      {columns.map((column) => (
-                        <StyledTableCell key={column.id} align={column.align}>
-                          {column.id === 'id' ? index + 1 : column.id === 'actions' ? (
-                            <Button
-                              onClick={() => handleCancel(data.reserve_no, data)}
-                              disabled={Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7}
-                            >
-                              {Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7 ? "취소 불가" : "취소"}
-                            </Button>
-                          ) : column.id === 'golf_time' ? (
-                            formatTime(data[column.id])
-                          ) : column.id === 'greenpee' ? (
-                            formatGreen(data[column.id])
-                          ) : (
-                            data[column.id]
-                          )}
-                        </StyledTableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-        <br />
-      </Container>
+      <Paper>
+        <TableContainer sx={{ maxHeight: 700 }}>
+          <Table sx={{ minWidth: '550px' }} stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <StyledTableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </StyledTableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {userData
+                .filter(data => data.golf_status === 1)
+                .map((data, index) => (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={data.reserve_no}>
+                    {columns.map((column) => (
+                      <StyledTableCell key={column.id} align={column.align}>
+                        {column.id === 'id' ? index + 1 : column.id === 'actions' ? (
+                          <Button
+                            onClick={() => handleCancel(data.reserve_no, data)}
+                            disabled={Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7}
+                          >
+                            {Math.floor((new Date(data.golf_date) - new Date()) / (24 * 60 * 60 * 1000)) < 7 ? "취소 불가" : "취소"}
+                          </Button>
+                        ) : column.id === 'golf_time' ? (
+                          formatTime(data[column.id])
+                        ) : column.id === 'greenpee' ? (
+                          formatGreen(data[column.id])
+                        ) : (
+                          data[column.id]
+                        )}
+                      </StyledTableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <br />
+    </Container>
   );
 }
 

@@ -19,12 +19,14 @@ import { Container, Typography, Grid, Button, ListItem } from '@mui/material';
 import JoinData from './data/JoinData.js';
 import '../components/style/MemberJoin.scss';
 import { useEffect, useState, useRef } from 'react';
-import { emailSubmit, getAllMembers, registerMember } from '../services/auth/Member.js';
+import { emailSubmit, getAllMembers, getUserDelData, registerMember } from '../services/auth/Member.js';
 
 function MemberJoin() {
   const [open, setOpen] = React.useState([false, false, false, false]);
   // 모든 계정정보
   const [allEmail, setAllEmail] = useState([]);
+  // 모든 백업 계정 정보 
+  const [delEmail, setDelEmail] = useState([]);
   const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
@@ -71,21 +73,21 @@ function MemberJoin() {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    //입력필드 완료 여부 확인 
-    // if (
-    //   !inputValue ||
-    //   !nickname ||
-    //   !name ||
-    //   !phoneNumber ||
-    //   response !== pwchecked ||
-    //   viewMessage.includes("불가") ||
-    //   pwViewMessage.includes("특수") ||
-    //   pwCheckMessage.includes("일치하지 않습니다") ||
-    //   pwInput !== pwInputche
-    // ) {
-    //   alert("문항들을 한번 더 확인해주세요!");
-    //   return;
-    // }
+    // 입력필드 완료 여부 확인 
+    if (
+      !inputValue ||
+      !nickname ||
+      !name ||
+      !phoneNumber ||
+      response !== pwchecked ||
+      viewMessage.includes("불가") ||
+      pwViewMessage.includes("특수") ||
+      pwCheckMessage.includes("일치하지 않습니다") ||
+      pwInput !== pwInputche
+    ) {
+      alert("문항들을 한번 더 확인해주세요!");
+      return;
+    }
 
     // 필수 약관 체크 여부 확인
     if (!checked[0] || !checked[1]) {
@@ -120,7 +122,8 @@ function MemberJoin() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(value);
     const isDuplicate = allEmail.some((item) => item.email === value);
-    if (isDuplicate || !isEmailValid) {
+    const isDelUser = delEmail.some((item) => item.email === value);
+    if (isDuplicate || !isEmailValid || isDelUser) {
       setViewMessage("사용불가능한 이메일입니다.");
       setDupliButton(false)
     } else {
@@ -243,6 +246,9 @@ function MemberJoin() {
       try {
         const userData = await getAllMembers();
         setAllEmail(userData);
+        const userDelData = await getUserDelData();
+        setDelEmail(userDelData);
+
       } catch (error) {
       } finally {
         setTime(300);

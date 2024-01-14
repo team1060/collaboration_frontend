@@ -7,13 +7,17 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN');
-
+// const Render = useRef(true);
 function Mypage() {
     const [user, setUser] = useState('');
     const [orderHistoryData, setOrderHistoryData] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
+                if (!ACCESS_TOKEN) {
+                    alert("로그인이 필요합니다.");
+                    window.location.href = '/';
+                  }
                 const token = jwtDecode(ACCESS_TOKEN);
                 const userEmail = token.email;
                 setUser(userEmail);

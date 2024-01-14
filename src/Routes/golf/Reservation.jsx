@@ -28,13 +28,13 @@ function Reservation() {
   };
 
   useEffect(() => {
-    // console.log("useEffect");
-    // if (!ACCESS_TOKEN && Render.current) {
-    //   alert("로그인이 필요합니다.");
-    //   window.location.href = '/';
-    // }
+    if (!ACCESS_TOKEN && Render.current) {
+      // alert("로그인이 필요합니다.");
+      window.location.href = '/';
+    }
     // Render.current = false;
   }, [ACCESS_TOKEN]);
+  
   return (
     <div id="reserve">
       <Head />

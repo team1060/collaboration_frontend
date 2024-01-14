@@ -12,7 +12,6 @@ import { getpaymentByMemberCount } from "../../services/auth/MyPage";
 const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN')
 
 function MemberTop() {
-    const [loginEmail, setLoginEmail] = useState(null);
     const [user, setUser] = useState(null);
     const [orderCount, setOrderCount] = useState(0);
     const [reservationCount, setReservationCount] = useState(0);
@@ -23,17 +22,15 @@ function MemberTop() {
                 const token = jwtDecode(ACCESS_TOKEN);
                 const email = token.email;
                 const UserData = await getNickname(email);
-                setLoginEmail(email);
                 setUser(UserData.nickname);
-            }   
-            try {
-                const reservationCount = await getReserveCount(loginEmail);
-                const orderCount = await getpaymentByMemberCount(loginEmail);
+                // 갯수 
+                const userEmail = UserData.email;
+                const reservationCount = await getReserveCount(userEmail);
+                const orderCount = await getpaymentByMemberCount(userEmail);
                 setReservationCount(reservationCount);
                 setOrderCount(orderCount);
-            } catch (error) {
-                
-            }
+            }   
+
         }
 
         fetchData();

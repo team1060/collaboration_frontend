@@ -115,6 +115,16 @@ export const sendPwData = async (data) => {
 export const isAdmin = async (email) => {
     try {
         const response = await axiosInstance.get(`/member/isAdmin?email=${email}`, email)
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+// 탈퇴 회원 전체 조회 
+export const getUserDelData = async() => {
+    try {
+        const response = await axiosInstance.get('/member/deljoin')
         console.log(response);
         return response.data;
     } catch (error) {

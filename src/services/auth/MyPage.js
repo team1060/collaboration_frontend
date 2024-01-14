@@ -73,10 +73,10 @@ export const orderHistory = async (email) => {
 
 export const getpaymentByMemberCount = async (email) => {
     try {
+
         const response = await axiosAuth.get('/api/payment/paymentByMemberCount', {
             params: { email }
         })
-        console.log(email);
         return response.data;
     } catch (error) {
         throw error;
