@@ -26,10 +26,10 @@ function Header() {
         const UserData = await getNickname(email);
         setUser(UserData.nickname);
         try {
-          // const isAdminUser = await isAdmin(email);
+          const isAdminUser = await isAdmin(email);
           console.log(email)
-          // console.log(isAdminUser);
-          // setAdmin(isAdminUser)
+          console.log(isAdminUser);
+          setAdmin(isAdminUser)
         } catch (error) {
           // 오류 처리
           console.error('Error fetching admin status:', error);
@@ -58,7 +58,7 @@ function Header() {
           <div className="inner">
             <h1 className="logo">
               <Link to="/">
-                <img src="/img/logo4.png" alt="logo" />
+                <img src="/img/logo/logo4.png" alt="logo" />
               </Link>
             </h1>
             <div className="util">

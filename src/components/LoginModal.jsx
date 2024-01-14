@@ -69,15 +69,15 @@ export default function LoginModal() {
         email: email,
         password: password
       };
-    try{
-      console.log(useData)
-      await loginMember(useData);
-      window.location.href="/"
-    } catch (error){
-      alert('이메일 또는 비밀번호가 올바르지 않습니다.')
-      console.log(error)
-    }
-      
+      try {
+        console.log(useData)
+        await loginMember(useData);
+        window.location.href = "/"
+      } catch (error) {
+        alert('이메일 또는 비밀번호가 올바르지 않습니다.')
+        console.log(error)
+      }
+
     } else {
       alert('이메일과 비밀번호를 모두 입력하세요.');
     }
@@ -87,12 +87,12 @@ export default function LoginModal() {
   const handleButtonClick = () => {
     window.location.href = 'http://localhost:8081/oauth/kakao';
 
-};
+  };
 
-const handleNaverButtonClick = () => {
-  window.location.href = 'http://localhost:8081/oauth/naver';
+  const handleNaverButtonClick = () => {
+    window.location.href = 'http://localhost:8081/oauth/naver';
 
-};
+  };
   return (
     <div id='LoginModal'>
       <button className='loginbutton' onClick={handleOpen}>
@@ -132,12 +132,12 @@ const handleNaverButtonClick = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <Grid container alignItems="center">
-            <Button onClick={handleButtonClick}>
-              <img style={{width: '30px'}} src='../img/kakao.png'></img>
+              <Button onClick={handleButtonClick}>
+                <img style={{ width: '30px' }} src='/img/icon/kakao.png'></img>
               </Button>
-            <Button onClick={handleNaverButtonClick}>
-            <img style={{width: '30px'}} src='../img/naver.png'></img>
-            </Button>
+              <Button onClick={handleNaverButtonClick}>
+                <img style={{ width: '30px' }} src='/img/icon/naver.png'></img>
+              </Button>
               <a href='/member/find' style={linkStyle}>
                 아이디/비밀번호 찾기
               </a>

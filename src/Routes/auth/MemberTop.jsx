@@ -42,7 +42,7 @@ function MemberTop() {
     return (
         <>
             <div className="box1">
-                <img src="https://resource.golfzonmarket.com/webroot/prdimg/common/images/icon/new_grade6.png" alt=""></img>
+                <img src="/img/icon/new_grade6.png" alt=""></img>
                 <Typography variant="h5" >
                     <span>{user}님</span> 안녕하세요
                 </Typography>
