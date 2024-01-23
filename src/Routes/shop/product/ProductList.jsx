@@ -165,7 +165,6 @@ function ProductList({ clubName }) {
                         <Grid item key={list.product_no}>
                             <Card sx={{ width: { lg: 230, xs: 225 }, height: 420 }} className='card'>
                                 <CardContent>
-                                    {/* {`http://localhost:8081${list.path}`} */}
                                     <a href={`/product/view/${list.product_no}`}>
                                         <img src={list.path} alt="" />
                                     </a>

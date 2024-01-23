@@ -161,9 +161,9 @@ function Pay() {
             quantity: totalQuantity, // Set the quantity
             total_amount: parseInt(totalAmount / 100, 10), // Set the total amount
             tax_free_amount: parseInt(totalAmount / 100, 10), // Set the VAT amount (if applicable)
-            approval_url: `http://localhost:3000/payment/success`, // Set your success URL
-            fail_url: 'http://localhost:3000/payment/fail', // Set your fail URL
-            cancel_url: 'http://localhost:3000/payment/cancel', // Set your cancel URL
+            approval_url: `http://15.164.99.22/payment/success`, // Set your success URL
+            fail_url: 'http://15.164.99.22/payment/fail', // Set your fail URL
+            cancel_url: 'http://15.164.99.22/payment/cancel', // Set your cancel URL
         };
         console.log(data);
         try {

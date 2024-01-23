@@ -85,12 +85,12 @@ export default function LoginModal() {
 
   // 카카오로그인 
   const handleButtonClick = () => {
-    window.location.href = 'http://localhost:8081/oauth/kakao';
+    window.location.href = 'http://13.209.73.98:8080/oauth/kakao';
 
   };
 
   const handleNaverButtonClick = () => {
-    window.location.href = 'http://localhost:8081/oauth/naver';
+    window.location.href = 'http://13.209.73.98:8080/oauth/naver';
 
   };
   return (

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = 'http://localhost:8081/api'
+const baseURL = process.env.REACT_APP_BASE_URL;
 const axiosAdmin = axios.create({
     baseURL,
     headers: {
