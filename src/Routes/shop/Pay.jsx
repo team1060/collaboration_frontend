@@ -99,10 +99,10 @@ function Pay() {
 
         // 주소 정보가 완전하지 않은 경우 처리
         if (!selectedAddress.zipNo || !selectedAddress.roadAddr) {
-            // 주소 정보가 완전하지 않을 때 처리
             console.error('주소 정보가 완전하지 않습니다.');
             return;
         }
+        
 
         // tbl_p_buy 테이블에 대한 데이터 준비
         const pBuyData = {
@@ -245,6 +245,7 @@ function Pay() {
         roadAddrPart2: '',
         addrDetail: ''
     });
+    
 
     // 주소 검색 버튼 클릭 시 주소 검색 모달 열기
     const handleAddressSearchButtonClick = () => {
@@ -253,18 +254,23 @@ function Pay() {
 
     // SearchAddress 컴포넌트에서 선택한 주소를 처리하는 콜백 함수
     const handleSelectAddress = (address) => {
-        // 주소에서 ()로 나누기
-        const addrParts = address.roadAddr.split(/[( )]/);
-
-        // 주소 정보로 state 업데이트
-        setSelectedAddress({
-            zipNo: address.zipNo,
-            roadAddr: address.roadAddr, // 전체 주소
-            roadAddrPart1: addrParts[0].trim(), // 첫 번째 부분은 roadAddrPart1
-            roadAddrPart2: addrParts[1] ? addrParts[1].trim() : '', // 두 번째 부분은 roadAddrPart2 (없으면 빈 문자열)
-
-        });
-        closeAddressModal();
+        if (address) {
+            // 주소에서 ()로 나누기
+            const addrParts = address.roadAddr.split(/[( )]/);
+            console.log(addrParts);
+    
+            // 주소 정보로 state 업데이트
+            setSelectedAddress({
+                zipNo: address.zipNo,
+                roadAddr: address.roadAddr, // 전체 주소
+                roadAddrPart1: addrParts[0].trim(), // 첫 번째 부분은 roadAddrPart1
+                roadAddrPart2: addrParts[1] ? addrParts[1].trim() : '', // 두 번째 부분은 roadAddrPart2 (없으면 빈 문자열)
+            });
+    
+            closeAddressModal();
+        } else {
+            console.error('선택한 주소가 유효하지 않습니다.');
+        }
     };
 
     // addrDetail 변경을 위한 핸들러

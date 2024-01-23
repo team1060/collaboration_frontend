@@ -41,8 +41,7 @@ function MemberRemoveLogin() {
       try {
         const userCheck = window.confirm(
           `탈퇴이후에는 30일 뒤에 재가입이 가능합니다.
-          탈퇴 하시겠습니까?
-          `
+탈퇴 하시겠습니까?`
         )
         if (userCheck) {
           await removeMember(email, password)

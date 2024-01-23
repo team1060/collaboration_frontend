@@ -20,6 +20,8 @@ function MemberModifyPw () {
           password: password
         }
         const response = await sendPwData(data);
+        alert('비밀번호 수정이 완료되었습니다.')
+        window.location.href="/"
       } catch(error) {
         console.error(error);
       }
@@ -38,7 +40,7 @@ function MemberModifyPw () {
           </div>
           {/* 박스 */}
       </div>
-      {email}
+      {/* {email} */}
       <Grid container className="boxTop">
           <Grid item lg={12} md={12} xs={12}>
               <div className="title">
@@ -59,6 +61,7 @@ function MemberModifyPw () {
                                   label="새 비밀번호를 입력해주세요"
                                   name="password"
                                   type="password"
+                                  autoComplete="new-password"
                                   value={password}
                                   onChange={(e) => setPassword(e.target.value)}
                                   variant="standard"
@@ -79,6 +82,7 @@ function MemberModifyPw () {
                                     label="새 비밀번호를 입력해주세요"
                                     type="password"
                                     variant="standard"
+                                    autoComplete="new-password"
                                     value={newPw}
                                     onChange={(e) => setNewPw(e.target.value)}
                                 />

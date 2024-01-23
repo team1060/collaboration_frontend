@@ -30,7 +30,7 @@ function Product() {
 
       <div>
           <ClubButton parentClub={parentClub}/>
-          <ProductImg />
+          {/* <ProductImg /> */}
           <ProductList clubName={clubName}/>
     </div>
 

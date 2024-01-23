@@ -9,9 +9,9 @@ import axiosAdmin from "../adminAxios.js";
         return response.data;
     } catch (error) {
         console.log(error)
-        if(error.response.status === 403) {
-            window.location.href="/";
-        }
+        // if(error.response.status === 403) {
+        //     window.location.href="/";
+        // }
         throw error;
     }
 }
@@ -19,7 +19,7 @@ import axiosAdmin from "../adminAxios.js";
 // 골프장 이름 데이터 가져오기
 export const fetchGolfNames = async () => {
   try {
-    const response = await axiosAdmin.get("/admin/golf");
+    const response = await axiosAdmin.get("/golf");
     return response.data;
   } catch (error) {
     console.error( error);

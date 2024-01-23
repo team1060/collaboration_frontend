@@ -140,9 +140,9 @@ const AdminProductList = () => {
 
    <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
     {/*  */}
-      <Button variant="contained" color="primary" onClick={handleRegister}>상품 등록</Button> 
-      <Button variant="contained" color="primary" onClick={handleEdit}>상품 수정</Button>
-      <Button variant="contained" color="primary" onClick={handleDelete}>상품 삭제</Button>
+      <Button variant="contained" disabled color="primary" onClick={handleRegister}>상품 등록</Button> 
+      <Button variant="contained" disabled color="primary" onClick={handleEdit}>상품 수정</Button>
+      <Button variant="contained" disabled color="primary" onClick={handleDelete}>상품 삭제</Button>
    </Box>
 
       <div style={{ height: 800, width: '100%' }}>

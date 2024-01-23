@@ -28,8 +28,8 @@ const conversionMap = {
   '통계': BarChartIcon,
   '회원목록': GroupIcon,
   '상품목록': WidgetsIcon, 
-  '상품관리': AddShoppingCartIcon,
-  '게시판관리': EditIcon,
+  '배송내역': AddShoppingCartIcon,
+  // '게시판관리': EditIcon,
   '골프장관리': GolfCourseIcon,
 };
 // 영한 닉네임 
@@ -38,8 +38,8 @@ const convertToEnglishName = (koreanName) => {
     '통계': 'admin',
     '회원목록': 'admin/member',
     '상품목록': 'admin/productlist',
-    '상품관리': 'admin/Product',
-    '게시판관리': 'admin/board',
+    '배송내역': 'admin/Product',
+    // '게시판관리': 'admin/board',
     '골프장관리': 'admin/course',
 
     //사이드바 한글이름 영어로 url 추가하기 이름에 한글이름 제거 하기 
@@ -83,7 +83,7 @@ const AdminHeader = () => {
           </List>
           <Divider />
           <List>
-            {[ '상품관리','게시판관리', '골프장관리'].map((text, index) => (
+            {[ '골프장관리','배송내역'].map((text, index) => (
               <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={`/${convertToEnglishName(text)}`}>
                 <ListItemIcon>

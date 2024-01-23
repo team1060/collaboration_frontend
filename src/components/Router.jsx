@@ -151,7 +151,7 @@ const Router = () => {
         <Route path="/admin/member" element={<AdminLayout><AdminMember /></AdminLayout>} />
 
         <Route path="/admin/course" element={<AdminLayout><AdminCourse /></AdminLayout>} />
-        <Route path="/admin/product" element={<AdminLayout><AdminProduct /></AdminLayout>} />
+        {/* <Route path="/admin/product" element={<AdminLayout><AdminProduct /></AdminLayout>} /> */}
         <Route path="/admin/productlist" element={<AdminLayout><AdminProductList /></AdminLayout>} />
 
 
