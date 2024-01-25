@@ -19,7 +19,7 @@ const axiosAuth = axios.create({
 // 마이페이지 로그인 
 export const MypageLogin = async (userData) => {
     try {
-        const response = await axiosAuth.post("api/member/mypage/login", userData)
+        const response = await axiosAuth.post("/member/mypage/login", userData)
         return response.data;
     } catch (error) {
         throw error;
@@ -29,17 +29,17 @@ export const MypageLogin = async (userData) => {
 // 비밀번호 업데이트 
 export const PwUpdate = async (userData) => {
     try {
-        const response = await axiosAuth.post("api/member/mypage/modify", userData);
+        const response = await axiosAuth.post("/member/mypage/modify", userData);
         return response.data;
     } catch (error) {
-        throw error;
+        throw error;    
     }
 }
 
 // 닉네임 변경 
 export const NicknameUpdate = async (data) => {
     try {
-        const response = await axiosAuth.put("/api/member/mypage/modify", data);
+        const response = await axiosAuth.put("/member/mypage/modify", data);
         return response.data;
     } catch (error) {
         throw error;
@@ -49,7 +49,7 @@ export const NicknameUpdate = async (data) => {
 // 탈퇴 
 export const removeMember = async (email, password) => {
     try {
-        const response = await axiosAuth.delete(`/api/member/mypage/login/remove/${email}`, {
+        const response = await axiosAuth.delete(`/member/mypage/login/remove/${email}`, {
             data: { password }
         });
         return response.data;
@@ -60,7 +60,7 @@ export const removeMember = async (email, password) => {
 
 export const orderHistory = async (email) => {
     try {
-        const response = await axiosAuth.get('/api/payment/paymentByMember', {
+        const response = await axiosAuth.get('/payment/paymentByMember', {
             params: { email }
         })
         console.log(email);
@@ -74,7 +74,7 @@ export const orderHistory = async (email) => {
 export const getpaymentByMemberCount = async (email) => {
     try {
 
-        const response = await axiosAuth.get('/api/payment/paymentByMemberCount', {
+        const response = await axiosAuth.get('/payment/paymentByMemberCount', {
             params: { email }
         })
         return response.data;

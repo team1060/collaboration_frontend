@@ -7,6 +7,7 @@ import Call from "@mui/icons-material/Call";
 import LocationOn from "@mui/icons-material/LocationOn";
 import InfoRemote from "./infodetail/InfoRemote";
 import InfoHead from "./infodetail/InfoHead";
+import { Link } from "react-router-dom";
 
 function Info() {
   const [golfInfo, setGolfInfo] = useState(null);
@@ -70,14 +71,14 @@ function Info() {
                 {groupedByRegion[region].map((golf, index) => (
                   <Grid container item xs={11} md={5.5} key={golf.golf_no} className="golf"  >
                     <Grid className="golfImage">
-                      <a className="golfImageInner" href={`/golf/info/${golf.golf_no}`}>
+                      <Link className="golfImageInner" to={`/golf/info/${golf.golf_no}`}>
 
                         <img src={`/img/golf/${index + 1}.jpg`} alt={`Golf Course ${index + 1}`} />
 
-                      </a>
+                      </Link>
                     </Grid>
                     <Grid className="golfInner">
-                      <h3><a href={`/golf/info/${golf.golf_no}`}>{golf.name}</a></h3>
+                      <h3><Link to={`/golf/info/${golf.golf_no}`}>{golf.name}</Link></h3>
                       <p>{golf.description}</p>
                       <br></br>
                       <p>홀: {golf.holes}, 파: {golf.pars}, 전장: {golf.land_area?.toLocaleString()}m²</p>
