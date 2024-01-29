@@ -1,135 +1,30 @@
-# Getting Started with Create React App
+# 🏌골프의 민족 프론트엔드
+> **[참고]**<br />
+> [골프의민족 레파지토리](https://github.com/team1060/collaboration)<br />
+> [백엔드 레파지토리](https://github.com/team1060/collaboration_backend)<br />
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<br /><br />
 
-## Available Scripts
+### [**🔗 골프의 민족 이용하기**](https://github.com/team1060)
+<hr /><br />
 
-In the project directory, you can run:
+### 📌개발 타임라인
+![TIMELINE](https://github.com/team1060/collaboration/assets/149341866/d5016b47-cb1e-461d-8edc-a157ce67069d)
+<hr />
 
-### `npm start`
+### 📌와이어프레임
+![WIREFRAME](https://github.com/team1060/collaboration/assets/149341866/dccfb096-3a9b-4a3f-a5d0-145548918a53)
+<hr />
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📌ERD
+![ERD](https://github.com/team1060/collaboration/assets/149341866/964ff4d3-86e0-493d-a605-d052fb4dad9f)
+<hr />
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 📌개발환경
+![DEV](https://github.com/team1060/collaboration/assets/149341866/41ceb5ef-0a23-47d0-bd51-c121f6615b4f)
+<hr />
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-
-처음 클론 할시 
-
-npm i 
-
-### 설치 한것들 라우터
-
-npm i react-router-dom
-
-### 사스 scss 스타일 style.scss
-npm i sass
-
-### 사이드 바 mui 사용 
-npm install @mui/material @emotion/react @emotion/styled
-
-npm install @material-ui/icons
-
-npm install @mui/icons-material
-### 테이블 정리 
-npm install @mui/x-data-grid
-
-
-### 어드민 그래프 바 
-npm install @nivo/bar
-npm install @nivo/pie
-
-
-npm install swiper
-
-### 슬라이더 캘린더 설치 후 삭제 안됨 
-npm install vue-horizontal-calendar -S
-npm uninstall vue-horizontal-calendar -S
-
-npm install react-horizontal-datepicker
-npm uninstall react-horizontal-datepicker
-
-npm install react-calendar --save
-npm uninstall react-calendar --save
-
-### 엑시우스  json 데이트 가져오기 
-npm install axios
-### 드레그앤드랍 
-npm install axios react-dropzone
-### 얼럿 창
-npm install --save react-toastify
-
-### mui 이모티콘
-npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
-
-npm install @mui/x-date-pickers
-npm install @mui/x-date-pickers @mui/lab
-npm install @mui/system
-
-### 리액트 스크롤
-npm install react-scroll
-
-npm install @material-ui/core
-npm install @mui/styles
-
-### 게시판 관련 라이브 러리 
-npm install @tinymce/tinymce-react
-npm uninstall @tinymce/tinymce-react
-
-npm install --save @ckeditor/ckeditor5-react @ckeditor/ckeditor5-build-classic
+### 📌팀원
+| <img src="https://github.com/team1060/collaboration/assets/149341866/cb011bd7-0c66-41b2-9e2f-1ac3051cce42" alt="이길호" width="150px"> | <img src="https://github.com/team1060/collaboration/assets/149341866/64eb0c56-4019-4b08-ae3b-05b7eb0be8ec" alt="김정연" width="150px"> | <img src="https://github.com/team1060/collaboration/assets/149341866/38128a69-e620-4131-b833-bbd6614240cc" alt="박주영" width="150px"> |
+|:----------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|
+|[이길호(팀장)](https://github.com/team1060)|[김정연](https://github.com/jungyeon53)|[박주영](https://github.com/juyougn)|
