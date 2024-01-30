@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = `${process.env.REACT_APP_BASE_URL}/api`;
+const baseURL = process.env.REACT_APP_BASE_URL;
 const axiosAdmin = axios.create({
     baseURL,
     headers: {

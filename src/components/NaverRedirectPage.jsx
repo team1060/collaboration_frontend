@@ -7,7 +7,7 @@ const NaverRedirectPage = () => {
 
     const handleOAuthKakao = async (code) => {
         try {
-            const response = await axios.get(`http://13.209.73.98:8080/oauth/login/naver`, {
+            const response = await axios.get(`http://13.125.136.122:8080/oauth/login/naver`, {
                 params: {
                     code: code,
                     oauthServerType: "NAVER"
