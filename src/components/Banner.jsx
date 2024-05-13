@@ -8,7 +8,7 @@ function Banner() {
     'b001.png', 
     'b004.png', 
     'b005.png',
-    'b006.png',
+    'b006.jpg',
     'b007.jpg',
     'b008.jpg'
   ], []);

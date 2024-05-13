@@ -53,8 +53,8 @@ const buttonStyle = {
 export default function LoginModal() {
 
   const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('golfzone1')
+  const [password, setPassword] = useState('pw01')
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -85,12 +85,12 @@ export default function LoginModal() {
 
   // 카카오로그인 
   const handleButtonClick = () => {
-    window.location.href = 'http://localhost:8081/oauth/kakao';
+    window.location.href = 'http://13.125.136.122:8080/oauth/kakao';
 
   };
 
   const handleNaverButtonClick = () => {
-    window.location.href = 'http://localhost:8081/oauth/naver';
+    window.location.href = 'http://13.125.136.122:8080/oauth/naver';
 
   };
   return (

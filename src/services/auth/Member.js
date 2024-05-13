@@ -70,7 +70,7 @@ export const getEmail = async () => {
 // 로그인 
 export const loginMember = async (userData) => {
     try {
-        const response = await axiosAuth.post("api/member/login", userData)
+        const response = await axiosAuth.post("/member/login", userData)
         console.log(response.data.token);
         if (response.data.token) {
             const token = response.data.token;
@@ -85,7 +85,7 @@ export const loginMember = async (userData) => {
 // 이메일로 닉네임 조회
 export const getNickname = async (email) => {
     try {
-        const response = await axiosAuth.post(`api/member/getEmail/${email}`, email)
+        const response = await axiosAuth.post(`/member/getEmail/${email}`, email)
         return response.data;
     } catch (error) {
         throw error;

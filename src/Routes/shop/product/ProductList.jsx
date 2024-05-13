@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import styled from '@emotion/styled';
 import { Button, Container, FormControl, InputLabel, MenuItem, OutlinedInput, Select, Grid, Box } from "@mui/material";
 import { getBrand, getProductList } from '../../../services/shop/apiProduct';
+import { Link } from 'react-router-dom';
 
 // 상품 갯수 
 const ITEMS_PAGE_LARGE = 30;
@@ -165,10 +166,9 @@ function ProductList({ clubName }) {
                         <Grid item key={list.product_no}>
                             <Card sx={{ width: { lg: 230, xs: 225 }, height: 420 }} className='card'>
                                 <CardContent>
-                                    {/* {`http://localhost:8081${list.path}`} */}
-                                    <a href={`/product/view/${list.product_no}`}>
+                                    <Link to={`/product/view/${list.product_no}`}>
                                         <img src={list.path} alt="" />
-                                    </a>
+                                    </Link>
                                     <Typography sx={{ fontSize: 14, fontWeight: 'bold', mt: 1 }} color="text.dark" gutterBottom>
                                         {list.brand_name}
                                     </Typography>
@@ -179,11 +179,11 @@ function ProductList({ clubName }) {
                                     </div>
 
                                     <div className="title">
-                                        <a href={`/product/view/${list.product_no}`}>
+                                        <Link to={`/product/view/${list.product_no}`}>
                                             <Typography sx={{ fontSize: 14, mb: 1.5 }} component="div">
                                                 {list.product}
                                             </Typography>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="discount">
                                         <Typography color="text.secondary" sx={{ fontSize: 13, fontWeight: '500' }}>
