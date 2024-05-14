@@ -1,13 +1,11 @@
 import axiosInstance from "../axiosInstance.js";
 
-
 /**
  * 회원 페이지 api 모음 , jwtDecode
  */
 // const baseURL = process.env.REACT_APP_BASE_URL;
 // // const baseURL = 'http://localhost:8081';
 // const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN')
-
 
 // const axiosAuth = axios.create({
 //     baseURL,
@@ -42,7 +40,10 @@ export const registerMember = async (memberData) => {
 // 회원 정보 수정
 export const updateMember = async (email, memberData) => {
   try {
-    const response = await axiosInstance.put(`/member/admin/memberupdate/${email}`, memberData);
+    const response = await axiosInstance.put(
+      `/member/admin/memberupdate/${email}`,
+      memberData
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating member", error);
@@ -64,7 +65,10 @@ export const deleteMember = async (email) => {
 // 회원에게 권한 부여 (추가적인 API 엔드포인트 필요)
 export const grantPermission = async (email, permissions) => {
   try {
-    const response = await axiosInstance.post(`/member/permissions/${email}`, permissions);
+    const response = await axiosInstance.post(
+      `/member/permissions/${email}`,
+      permissions
+    );
     return response.data;
   } catch (error) {
     console.error("Error granting permissions", error);

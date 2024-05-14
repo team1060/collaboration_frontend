@@ -8,7 +8,6 @@ import { jwtDecode } from "jwt-decode";
 const ACCESS_TOKEN = localStorage.getItem('ACCESS_TOKEN');
 // const Render = useRef(true);
 function Mypage() {
-    const [user, setUser] = useState('');
     const [orderHistoryData, setOrderHistoryData] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -20,7 +19,7 @@ function Mypage() {
                 console.log("테스트1")
                 const token = jwtDecode(ACCESS_TOKEN);
                 const userEmail = token.email;
-                setUser(userEmail);
+                // setUser(userEmail);
                 console.log(token.email)
                 const email = userEmail;
                 const result = await orderHistory(email);

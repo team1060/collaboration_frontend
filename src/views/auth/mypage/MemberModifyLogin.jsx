@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { Button, Container, Grid, Typography, TextField } from "@mui/material";
 import MemberTop from "../MemberTop";
 import Menu from "../Menu";
@@ -7,9 +7,9 @@ import { MypageLogin } from "../../../core/util/http/auth/MyPage";
 import { getNickname } from "../../../core/util/http/auth/Member";
 
 function MemberModifyLogin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [server, setServer] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [server, setServer] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +22,7 @@ function MemberModifyLogin() {
         setServer(UserData.oauthServerType);
       } else {
         alert("로그인이 필요합니다.");
-        window.location.href = '/';
+        window.location.href = "/";
       }
     };
 
@@ -35,25 +35,25 @@ function MemberModifyLogin() {
     if (email && password) {
       const userData = {
         email: email,
-        password: password
+        password: password,
       };
-      console.log(userData)
+      console.log(userData);
       try {
         await MypageLogin(userData);
         window.location.href = "/member/mypage/modify";
       } catch (error) {
-        alert('비밀번호가 올바르지 않습니다.');
+        alert("비밀번호가 올바르지 않습니다.");
         console.error(error);
       }
     } else {
-      alert('비밀번호를 입력하세요.');
+      alert("비밀번호를 입력하세요.");
     }
   };
 
   return (
     <Container>
       <div className="parent">
-        <div className='internet'>
+        <div className="internet">
           <h2>회원관리</h2>
           <br />
         </div>
@@ -70,15 +70,14 @@ function MemberModifyLogin() {
           <Grid item lg={10} md={10} xs={12} className="content">
             <div className="modify">
               <Typography className="textTop">
-                ※ 회원정보는 개인정보처리방침에 따라 안전하게 보호되며 회원님의 동의 없이 공개 또는 제3자에게 제공하지 않습니다. <br />
-                ※ 소셜로그인 회원님들은 개인정보 수정이 불가능합니다.
+                ※ 회원정보는 개인정보처리방침에 따라 안전하게 보호되며 회원님의
+                동의 없이 공개 또는 제3자에게 제공하지 않습니다. <br />※
+                소셜로그인 회원님들은 개인정보 수정이 불가능합니다.
               </Typography>
             </div>
 
             <div className="modifyTitle">
-              <Typography variant="h6">
-                닉네임 & 비밀번호 수정
-              </Typography>
+              <Typography variant="h6">닉네임 & 비밀번호 수정</Typography>
             </div>
             <hr />
 
@@ -89,7 +88,7 @@ function MemberModifyLogin() {
               <Grid container item xs={8} lg={7}>
                 <TextField
                   fullWidth
-                  name='email'
+                  name="email"
                   label="Email"
                   value={email}
                   autoComplete="email"
@@ -105,13 +104,13 @@ function MemberModifyLogin() {
               <Grid container item xs={8} lg={7}>
                 <TextField
                   fullWidth
-                  type='password'
-                  name='password'
+                  type="password"
+                  name="password"
                   label="Password"
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  disabled={server === 'NAVER' || server === 'KAKAO'}
+                  disabled={server === "NAVER" || server === "KAKAO"}
                 />
               </Grid>
             </Grid>
@@ -120,12 +119,17 @@ function MemberModifyLogin() {
 
             <div className="modify">
               <Typography className="textTop">
-                ※ 회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한 번 입력해 주시기 바랍니다.
+                ※ 회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한 번
+                입력해 주시기 바랍니다.
               </Typography>
             </div>
 
             <div className="but">
-              <Button variant="contained" type='submit' style={{ width: '100px' }}>
+              <Button
+                variant="contained"
+                type="submit"
+                style={{ width: "100px" }}
+              >
                 확인
               </Button>
             </div>

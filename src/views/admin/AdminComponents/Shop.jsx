@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
-import { 
-  Box, Collapse, IconButton, Table, TableBody, TableCell, TableContainer, 
-  TableHead, TableRow, Typography, Paper, TablePagination, TextField, Select, MenuItem 
-} from '@mui/material';
+import React, { useState } from "react";
+import {
+  Box,
+  Collapse,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  Paper,
+  TablePagination,
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import shopData from '../data/shopData.json'; // 경로는 실제 파일 위치에 따라 다름
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import shopData from "../data/shopData.json"; // 경로는 실제 파일 위치에 따라 다름
 
 function Row(props) {
   const { row } = props;
@@ -14,7 +27,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -55,7 +68,9 @@ function Row(props) {
                       </TableCell>
                       <TableCell>{productRow.discount}%</TableCell>
                       <TableCell align="right">{productRow.price}</TableCell>
-                      <TableCell align="right">{productRow.discountedPrice}</TableCell>
+                      <TableCell align="right">
+                        {productRow.discountedPrice}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -71,8 +86,8 @@ function Row(props) {
 export default function ShopTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [filter, setFilter] = useState('');
-  const [filterCategory, setFilterCategory] = useState('orderId'); // 기본 필터 카테고리는 'orderId'
+  const [filter, setFilter] = useState("");
+  const [filterCategory, setFilterCategory] = useState("orderId"); // 기본 필터 카테고리는 'orderId'
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -87,36 +102,34 @@ export default function ShopTable() {
     setFilter(event.target.value);
   };
 
-
-    // 카테고리에 따른 필터링 로직
-    const filteredData = shopData.filter(item =>
-      item[filterCategory]?.toString().toLowerCase().includes(filter.toLowerCase())
-    );
+  // 카테고리에 따른 필터링 로직
+  const filteredData = shopData.filter((item) =>
+    item[filterCategory]
+      ?.toString()
+      .toLowerCase()
+      .includes(filter.toLowerCase())
+  );
 
   // 현재 페이지에 표시될 데이터
   const displayedData = filteredData
     .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
-    const handleFilterCategoryChange = (event) => {
-      setFilterCategory(event.target.value);
-    };
-  
+  const handleFilterCategoryChange = (event) => {
+    setFilterCategory(event.target.value);
+  };
 
   return (
     <Paper>
-      <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-      <TextField
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+        <TextField
           label="검색"
           variant="outlined"
           value={filter}
           onChange={handleFilterChange}
-          style={{ width: '300px' }}
+          style={{ width: "300px" }}
         />
-        <Select
-          value={filterCategory}
-          onChange={handleFilterCategoryChange}
-        >
+        <Select value={filterCategory} onChange={handleFilterCategoryChange}>
           <MenuItem value="orderId">주문번호</MenuItem>
           <MenuItem value="customerId">회원아이디</MenuItem>
           <MenuItem value="orderPrice">주문가격</MenuItem>
@@ -124,7 +137,6 @@ export default function ShopTable() {
           <MenuItem value="request">요청사항</MenuItem>
           <MenuItem value="orderDate">주문날짜</MenuItem>
         </Select>
-       
       </Box>
 
       <TableContainer component={Paper}>

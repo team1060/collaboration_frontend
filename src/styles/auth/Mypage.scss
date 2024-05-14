@@ -1,269 +1,267 @@
 .internet {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .parent {
-    display: flex;
-    justify-content: center;
-
+  display: flex;
+  justify-content: center;
 }
 
 .box1 {
-    height: 100px;
-    border-top: 2px solid #000;
-    border-left: solid 1px #b0b0b0;
-    border-right: solid 1px #b0b0b0;
-    display: flex;
-    align-items: center;
-    background-color: #f8f9fa;
+  height: 100px;
+  border-top: 2px solid #000;
+  border-left: solid 1px #b0b0b0;
+  border-right: solid 1px #b0b0b0;
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
 
-    span {
-        font-weight: bold;
-        margin-left: 20px;
-    }
+  span {
+    font-weight: bold;
+    margin-left: 20px;
+  }
 
-    img {
-        margin-left: 20px;
-    }
+  img {
+    margin-left: 20px;
+  }
 
-    .infoButton {
-        margin-left: auto;
-        margin-right: 20px;
-        background-color: #01387f;
-    }
+  .infoButton {
+    margin-left: auto;
+    margin-right: 20px;
+    background-color: #01387f;
+  }
 }
 
 .box2 {
-    height: 170px;
-    border: solid 1px #b0b0b0;
-    margin-bottom: 40px;
+  height: 170px;
+  border: solid 1px #b0b0b0;
+  margin-bottom: 40px;
 
-    h6 {
-        margin-top: 15px;
-    }
+  h6 {
+    margin-top: 15px;
+  }
 
-    .boxtext {
-        display: flex;
-        justify-content: center;
-    }
+  .boxtext {
+    display: flex;
+    justify-content: center;
+  }
 
-    .boxicons {
-        margin-top: 15px;
-        display: flex;
-        justify-content: space-around;
-    }
+  .boxicons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+  }
 
-    .boxicon {
-        font-size: 40px;
-    }
+  .boxicon {
+    font-size: 40px;
+  }
 
-    .cir {
-        display: flex;
-        align-items: center;
-    }
+  .cir {
+    display: flex;
+    align-items: center;
+  }
 
-    .circle {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        border: 2px solid #333;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+  .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .number {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 20px;
-    }
+  .number {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+  }
 }
 
 .menu {
-    .title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 30px;
-    }
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+  }
 
-    .menuinner hr {
-        // border-color: #9b9b9b;
-        margin: 10px 0;
-    }
+  .menuinner hr {
+    // border-color: #9b9b9b;
+    margin: 10px 0;
+  }
 
-    .spantext {
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-    }
+  .spantext {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
 
-    a {
-        text-decoration: none;
-        color: #333;
-        font-size: 14px;
-        margin-left: 20px;
-        display: block;
-        &.active {
-            font-weight: bold;
-        }
+  a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    margin-left: 20px;
+    display: block;
+    &.active {
+      font-weight: bold;
     }
-    span {
-        margin-left: 20px;
-    }
+  }
+  span {
+    margin-left: 20px;
+  }
 }
 
 .content {
-    padding-left: 30px;
-    hr {
-        border-color: #b0b0b0;
+  padding-left: 30px;
+  hr {
+    border-color: #b0b0b0;
+  }
+
+  .table * {
+    text-align: center;
+    .tproduct {
+      text-align: left;
+      display: flex;
+      align-items: center;
+    }
+    .tproducttit {
+      margin-left: 8px;
+    }
+  }
+
+  .timage {
+    width: 100px;
+  }
+
+  .ordertext {
+    display: flex;
+    justify-content: space-around;
+    margin-left: 30px;
+    background-color: #dadada;
+    h4 {
+      margin-top: 10px;
+      font-weight: normal;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  }
+  .texttitle {
+    display: flex;
+    align-items: center;
+    width: 130px;
+    justify-content: center;
+    // width: 90px;
+    img {
+      width: 100%;
+    }
+  }
+  .ordercontent {
+    display: flex;
+    justify-content: space-around;
+    margin-left: 30px;
+    align-items: center;
+
+    .proimg {
+      width: 90px;
+      img {
+        width: 100%;
+      }
     }
 
-    .table * {
-        text-align: center;
-        .tproduct {
-            text-align: left;
-            display: flex;
-            align-items: center;
-        }
-        .tproducttit {
-            margin-left: 8px;
-            
-        }
+    h4 {
+      font-weight: normal;
+      margin-bottom: 10px;
+      text-align: center;
     }
-
-    .timage {
-        width: 100px;
+  }
+  // 회원정보 수정
+  .textTop {
+    color: #787878;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  .modifyTitle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    h6 {
+      margin-left: 30px;
     }
-
-    .ordertext {
-        display: flex;
-        justify-content: space-around;
-        margin-left: 30px;
-        background-color: #dadada;
-        h4 {
-            margin-top: 10px;
-            font-weight: normal;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-    }
-    .texttitle {
-        display: flex;
-        align-items: center;
-        width: 130px;
-        justify-content: center;
-        // width: 90px;
-            img {
-                width: 100%;
-            }
-    }
-    .ordercontent {
-        display: flex;
-        justify-content: space-around;
-        margin-left: 30px;
-        align-items: center;
-        
-        .proimg {
-            width: 90px;
-            img {
-                width: 100%;
-            }
-        }
-    
-        h4 {
-            font-weight: normal;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-    }
-    // 회원정보 수정
-    .textTop {
-        color: #787878;
-        margin-bottom: 20px;
-        font-size: 13px;
-    }
-    .modifyTitle {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-        h6 {
-            margin-left: 30px;
-        }
-    }
-    .modify {
-        margin-left: 30px;
-    }
-    .inputfield {
-        margin-top: 20px;
-        margin-left: 30px;
-        display: flex;
-        justify-content: center;
-    }
-    .inputtext {
-        display: flex;
-        align-items: center;
-    }
-    .inputBot {
-        margin-bottom: 40px;
-    }
-    .but {
-        display: flex;
-        justify-content: center;
-    }
+  }
+  .modify {
+    margin-left: 30px;
+  }
+  .inputfield {
+    margin-top: 20px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .inputtext {
+    display: flex;
+    align-items: center;
+  }
+  .inputBot {
+    margin-bottom: 40px;
+  }
+  .but {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 // 탈퇴
 .borderBox {
-    // height: 100px;
-    border: 1px solid #01387f;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    span{
-        margin-left: 0;
-        // font-weight: bold;
+  // height: 100px;
+  border: 1px solid #01387f;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  span {
+    margin-left: 0;
+    // font-weight: bold;
+  }
+  h5 {
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #787878;
+    span {
+      color: red;
+      font-weight: bold;
     }
-    h5{
-        font-weight: normal;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        color: #787878;
-        span{
-            color: red;
-            font-weight: bold;
-        }
-    }
-    .textinner{
-        padding: 20px 20px 10px 20px;
-    }
-    .inputinner {
-        margin-left: 0;
-    }
+  }
+  .textinner {
+    padding: 20px 20px 10px 20px;
+  }
+  .inputinner {
+    margin-left: 0;
+  }
 }
 
-// 미디어 쿼리 
+// 미디어 쿼리
 @media (max-width: 900px) {
-    .menuinner {
-        display: none;
-    }
+  .menuinner {
+    display: none;
+  }
 
-    .content {
-        .ordertext {
-            margin-left: 0;
-        }
-        hr {
-            margin-left: 0;
-        }
-        .ordercontent{
-            margin-left: 0;
-        }
-        .inputfield {
-            margin-left: 0;
-        }
+  .content {
+    .ordertext {
+      margin-left: 0;
     }
+    hr {
+      margin-left: 0;
+    }
+    .ordercontent {
+      margin-left: 0;
+    }
+    .inputfield {
+      margin-left: 0;
+    }
+  }
 }
 .footer {
-    height: 100px;
+  height: 100px;
 }

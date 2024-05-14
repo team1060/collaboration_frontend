@@ -1,62 +1,62 @@
-#productLists{
+#productLists {
+  margin-top: 30px;
+  .all {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .but {
+    display: flex;
+    align-items: center;
+  }
+  .title {
+    display: flex;
+    align-items: center;
+  }
+  @media screen and (max-width: 615px) {
+    h3 {
+      display: none;
+    }
+    .all {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .card {
+    display: flex;
+    justify-content: center;
+    // @media screen and (max-width: 500px) {
+    //     margin-left: 10px;
+    // }
+  }
+  .card img {
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+  .card:hover img {
+    transform: scale(1.1);
+  }
+  .title {
+    height: 90px;
+    a {
+      color: #1d1d1b;
+    }
+  }
+  .pickup {
+    height: 20px;
+    display: flex;
+  }
+  .discount {
+    height: 20px;
+  }
+  .benefit span {
+    color: #18408a;
+  }
+  .page {
+    display: flex;
+    justify-content: center;
     margin-top: 30px;
-    .all{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    .but{
-        display: flex;
-        align-items: center;
-    }
-    .title{
-        display: flex;
-        align-items: center;
-    }
-    @media screen and (max-width: 615px) {
-        h3 {
-          display: none;
-        }
-        .all {
-            display: flex;
-            justify-content: center;
-        }
-    }
-    .card {
-        display: flex;
-        justify-content: center;
-        // @media screen and (max-width: 500px) {
-        //     margin-left: 10px;
-        // }
-    }
-    .card img{
-        width: 100%;
-        transition: transform 0.3s ease-in-out;
-    }
-    .card:hover img {
-        transform: scale(1.1);
-    }
-    .title {
-        height: 90px;
-        a {
-            color: #1D1D1B;
-        }
-    }
-    .pickup {
-        height: 20px;
-        display: flex;
-    }
-    .discount {
-        height: 20px;
-    }
-    .benefit span{
-        color: #18408a;
-    }
-    .page {
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
+    margin-bottom: 30px;
+  }
 }

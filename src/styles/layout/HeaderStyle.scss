@@ -1,4 +1,7 @@
-#headers{margin:0 !important; padding:0 !important;}
+#headers {
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 #header {
   position: fixed;
@@ -30,7 +33,7 @@
     text-align: left;
     box-sizing: border-box;
     z-index: 6;
-    img{
+    img {
       width: 182px;
     }
 
@@ -52,7 +55,7 @@
     font-size: 16px;
     color: #fff;
     line-height: 45px;
-    letter-spacing: -0.0em;
+    letter-spacing: -0em;
     z-index: 6;
   }
 
@@ -72,13 +75,13 @@
         margin-left: 0;
       }
 
-      a{
+      a {
         font-style: normal;
         font-weight: normal;
         font-size: 13px;
         color: #141414;
         line-height: 1;
-        letter-spacing: -0.0em;
+        letter-spacing: -0em;
 
         &:hover {
           color: #f89700;
@@ -153,7 +156,6 @@
           text-transform: uppercase;
           box-sizing: border-box;
           transition: transform 0.65s ease;
-          
 
           &:hover {
             color: #f89700;
@@ -168,37 +170,34 @@
           }
         }
         .two-depth {
-       
           display: none;
           position: absolute;
           top: 60px;
           left: 0;
           // height: 380px;
           width: 100%;
-// 스타일
+          // 스타일
           background: #fff;
-          box-shadow: 0 4px 24px -4px rgba(0, 0, 0, .15);
+          box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.15);
           border: 0px solid #d7d7d7;
           box-sizing: border-box;
           z-index: 2;
           // overflow: hidden;
-
-
 
           .innerWrap {
             display: flex;
             width: 840px;
             text-align: left;
             margin: 0 auto;
-              padding: 40px;
-              box-sizing: border-box;
-              z-index: 4;
-              h4{
-                font-size: 18px;
-                height: 30px;
-                margin-bottom: 10px;
-                text-align: center;
-              }
+            padding: 40px;
+            box-sizing: border-box;
+            z-index: 4;
+            h4 {
+              font-size: 18px;
+              height: 30px;
+              margin-bottom: 10px;
+              text-align: center;
+            }
 
             div {
               flex: 1;
@@ -211,25 +210,22 @@
                 // font-size: 18px;
                 color: #141414;
                 margin-bottom: 10px;
-                 height: 30px;
-                  
-                  a {
-                  
-                    display: block;
-                    color: #141414;
-                    text-decoration: none;
-                    font-size: 15px;
-                    transition: none;
-                    height: 30px;
-                    // margin: 0 auto;
-                    // padding: 0;
-                    
-                    &:hover {
-                      color: #f29300;
-                      border-bottom: #fff;
-                      
-                    }
-                  
+                height: 30px;
+
+                a {
+                  display: block;
+                  color: #141414;
+                  text-decoration: none;
+                  font-size: 15px;
+                  transition: none;
+                  height: 30px;
+                  // margin: 0 auto;
+                  // padding: 0;
+
+                  &:hover {
+                    color: #f29300;
+                    border-bottom: #fff;
+                  }
                 }
               }
             }
@@ -246,13 +242,10 @@
   }
 }
 
-
-
 A.roll img {
   display: inline;
   border: 0;
   transition: all 0.5s ease-in-out;
-  
 }
 
 A.roll img.over {
@@ -328,24 +321,21 @@ A.roll:hover img.over {
     justify-content: space-between;
     align-items: center;
   }
-  img{
+  img {
     margin-top: 7px;
-   width: 130px;
+    width: 130px;
   }
-  
+
   .util {
-    
     // width: calc(100% - 120px);
     // padding: 15px 50px 0 0;
-    
+
     box-sizing: border-box;
     z-index: 6;
     margin: 10 auto;
     display: flex; /* Flexbox 사용 */
-    .Ul{
+    .Ul {
       padding-left: 5px;
     }
   }
-  
-  
 }

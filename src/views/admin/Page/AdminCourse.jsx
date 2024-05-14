@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import React, { useState, useEffect } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 import {
   Button,
   TextField,
@@ -7,28 +7,31 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Box
-} from '@mui/material';
-import { getCourse, updateCourse, deleteCourse, postCourse, fetchGolfNames } from '../../../core/util/http/admin/GolfCourse.js';
-import CourseModal from '../AdminCourseComponents/CourseModal.jsx';
-
-
-
+  Box,
+} from "@mui/material";
+import {
+  getCourse,
+  updateCourse,
+  deleteCourse,
+  postCourse,
+  fetchGolfNames,
+} from "../../../core/util/http/admin/GolfCourse.js";
+import CourseModal from "../AdminCourseComponents/CourseModal.jsx";
 
 const AdminCourse = () => {
   const [courses, setCourses] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [golfNames, setGolfNames] = useState({}); // 골프장 이름을 저장할 객체
   const [selectedRowIds, setSelectedRowIds] = useState([]);
-  const [filterCategory, setFilterCategory] = useState('course_name'); // 필터링할 카테고리 기본값
+  const [filterCategory, setFilterCategory] = useState("course_name"); // 필터링할 카테고리 기본값
   // 코스 데이터 가져오기
   useEffect(() => {
     const fetchCourses = async () => {
       const data = await getCourse();
       const sortedData = data
-        .map(course => ({ ...course, id: course.course_no }))
+        .map((course) => ({ ...course, id: course.course_no }))
         .sort((a, b) => new Date(b.golf_date) - new Date(a.golf_date)); // 최신순으로 정렬
       setCourses(sortedData);
     };
@@ -51,22 +54,26 @@ const AdminCourse = () => {
     fetchGolfNamesData();
   }, []);
   // DataGrid 컬럼 정의
-  
+
   const columns = [
- 
-    { field: 'course_no', headerName: 'NO', width: 70 },
-    { 
-      field: 'golf_no', 
-      headerName: '골프장 이름', 
+    { field: "course_no", headerName: "NO", width: 70 },
+    {
+      field: "golf_no",
+      headerName: "골프장 이름",
       width: 130,
-      valueGetter: (params) => golfNames[params.row.golf_no] || '알 수 없음'
+      valueGetter: (params) => golfNames[params.row.golf_no] || "알 수 없음",
     },
-    { field: 'course_name', headerName: '코스 이름', width: 130 },
-    { field: 'greenpee', headerName: '그린피', width: 130 },
-    { field: 'golf_time', headerName: '티오프 시간', width: 90 },
-    { field: 'golf_date', headerName: '예약 날짜', width: 130 },
-    { field: 'golf_status', headerName: '예약 상태', width: 130, 
-      valueGetter: (params) => params.row.golf_status === 0 ? '예약 가능' : '예약 불가' },
+    { field: "course_name", headerName: "코스 이름", width: 130 },
+    { field: "greenpee", headerName: "그린피", width: 130 },
+    { field: "golf_time", headerName: "티오프 시간", width: 90 },
+    { field: "golf_date", headerName: "예약 날짜", width: 130 },
+    {
+      field: "golf_status",
+      headerName: "예약 상태",
+      width: 130,
+      valueGetter: (params) =>
+        params.row.golf_status === 0 ? "예약 가능" : "예약 불가",
+    },
     // 여기에 추가적인 컬럼을 정의할 수 있습니다.
   ];
   // "생성" 버튼 클릭 핸들러
@@ -80,39 +87,42 @@ const AdminCourse = () => {
     setSelectedRowIds(newSelectionModel);
   };
 
-//수정
-const handleUpdateClick = () => {
-  if (selectedRowIds.length === 1) {
-    console.log("들어감");
-    const selectedRowData = courses.find(course => course.course_no === selectedRowIds[0]);
+  //수정
+  const handleUpdateClick = () => {
+    if (selectedRowIds.length === 1) {
+      console.log("들어감");
+      const selectedRowData = courses.find(
+        (course) => course.course_no === selectedRowIds[0]
+      );
       setSelectedCourse(selectedRowData);
-    setOpenModal(true);
-    console.log(selectedRowData);
-    console.log("모달 열림"); // 추가된 로그
-  } else {
-    alert('수정할 코스를 하나만 선택해주세요.');
-  }
-};
-
+      setOpenModal(true);
+      console.log(selectedRowData);
+      console.log("모달 열림"); // 추가된 로그
+    } else {
+      alert("수정할 코스를 하나만 선택해주세요.");
+    }
+  };
 
   //삭제
   const handleDeleteClick = async () => {
     if (selectedRowIds.length > 0) {
       // 예약 불가 상태인 코스가 있는지 확인
-      const hasBookedCourse = selectedRowIds.some(course_no => {
-        const course = courses.find(c => c.course_no === course_no);
+      const hasBookedCourse = selectedRowIds.some((course_no) => {
+        const course = courses.find((c) => c.course_no === course_no);
         return course && course.golf_status === 1; // '예약 불가' 상태를 1로 가정
       });
-  
+
       if (hasBookedCourse) {
-        alert('코스 데이터 내부에 예약이 되어있습니다. 확인해주세요.');
+        alert("코스 데이터 내부에 예약이 되어있습니다. 확인해주세요.");
         return; // 함수 실행 중단
       }
-  
+
       // 예약 불가 상태가 아닌 경우, 사용자에게 삭제를 확인
-      if (window.confirm('선택한 코스를 삭제하시겠습니까?')) {
+      if (window.confirm("선택한 코스를 삭제하시겠습니까?")) {
         try {
-          await Promise.all(selectedRowIds.map(course_no => deleteCourse(course_no)));
+          await Promise.all(
+            selectedRowIds.map((course_no) => deleteCourse(course_no))
+          );
           window.location.reload(); // 페이지 새로고침
         } catch (error) {
           console.error("Error deleting course:", error);
@@ -120,37 +130,32 @@ const handleUpdateClick = () => {
         }
       }
     } else {
-      alert('삭제할 코스를 선택해주세요.');
+      alert("삭제할 코스를 선택해주세요.");
     }
   };
-  
-  
 
-  
   // 검색 입력 핸들러
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
- 
- 
- // 카테고리 필터링 핸들러
- const handleFilterCategoryChange = (event) => {
-  setFilterCategory(event.target.value);
-};
- // 필터링된 데이터
- const filteredCourses = courses.filter(course => {
-  // 필터링 카테고리에 따라 검색
-  const courseValue = course[filterCategory] ? course[filterCategory].toString() : '';
-  return courseValue.toLowerCase().includes(searchTerm.toLowerCase());
-});
 
-
+  // 카테고리 필터링 핸들러
+  const handleFilterCategoryChange = (event) => {
+    setFilterCategory(event.target.value);
+  };
+  // 필터링된 데이터
+  const filteredCourses = courses.filter((course) => {
+    // 필터링 카테고리에 따라 검색
+    const courseValue = course[filterCategory]
+      ? course[filterCategory].toString()
+      : "";
+    return courseValue.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   return (
-    <div className='AdminGlobal'>
-      <h2 style={{textAlign:"center"}}>골프장 관리 </h2>
-      <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-     
+    <div className="AdminGlobal">
+      <h2 style={{ textAlign: "center" }}>골프장 관리 </h2>
+      <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
         <FormControl variant="outlined">
           <InputLabel id="filter-category-label">카테고리</InputLabel>
           <Select
@@ -175,24 +180,30 @@ const handleUpdateClick = () => {
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
-          style={{ width: '400px' }}
+          style={{ width: "400px" }}
         />
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-        <Button onClick={handleCreateClick} variant="contained" color="primary">생성</Button>
-        <Button onClick={handleUpdateClick} variant="contained" color="primary">수정</Button>
-        <Button onClick={handleDeleteClick} variant="contained" color="primary">삭제</Button>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+        <Button onClick={handleCreateClick} variant="contained" color="primary">
+          생성
+        </Button>
+        <Button onClick={handleUpdateClick} variant="contained" color="primary">
+          수정
+        </Button>
+        <Button onClick={handleDeleteClick} variant="contained" color="primary">
+          삭제
+        </Button>
       </Box>
-      <div style={{ height: 800, width: '100%' }}>
-      <DataGrid
-              rows={filteredCourses}
-              columns={columns}
-              pageSize={5}
-              checkboxSelection
-              onRowSelectionModelChange={handleSelectionChange}
-              selectionModel={selectedRowIds}
-          />
-          
+      <div style={{ height: 800, width: "100%" }}>
+        <DataGrid
+          rows={filteredCourses}
+          columns={columns}
+          pageSize={5}
+          checkboxSelection
+          onRowSelectionModelChange={handleSelectionChange}
+          selectionModel={selectedRowIds}
+        />
+
         {selectedCourse && (
           <CourseModal
             open={openModal}

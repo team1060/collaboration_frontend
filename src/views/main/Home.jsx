@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import CalendarSwiper from './MainComponents/CalendarSwiper';
-import ImgSwiper from './MainComponents/ImgSwiper';
-// 카드 컴포넌트 
-import GolfCourseSection from './MainComponents/GolfCourseSection';
-import GolfCourseCard from './MainComponents/GolfCourseCard';
+import CalendarSwiper from "./MainComponents/CalendarSwiper";
+import ImgSwiper from "./MainComponents/ImgSwiper";
+// 카드 컴포넌트
+import GolfCourseSection from "./MainComponents/GolfCourseSection";
+import GolfCourseCard from "./MainComponents/GolfCourseCard";
 
 // import MainCard from './MainComponents/MainCard'
 
-import ShopCard from './MainComponents/ShopCard';
+import ShopCard from "./MainComponents/ShopCard";
 // import BannerManagement from './MainComponents/BannerManagement';
 // import Banner from '../../components/Banner';
 
 // import { Button } from '@mui/material';s
-// 사이트 메인페이지 
-import Banner from '../../views/home/Banner';
+// 사이트 메인페이지
+import Banner from "../../views/home/Banner";
 // 이벤트 /소식
 
-import Event from './MainComponents/Event';
+import Event from "./MainComponents/Event";
 function HomeList() {
   // 골프 코스와 관련된 상태 정의
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -38,38 +38,30 @@ function HomeList() {
 
   return (
     <>
-    
-    
-    <div>
-      <ImgSwiper/>
-      <CalendarSwiper/>
-      {/* 일정 관리표 */}
-      {/* GolfCourseSection에 상태와 핸들러 함수를 props로 전달 */}
-      <GolfCourseSection
-        onCourseSelection={handleCourseSelection}
-        onError={handleError}
-      />
-      {/* 선택된 골프 코스가 있으면 GolfCourseCard를 렌더링 */}
-      {selectedCourse && (
-        <GolfCourseCard
-          course={selectedCourse}
-          loading={loading}
-          error={error}
-          
+      <div>
+        <ImgSwiper />
+        <CalendarSwiper />
+        {/* 일정 관리표 */}
+        {/* GolfCourseSection에 상태와 핸들러 함수를 props로 전달 */}
+        <GolfCourseSection
+          onCourseSelection={handleCourseSelection}
+          onError={handleError}
         />
-      )}
-      {/* 골프소개  */}
-      
-      <ShopCard/>
-       <Banner/>
-      <Event/>
-      
+        {/* 선택된 골프 코스가 있으면 GolfCourseCard를 렌더링 */}
+        {selectedCourse && (
+          <GolfCourseCard
+            course={selectedCourse}
+            loading={loading}
+            error={error}
+          />
+        )}
+        {/* 골프소개  */}
 
-
-    </div>
-    
+        <ShopCard />
+        <Banner />
+        <Event />
+      </div>
     </>
-  )
+  );
 }
 export default HomeList;
-

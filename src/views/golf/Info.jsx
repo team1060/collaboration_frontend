@@ -4,7 +4,6 @@ import { getGolfByRegion } from "../../core/util/http/golf/apiGolf";
 import Print from "@mui/icons-material/Print";
 import Call from "@mui/icons-material/Call";
 import LocationOn from "@mui/icons-material/LocationOn";
-import InfoRemote from "./infodetail/InfoRemote";
 import InfoHead from "./infodetail/InfoHead";
 import { Link } from "react-router-dom";
 
@@ -20,7 +19,11 @@ function Info() {
         const dataChungcheong = await getGolfByRegion("충청");
         const dataGyeongsang = await getGolfByRegion("경상");
 
-        const mergedData = [...dataGyeonggi, ...dataChungcheong, ...dataGyeongsang];
+        const mergedData = [
+          ...dataGyeonggi,
+          ...dataChungcheong,
+          ...dataGyeongsang,
+        ];
 
         setGolfInfo(mergedData);
       } catch (error) {
@@ -47,59 +50,92 @@ function Info() {
 
   return (
     <div id="info">
-
-
       <InfoHead regions={regions}></InfoHead>
-      <Container >
+      <Container>
         <Grid className="golfInfo">
           <h2>골프장 소개</h2>
-
         </Grid>
         {groupedByRegion &&
           regions.map((region) => (
             <Grid key={region} id={`${region}`}>
               <Grid className="region">
                 <h3>{region}</h3>
-
               </Grid>
-              <Grid container
-
+              <Grid
+                container
                 justifyContent="space-around"
-                className="regionInner" >
-
+                className="regionInner"
+              >
                 {groupedByRegion[region].map((golf, index) => (
-                  <Grid container item xs={11} md={5.5} key={golf.golf_no} className="golf"  >
+                  <Grid
+                    container
+                    item
+                    xs={11}
+                    md={5.5}
+                    key={golf.golf_no}
+                    className="golf"
+                  >
                     <Grid className="golfImage">
-                      <Link className="golfImageInner" to={`/golf/info/${golf.golf_no}`}>
-
-                        <img src={`/img/golf/${index + 1}.jpg`} alt={`Golf Course ${index + 1}`} />
-
+                      <Link
+                        className="golfImageInner"
+                        to={`/golf/info/${golf.golf_no}`}
+                      >
+                        <img
+                          src={`/img/golf/${index + 1}.jpg`}
+                          alt={`Golf Course ${index + 1}`}
+                        />
                       </Link>
                     </Grid>
                     <Grid className="golfInner">
-                      <h3><Link to={`/golf/info/${golf.golf_no}`}>{golf.name}</Link></h3>
+                      <h3>
+                        <Link to={`/golf/info/${golf.golf_no}`}>
+                          {golf.name}
+                        </Link>
+                      </h3>
                       <p>{golf.description}</p>
                       <br></br>
-                      <p>홀: {golf.holes}, 파: {golf.pars}, 전장: {golf.land_area?.toLocaleString()}m²</p>
+                      <p>
+                        홀: {golf.holes}, 파: {golf.pars}, 전장:{" "}
+                        {golf.land_area?.toLocaleString()}m²
+                      </p>
                       <br></br>
-                      <p><LocationOn /><span>{golf.address}</span></p>
-                      <p><Call /> <span>{golf.contact}</span></p>
-                      <p> <Print /> <span>{golf.fax}</span></p>
+                      <p>
+                        <LocationOn />
+                        <span>{golf.address}</span>
+                      </p>
+                      <p>
+                        <Call /> <span>{golf.contact}</span>
+                      </p>
+                      <p>
+                        {" "}
+                        <Print /> <span>{golf.fax}</span>
+                      </p>
                     </Grid>
                   </Grid>
                 ))}
                 {groupedByRegion[region].length % 2 === 1 && (
-                  <Grid container item xs={11} md={5.5} className="golf" style={{ visibility: 'hidden', display: isMdViewport ? 'block' : 'none' }}>
+                  <Grid
+                    container
+                    item
+                    xs={11}
+                    md={5.5}
+                    className="golf"
+                    style={{
+                      visibility: "hidden",
+                      display: isMdViewport ? "block" : "none",
+                    }}
+                  >
                     <Grid className="golfImage">
                       <div className="golfImageInner">
-                        <img src="https://via.placeholder.com/500" alt="Placeholder" />
+                        <img
+                          src="https://via.placeholder.com/500"
+                          alt="Placeholder"
+                        />
                       </div>
                     </Grid>
-                    <Grid className="golfInner">
-                    </Grid>
+                    <Grid className="golfInner"></Grid>
                   </Grid>
                 )}
-
               </Grid>
             </Grid>
           ))}

@@ -1,110 +1,108 @@
 #reserve {
-    // head.jsx
+  // head.jsx
 
-// 예약페이지 파란띠 
-.con {
+  // 예약페이지 파란띠
+  .con {
     // padding-top: 50px;
     background: white;
-}
+  }
 
-.head {
-    background: #01387F;
+  .head {
+    background: #01387f;
     font-size: 24px;
 
     .atag {
-        display: flex;
-        justify-content: space-around;
+      display: flex;
+      justify-content: space-around;
     }
 
     a {
-        color: white;
+      color: white;
     }
-}
+  }
 
-@media (max-width: 1200px) {
+  @media (max-width: 1200px) {
     .con {
-        padding-top: 80px;
+      padding-top: 80px;
     }
-}
+  }
 
-// 캘린더 
-.internet {
+  // 캘린더
+  .internet {
     margin-top: 30px;
-}
+  }
 
-.calen {
+  .calen {
     width: 1000px;
     display: flex;
     justify-content: center;
-}
+  }
 
-.calen2 {
+  .calen2 {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
-}
+  }
 
-.parent {
+  .parent {
     display: flex;
     justify-content: center;
+  }
 
-}
-
-.cal {
+  .cal {
     display: flex;
     width: 100%;
     justify-content: space-around;
     border: 1px solid #000;
-}
+  }
 
-// 버튼 none 처리 
-.MuiPickersArrowSwitcher-root,
-.MuiIconButton-root {
+  // 버튼 none 처리
+  .MuiPickersArrowSwitcher-root,
+  .MuiIconButton-root {
     display: none !important;
-}
+  }
 
-// 연도 달력 none 처리 
-.MuiPickersCalendarHeader-root {
+  // 연도 달력 none 처리
+  .MuiPickersCalendarHeader-root {
     pointer-events: none;
-}
+  }
 
-// 툴바
-.MuiTypography-overline,
-.MuiTypography-alignLeft{
+  // 툴바
+  .MuiTypography-overline,
+  .MuiTypography-alignLeft {
     display: none;
-}
-// ok, cancel버튼 
-.MuiPickersLayout-actionBar {
+  }
+  // ok, cancel버튼
+  .MuiPickersLayout-actionBar {
     display: none !important;
-}
+  }
 
-.butcenter{
+  .butcenter {
     display: flex;
     justify-content: space-around;
-}
+  }
 
-// 버튼
-.button2{
+  // 버튼
+  .button2 {
     width: 180px;
-}
-// 골프장 선택 글씨 
-.golf {
-
+  }
+  // 골프장 선택 글씨
+  .golf {
     margin-bottom: 20px;
-}
+  }
 
-.golfparent{
+  .golfparent {
     display: flex;
     justify-content: center;
-}
-// 버튼 영역
-.butparent {
+  }
+  // 버튼 영역
+  .butparent {
     width: 800px;
     display: flex;
     justify-content: center;
-}
-// 버튼 액티브 
-.button2.active {
+  }
+  // 버튼 액티브
+  .button2.active {
     background-color: #01387f;
     color: white; /* 텍스트 색상을 흰색 등으로 변경 */
   }
@@ -120,8 +118,7 @@
 
   @media (max-width: 940px) {
     .calparent {
-        margin-left: 45px;
+      margin-left: 45px;
     }
-
   }
 }

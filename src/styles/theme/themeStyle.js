@@ -7,7 +7,7 @@ export const $calendarBackground = "#4C4C4C"; // 달력 배경 색상
 export const $skyblueBackground = "#4C4C4C"; // 장바구니 설명란 배경 색상
 export const $grayBackground = "#01387F"; // 가격 계산 배경 색상
 export const $hoverColor = "#2D2D2B"; // 호버 시 색상
-export const $whiteColor = "#ffffff";// 기본 흰색
+export const $whiteColor = "#ffffff"; // 기본 흰색
 
 export const $fontSize = "16px"; // 기본 폰트사이즈
 

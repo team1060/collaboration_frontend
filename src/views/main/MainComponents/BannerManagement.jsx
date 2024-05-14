@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { postFile, getFileList } from '../api/apiFile'; // apiFile에서 함수를 가져옵니다.
-import ImageList from '../api/ImageList'; // ImageList 컴포넌트를 가져옵니다.
-import UploadFile from '../api/UploadFile';// UploadFile 컴포넌트를 가져옵니다.
-
+import React, { useState, useEffect } from "react";
+import { postFile, getFileList } from "../api/apiFile"; // apiFile에서 함수를 가져옵니다.
+import ImageList from "../api/ImageList"; // ImageList 컴포넌트를 가져옵니다.
+import UploadFile from "../api/UploadFile"; // UploadFile 컴포넌트를 가져옵니다.
 
 const BannerManagement = () => {
   const [banners, setBanners] = useState([]);
@@ -11,14 +10,12 @@ const BannerManagement = () => {
     fetchBanners();
   }, []);
 
-
-
   const fetchBanners = async () => {
     try {
       const response = await getFileList();
       setBanners(response.data);
     } catch (error) {
-      console.error('Error fetching banners:', error);
+      console.error("Error fetching banners:", error);
     }
   };
 
@@ -28,8 +25,7 @@ const BannerManagement = () => {
       await postFile(formData);
       fetchBanners();
     } catch (error) {
-      console.error('Error uploading banner:', error);
-      
+      console.error("Error uploading banner:", error);
     }
   };
 

@@ -1,27 +1,26 @@
 .footer-container {
   background-color: #222;
   color: #fff;
-  padding: 20px ;
+  padding: 20px;
   justify-content: center;
- 
-  
-//   .sns {
-//     display: flex;
-//     justify-content: space-around;
-//     a{
-//       display: flex;
-//       flex-direction: column;
-//       align-items: center;
-//       font-size: 13px;
-//       img{
-//         padding-top: 10px;
-//       }
-//     }
-//   }
+
+  //   .sns {
+  //     display: flex;
+  //     justify-content: space-around;
+  //     a{
+  //       display: flex;
+  //       flex-direction: column;
+  //       align-items: center;
+  //       font-size: 13px;
+  //       img{
+  //         padding-top: 10px;
+  //       }
+  //     }
+  //   }
 }
 
 .footer-content {
-  max-width: 1200px ;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-around;
@@ -65,7 +64,6 @@ div.social {
   flex-direction: row;
   margin-top: 0.5em;
   margin-left: 5px;
-  
 }
 .social {
   display: flex;
@@ -75,6 +73,7 @@ div.social {
 .social i {
   color: #bac6d9;
 }
-.social .fa-brands { /* Font Awesome 브랜드 아이콘에 대한 스타일 */
+.social .fa-brands {
+  /* Font Awesome 브랜드 아이콘에 대한 스타일 */
   margin: 0 50px; /* 양쪽에 10px의 마진을 추가합니다 */
 }

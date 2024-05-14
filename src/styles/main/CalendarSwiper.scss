@@ -70,7 +70,6 @@
       margin-bottom: 10px;
     }
 
-
     .course-detail {
       border-radius: 20px;
       margin: 10px 0;
@@ -90,7 +89,7 @@
       grid-template-columns: repeat(3, 1fr);
     }
   }
-  
+
   @media (max-width: 575px) {
     .data-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -142,7 +141,7 @@
   }
 
   .day.blue {
-    color: #2196F3;
+    color: #2196f3;
   }
 
   .day {

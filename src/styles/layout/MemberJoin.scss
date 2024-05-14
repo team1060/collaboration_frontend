@@ -1,68 +1,68 @@
 #memberJoin {
-    .join {
-        padding-top: 50px;
-        // margin-top: 30px;
-    }
-    .joinbox {
-        display: flex;
-        justify-content: center;
-    }
-    .inputfield{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 10px;
-    }
-    .inputtext {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .inputtext span {
-        color: red;
-        margin-left: 3px;
-    }
-    .checksection {
-        width: 900px;
-        border: 1px solid #ababab;
-    }
-    .checkbox {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-    .center{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 50px;
-    }
-    .leftsection {
-        width: 450px;
-    }
-    .textmargin {
-        margin-bottom: 10px;
-    }
-    .centeragree {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-    }
-    .butsec {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-    .joinbut {
-        width: 500px;
-        height: 40px;
-    }
-    .checkbut {
-        width: 30px;
-    }
-    .textInput {
-        margin-bottom: 15px;
-    }
-    .validbut {
-        width: 100%;
-        height: 40px;
-    }
+  .join {
+    padding-top: 50px;
+    // margin-top: 30px;
+  }
+  .joinbox {
+    display: flex;
+    justify-content: center;
+  }
+  .inputfield {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .inputtext {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .inputtext span {
+    color: red;
+    margin-left: 3px;
+  }
+  .checksection {
+    width: 900px;
+    border: 1px solid #ababab;
+  }
+  .checkbox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+  .leftsection {
+    width: 450px;
+  }
+  .textmargin {
+    margin-bottom: 10px;
+  }
+  .centeragree {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .butsec {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .joinbut {
+    width: 500px;
+    height: 40px;
+  }
+  .checkbut {
+    width: 30px;
+  }
+  .textInput {
+    margin-bottom: 15px;
+  }
+  .validbut {
+    width: 100%;
+    height: 40px;
+  }
 }

@@ -5,8 +5,8 @@
   { "id": "안성S", "label": "안성S", "value": 748 },
   { "id": "진천J", "label": "진천J", "value": 1082 },
   { "id": "중원G", "label": "중원G", "value": 413 },
-  { "id": "천안C", "label": "천안C", "value": 450 }, 
-  { "id": "영주Y", "label": "영주Y", "value": 480 }, 
-  { "id": "문경M", "label": "문경M", "value": 400 }, 
-  { "id": "인동I", "label": "인동I", "value": 420 } 
+  { "id": "천안C", "label": "천안C", "value": 450 },
+  { "id": "영주Y", "label": "영주Y", "value": 480 },
+  { "id": "문경M", "label": "문경M", "value": 400 },
+  { "id": "인동I", "label": "인동I", "value": 420 }
 ]

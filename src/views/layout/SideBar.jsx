@@ -1,6 +1,6 @@
 // src/components/SideBar.jsx
-import React, { useState } from 'react';
-import { Button, Drawer } from '@mui/material';
+import React, { useState } from "react";
+import { Button, Drawer } from "@mui/material";
 
 const SideBar = () => {
   const [state, setState] = useState({
@@ -8,7 +8,11 @@ const SideBar = () => {
   });
 
   const toggleDrawer = (open) => (event) => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setState({ left: open });
@@ -28,11 +32,7 @@ const SideBar = () => {
   return (
     <>
       <Button onClick={toggleDrawer(true)}>Open Left Sidebar</Button>
-      <Drawer
-        anchor="left"
-        open={state.left}
-        onClose={toggleDrawer(false)}
-      >
+      <Drawer anchor="left" open={state.left} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
     </>

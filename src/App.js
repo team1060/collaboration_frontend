@@ -1,12 +1,10 @@
-import Router from './Router';
-import './styles/main.scss'
+import Router from "./Router";
+import "./styles/main.scss";
 
 function App() {
-
-
   return (
     <div className="App">
-      <Router/>
+      <Router />
     </div>
   );
 }

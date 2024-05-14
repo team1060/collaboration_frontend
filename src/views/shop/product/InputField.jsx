@@ -1,6 +1,6 @@
 // InputField.js
-import React from 'react';
-import { Grid, TextField } from '@mui/material';
+import React from "react";
+import { Grid, TextField } from "@mui/material";
 
 const InputField = ({ label, placeholder, name, id, value, onChange }) => {
   return (
@@ -17,7 +17,7 @@ const InputField = ({ label, placeholder, name, id, value, onChange }) => {
           id={id}
           value={value}
           onChange={onChange}
-        // disabled
+          // disabled
         />
       </Grid>
     </Grid>

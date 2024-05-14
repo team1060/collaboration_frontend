@@ -1,35 +1,40 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
-import SlideshowIcon from '@mui/icons-material/Slideshow';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import List from '@mui/material/List';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import { Container, Typography, Grid, Button, ListItem } from '@mui/material';
-import { useEffect, useState, useRef } from 'react';
-import { emailSubmit, getAllMembers, getUserDelData, registerMember } from '../util/http/auth/Member.js';
-import JoinData from './JoinData.js';
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import SlideshowIcon from "@mui/icons-material/Slideshow";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import List from "@mui/material/List";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import { Container, Typography, Grid, Button, ListItem } from "@mui/material";
+import { useEffect, useState, useRef } from "react";
+import {
+  emailSubmit,
+  getAllMembers,
+  getUserDelData,
+  registerMember,
+} from "../util/http/auth/Member.js";
+import JoinData from "./JoinData.js";
 
 function MemberJoin() {
   const [open, setOpen] = React.useState([false, false, false, false]);
   // 모든 계정정보
   const [allEmail, setAllEmail] = useState([]);
-  // 모든 백업 계정 정보 
+  // 모든 백업 계정 정보
   const [delEmail, setDelEmail] = useState([]);
   const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
-  // 이메일 인증 
+  // 이메일 인증
   const [newInputCheck, setnewInputCheck] = useState(false);
   const [response, setResponse] = useState(null);
   const [dupliButton, setDupliButton] = useState(false);
@@ -44,8 +49,8 @@ function MemberJoin() {
   const [pwCheckMessage, setPwCheckMessage] = useState("");
   const [pwchecked, setPwChecked] = useState("");
   const [pwInputche, setPwInputche] = useState("");
-  
-  // 연락처 
+
+  // 연락처
   const [phoneNumber, setPhoneNumber] = useState("");
   // 로그인 완료 후 메인화면으로 가기
   const history = useNavigate();
@@ -56,7 +61,7 @@ function MemberJoin() {
       console.log(response);
       if (response != null) {
         console.log("성공");
-        alert('메일발송이 완료되었습니다.')
+        alert("메일발송이 완료되었습니다.");
         setnewInputCheck(true);
         setResponse(response);
         setViewMessage("");
@@ -68,11 +73,11 @@ function MemberJoin() {
     }
   };
 
-  // submit 
-  const handleSubmit = async e => {
+  // submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 입력필드 완료 여부 확인 
+    // 입력필드 완료 여부 확인
     if (
       !inputValue ||
       !nickname ||
@@ -91,7 +96,7 @@ function MemberJoin() {
     // 필수 약관 체크 여부 확인
     if (!checked[0] || !checked[1]) {
       console.log("필수 약관에 동의해주세요.");
-      alert('필수약관에 동의해주세요.')
+      alert("필수약관에 동의해주세요.");
       return;
     }
     const userData = {
@@ -104,49 +109,52 @@ function MemberJoin() {
       type: 0,
       auth_data: 0,
       is_sms_consent: checked[2] ? 1 : 0,
-      is_email_consent: checked[3] ? 1 : 0
+      is_email_consent: checked[3] ? 1 : 0,
     };
 
     await registerMember(userData);
-    alert('회원가입을 환영합니다!')
-    history('/');
-    console.log(userData)
-  }
+    alert("회원가입을 환영합니다!");
+    history("/");
+    console.log(userData);
+  };
 
-  // 이메일 핸들러 
+  // 이메일 핸들러
   const emailHandler = (e) => {
     const value = e.target.value;
     setInputValue(value);
-    setUsername(value)
+    setUsername(value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isEmailValid = emailRegex.test(value);
     const isDuplicate = allEmail.some((item) => item.email === value);
     const isDelUser = delEmail.some((item) => item.email === value);
     if (isDuplicate || !isEmailValid || isDelUser) {
       setViewMessage("사용불가능한 이메일입니다.");
-      setDupliButton(false)
+      setDupliButton(false);
     } else {
-      setDupliButton(true)
+      setDupliButton(true);
       setViewMessage("사용가능한 이메일입니다.");
     }
   };
 
-  // 비밀번호 핸들러 
+  // 비밀번호 핸들러
   const dataPwHandler = (e) => {
     const value = e.target.value;
     setPwInput(value);
 
-    // 비밀번호 유효성 검사 
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+    // 비밀번호 유효성 검사
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
     const isPasswordValid = passwordRegex.test(value);
 
     if (!isPasswordValid) {
-      setpwViewMessage("비밀번호는 8~16자 영문, 숫자, 특수문자를 포함해야 합니다.")
+      setpwViewMessage(
+        "비밀번호는 8~16자 영문, 숫자, 특수문자를 포함해야 합니다."
+      );
     } else {
-      setpwViewMessage("유효한 비밀번호 형식입니다.")
+      setpwViewMessage("유효한 비밀번호 형식입니다.");
     }
-  }
-  // 비밀번호 체크 여부 
+  };
+  // 비밀번호 체크 여부
   const dataPwCheckHandler = (e) => {
     const value = e.target.value;
     // 비밀번호 확인 값이 비밀번호와 일치하는지 확인
@@ -159,12 +167,12 @@ function MemberJoin() {
     }
   };
 
-  // 연락처 핸들러 
+  // 연락처 핸들러
   const phoneHandler = (e) => {
-    const onlyNumber = e.target.value.replace(/\D/g, '');
+    const onlyNumber = e.target.value.replace(/\D/g, "");
     const formatNumber = formatPhoneNumber(onlyNumber);
     setPhoneNumber(formatNumber);
-  }
+  };
   const formatPhoneNumber = (number) => {
     if (number.length >= 10) {
       return `${number.slice(0, 3)}-${number.slice(3, 7)}-${number.slice(7)}`;
@@ -172,7 +180,7 @@ function MemberJoin() {
       // 10자리 미만이면 그대로 반환
       return number;
     }
-  }
+  };
   // 콜랩스
   const handleClick = (index) => {
     const newOpen = [...open];
@@ -185,7 +193,12 @@ function MemberJoin() {
 
   // 전체선택
   const handleCheckAll = (event) => {
-    setChecked([event.target.checked, event.target.checked, event.target.checked, event.target.checked]);
+    setChecked([
+      event.target.checked,
+      event.target.checked,
+      event.target.checked,
+      event.target.checked,
+    ]);
   };
 
   // 한개선택
@@ -205,31 +218,59 @@ function MemberJoin() {
     event.preventDefault();
   };
 
-
   // 체크박스
   const children = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3, marginBottom: '10px' }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        ml: 3,
+        marginBottom: "10px",
+      }}
+    >
       {JoinData.map((JoinData, index) => (
         <React.Fragment key={index}>
           <Grid container>
             <FormControlLabel
-              style={{ width: '360px' }}
+              style={{ width: "360px" }}
               label={JoinData.label}
-              control={<Checkbox checked={checked[index]} onChange={handleChange(index)} value={JoinData.value} />}
+              control={
+                <Checkbox
+                  checked={checked[index]}
+                  onChange={handleChange(index)}
+                  value={JoinData.value}
+                />
+              }
             />
 
             <div className="butstyle">
-              <ListItemButton onClick={() => handleClick(index)} style={{ justifyContent: 'end' }}>
+              <ListItemButton
+                onClick={() => handleClick(index)}
+                style={{ justifyContent: "end" }}
+              >
                 {open[index] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
             </div>
           </Grid>
 
-          <List sx={{ width: '100%', bgcolor: 'background.paper' }} component="nav">
+          <List
+            sx={{ width: "100%", bgcolor: "background.paper" }}
+            component="nav"
+          >
             <Collapse in={open[index]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem style={{ width: '400px', overflowY: 'auto', height: '200px', border: '1px solid #000' }}>
-                  <ListItemText style={{ height: '200px' }} primary={JoinData.text} />
+                <ListItem
+                  style={{
+                    width: "400px",
+                    overflowY: "auto",
+                    height: "200px",
+                    border: "1px solid #000",
+                  }}
+                >
+                  <ListItemText
+                    style={{ height: "200px" }}
+                    primary={JoinData.text}
+                  />
                 </ListItem>
               </List>
             </Collapse>
@@ -247,34 +288,32 @@ function MemberJoin() {
         setAllEmail(userData);
         const userDelData = await getUserDelData();
         setDelEmail(userDelData);
-
       } catch (error) {
       } finally {
         setTime(300);
         const existingInterval = timeRef.current;
-      if (existingInterval) {
-        clearInterval(existingInterval);
+        if (existingInterval) {
+          clearInterval(existingInterval);
+        }
+        const time = setInterval(() => {
+          setTime((prevTime) => {
+            if (prevTime > 0) {
+              return prevTime - 1;
+            } else {
+              clearInterval(time);
+              return 0;
+            }
+          });
+        }, 1000);
+        timeRef.current = time;
       }
-      const time = setInterval(() => {
-        setTime((prevTime) => {
-          if (prevTime > 0) {
-            return prevTime - 1;
-          } else {
-            clearInterval(time);
-            return 0;
-          }
-        });
-      }, 1000);
-      timeRef.current = time;
-    }
-  };
+    };
 
-  fetchData();
-}, []);
-  
+    fetchData();
+  }, []);
 
   return (
-    <Container id='memberJoin'>
+    <Container id="memberJoin">
       <div className="joinbox">
         <div className="join">
           <h2>회원가입</h2>
@@ -284,7 +323,7 @@ function MemberJoin() {
       <hr />
       <br />
       {/* 회원가입 폼 */}
-      <form onSubmit={handleSubmit} action='/'>
+      <form onSubmit={handleSubmit} action="/">
         <Grid container spacing={3} className="inputfield">
           <Grid item xs={3} lg={2} className="inputtext">
             이메일
@@ -294,9 +333,9 @@ function MemberJoin() {
             <TextField
               fullWidth
               required
-              placeholder={'이메일을 입력해주세요'}
-              name='email'
-              id='email'
+              placeholder={"이메일을 입력해주세요"}
+              name="email"
+              id="email"
               autoComplete="email"
               onChange={emailHandler}
               value={inputValue}
@@ -308,16 +347,22 @@ function MemberJoin() {
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Button className='validbut' variant="contained" onClick={handleEmailVerification} disabled={!dupliButton}>인증</Button>
+                    <Button
+                      className="validbut"
+                      variant="contained"
+                      onClick={handleEmailVerification}
+                      disabled={!dupliButton}
+                    >
+                      인증
+                    </Button>
                   </InputAdornment>
-                )
+                ),
               }}
               error={viewMessage.includes("불가")}
               helperText={viewMessage}
             />
           </Grid>
         </Grid>
-
 
         {newInputCheck && (
           <Grid container spacing={3} className="inputfield">
@@ -329,7 +374,7 @@ function MemberJoin() {
               <TextField
                 fullWidth
                 required
-                placeholder={'인증번호를 입력해주세요'}
+                placeholder={"인증번호를 입력해주세요"}
                 value={pwchecked}
                 onChange={(e) => setPwChecked(e.target.value)}
                 error={response !== pwchecked}
@@ -341,10 +386,11 @@ function MemberJoin() {
                       </Typography>{" "}
                       인증번호를 입력해주세요
                     </React.Fragment>
-                  ) : "인증이 완료되었습니다."
+                  ) : (
+                    "인증이 완료되었습니다."
+                  )
                 }
               />
-              
             </Grid>
           </Grid>
         )}
@@ -358,9 +404,9 @@ function MemberJoin() {
             <TextField
               fullWidth
               required
-              placeholder={'비밀번호를 입력해주세요'}
-              type={showPassword ? 'text' : 'password'}
-              name='password'
+              placeholder={"비밀번호를 입력해주세요"}
+              type={showPassword ? "text" : "password"}
+              name="password"
               onChange={dataPwHandler}
               value={pwInput}
               autoComplete="current-password"
@@ -398,9 +444,9 @@ function MemberJoin() {
             <TextField
               fullWidth
               required
-              placeholder={'비밀번호를 입력해주세요'}
-              type={showPassword ? 'text' : 'password'}
-              name='password'
+              placeholder={"비밀번호를 입력해주세요"}
+              type={showPassword ? "text" : "password"}
+              name="password"
               value={pwInputche}
               onChange={dataPwCheckHandler}
               autoComplete="current-password"
@@ -436,12 +482,12 @@ function MemberJoin() {
           </Grid>
           <Grid item xs={8} lg={7}>
             <TextField
-              className='textInput'
+              className="textInput"
               required
               fullWidth
-              placeholder={'닉네임을 입력해주세요'}
-              name='nickname'
-              id='nickname'
+              placeholder={"닉네임을 입력해주세요"}
+              name="nickname"
+              id="nickname"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               InputProps={{
@@ -462,12 +508,12 @@ function MemberJoin() {
           <Grid item xs={8} lg={7}>
             <TextField
               required
-              className='textInput'
+              className="textInput"
               fullWidth
               value={name}
-              placeholder={'이름을 입력해주세요'}
-              name='name'
-              id='name'
+              placeholder={"이름을 입력해주세요"}
+              name="name"
+              id="name"
               onChange={(e) => setName(e.target.value)}
               InputProps={{
                 startAdornment: (
@@ -487,14 +533,13 @@ function MemberJoin() {
           <Grid item xs={8} lg={7}>
             <TextField
               required
-              className='textInput'
+              className="textInput"
               fullWidth
-              placeholder={'- 없이 전화번호를 입력해주세요'}
-              name='phone_number'
-              id='phone_number'
+              placeholder={"- 없이 전화번호를 입력해주세요"}
+              name="phone_number"
+              id="phone_number"
               value={phoneNumber}
               onChange={phoneHandler}
-
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -503,13 +548,11 @@ function MemberJoin() {
                 ),
               }}
               inputProps={{
-                maxLength: 13
+                maxLength: 13,
               }}
             />
           </Grid>
         </Grid>
-
-
 
         {/* 이용약관 */}
         <div className="joinbox">
@@ -529,7 +572,10 @@ function MemberJoin() {
                     control={
                       <Checkbox
                         checked={checked.every((value) => value)}
-                        indeterminate={!checked.every((value) => value) && checked.some((value) => value)}
+                        indeterminate={
+                          !checked.every((value) => value) &&
+                          checked.some((value) => value)
+                        }
                         onChange={handleCheckAll}
                       />
                     }
@@ -538,18 +584,21 @@ function MemberJoin() {
                 <br />
                 <div className="textmargin">
                   <Typography variant="h7">
-                    골프의 민족의 모든 약관 및 마케팅 및 광고 활용 동의의 내용을 확인하고 동의합니다.
+                    골프의 민족의 모든 약관 및 마케팅 및 광고 활용 동의의 내용을
+                    확인하고 동의합니다.
                   </Typography>
                 </div>
                 <hr />
               </div>
             </div>
-            <div className="checkbox">
-              {children}
-            </div>
+            <div className="checkbox">{children}</div>
           </div>
         </div>
-        <div className="butsec"><Button className='joinbut' variant="contained" type='submit'>회원가입</Button></div>
+        <div className="butsec">
+          <Button className="joinbut" variant="contained" type="submit">
+            회원가입
+          </Button>
+        </div>
       </form>
     </Container>
   );

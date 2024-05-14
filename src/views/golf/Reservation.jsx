@@ -30,19 +30,22 @@ function Reservation() {
   useEffect(() => {
     if (!ACCESS_TOKEN && Render.current) {
       // alert("로그인이 필요합니다.");
-      window.location.href = '/';
+      window.location.href = "/";
     }
     // Render.current = false;
   }, [ACCESS_TOKEN]);
-  
+
   return (
     <div id="reserve">
       <Head />
-      <Calendar parentView={parentView} parentGolf={parentGolf} parentUser={parentUser} />
+      <Calendar
+        parentView={parentView}
+        parentGolf={parentGolf}
+        parentUser={parentUser}
+      />
       <Course golf={golf} view={view} index={index} user={user} />
     </div>
   );
-
 }
 
 export default Reservation;

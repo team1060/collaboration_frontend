@@ -1,29 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { updateMember } from '../../../core/util/http/admin/MemberService';
+import React, { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { updateMember } from "../../../core/util/http/admin/MemberService";
 
 const MemberModal = ({ open, onClose, member, fetchMembers }) => {
   const [memberData, setMemberData] = useState({
-    email: '',
-    nickname: '',
-    name: '',
-    username: '',
-    password: '',
-    phone_number: '',
-    type: '',
-    role: '',
-    auth_data: '',
-   
-    regdate: ''
+    email: "",
+    nickname: "",
+    name: "",
+    username: "",
+    password: "",
+    phone_number: "",
+    type: "",
+    role: "",
+    auth_data: "",
+
+    regdate: "",
   });
   // type 매핑
   const typeLabels = {
-    0: '회원',
-    1: '중간관리자',
-    2: '관리자'
+    0: "회원",
+    1: "중간관리자",
+    2: "관리자",
   };
   // const types = ['회원', '중간관리자', '관리자'];
-  const roles = ['user', 'admin'];
+  const roles = ["user", "admin"];
   useEffect(() => {
     if (member) {
       setMemberData({
@@ -32,7 +43,7 @@ const MemberModal = ({ open, onClose, member, fetchMembers }) => {
         // type: member.type.toString(),
         role: member.role.toString(),
       });
-      console.log(member)
+      console.log(member);
     }
   }, [member]);
 
@@ -42,14 +53,11 @@ const MemberModal = ({ open, onClose, member, fetchMembers }) => {
     setMemberData({ ...memberData, [name]: value });
   };
 
-
   const handleSubmit = async () => {
-    
-    await updateMember(member.email,  memberData);
+    await updateMember(member.email, memberData);
     fetchMembers();
-    
+
     onClose();
-    
   };
 
   return (
@@ -97,7 +105,7 @@ const MemberModal = ({ open, onClose, member, fetchMembers }) => {
           value={memberData.regdate}
           disabled
         />
-    
+
         {/* 다른 필드들 생략, 필요에 따라 추가 */}
         <FormControl fullWidth margin="dense">
           <InputLabel id="type-select-label">등급</InputLabel>
@@ -110,7 +118,9 @@ const MemberModal = ({ open, onClose, member, fetchMembers }) => {
             onChange={handleChange}
           >
             {Object.entries(typeLabels).map(([value, label]) => (
-              <MenuItem key={value} value={parseInt(value)}>{label}</MenuItem>
+              <MenuItem key={value} value={parseInt(value)}>
+                {label}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -126,11 +136,12 @@ const MemberModal = ({ open, onClose, member, fetchMembers }) => {
             onChange={handleChange}
           >
             {roles.map((role, index) => (
-              <MenuItem key={index} value={role}>{role}</MenuItem>
+              <MenuItem key={index} value={role}>
+                {role}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
-
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>취소</Button>

@@ -1,18 +1,18 @@
-#Brand{
-    margin-bottom: 30px;
-    .brandBox{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-        h2{
-            margin-top: 30px;
-        }
+#Brand {
+  margin-bottom: 30px;
+  .brandBox {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    h2 {
+      margin-top: 30px;
     }
-    .brandButton {
-        display: flex;
-        justify-content: center;
-    }
-    .MuiButtonGroup-root{
-        width: 1200px !important;
-    }
+  }
+  .brandButton {
+    display: flex;
+    justify-content: center;
+  }
+  .MuiButtonGroup-root {
+    width: 1200px !important;
+  }
 }
