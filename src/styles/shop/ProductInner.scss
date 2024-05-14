@@ -1,0 +1,119 @@
+#ProductInner {
+    
+    padding-top: 40px;
+
+    .mainContainer {
+        margin-bottom: 50px;
+    }
+    
+    .titleWrap {
+        margin: 0 0 50px;
+    }
+
+    .productImgSwiperWrap {
+        padding-right: 20px;
+    }
+
+    .productInfo {
+        padding: 30px 30px;
+    }
+
+    .productInfoInner {
+        padding: 15px 0;
+    }
+
+    .discountedPrice {
+        color: #ff0000;
+        &:nth-child(2) {
+            font-weight: bold;
+        }
+    }
+
+    .optionWrap {
+        padding: 20px 30px;
+    }
+
+    .optionTit {
+        display: flex;
+        align-items: center;
+    }
+
+    .optionInner {
+        margin: 10px;
+        
+        position: relative;
+
+        &>div {
+            padding: 30px 20px
+        }
+    }
+
+    .optionInnerTit {
+        margin-bottom: 70px;
+    }
+
+    .productCount {
+        color: #333;
+    }
+
+    .options {
+        margin-bottom: 10px;
+    }
+
+    .totalWrap {
+        padding: 30px 30px;
+    }
+
+    .productInnerButton > button{
+        width: 99%;
+    }
+
+    .con {
+        // padding-top: 50px;
+        background: white;
+    }
+
+    .head {
+        background: #01387F;
+        font-size: 24px;
+        margin-bottom: 40px;
+
+        .atag {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        a {
+            color: white;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .con {
+            padding-top: 80px;
+        }
+    }
+
+    /* Add these styles to your CSS */
+    .atag {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .atag button {
+        background-color: transparent;
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .atag button.active {
+        background-color: white;
+        color: black;
+        border-radius: 0px;
+    }
+
+
+}

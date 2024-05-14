@@ -1,0 +1,88 @@
+@import "../theme/themeStyle.scss";
+
+#info {
+
+    .golfInfo {
+        padding-top: 30px;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .region {
+        margin-bottom: 30px;
+
+    }
+
+
+
+    .regionInner {
+        margin-bottom: 40px;
+    }
+
+    .golf {
+        margin-left: calc(-1/24*100%);
+        border: 1px solid;
+        border-radius: 7px;
+        margin-bottom: 40px;
+
+        .golfImage {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 5px;
+
+            .golfImageInner {
+                display: block;
+                height: 100%;
+
+                img {
+                    width: 100%;
+                    height: cover;
+                    // padding-right: 15px;
+                }
+            }
+        }
+    }
+
+    .golfInner {
+        width: 100%;
+        height: 100%;
+        padding: 30px 40px;
+        display: flex;
+        flex-direction: column;
+        vertical-align: top;
+
+        h3 {
+            margin-bottom: 10px;
+
+            a {
+                color: $mainfontColor;
+            }
+        }
+    }
+
+    .con {
+        // padding-top: 50px;
+        background: white;
+    }
+
+    .head {
+        background: #01387F;
+        font-size: 24px;
+
+        .atag {
+            display: flex;
+            justify-content: space-around;
+            cursor: pointer;
+        }
+
+        a {
+            color: white;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .con {
+            padding-top: 80px;
+        }
+    }
+}

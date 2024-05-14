@@ -1,0 +1,71 @@
+#SearchAddress {
+    
+    &.addressFormWrap {
+        background-color: #f0f0f0;
+        min-height: 800px;
+        padding: 0 50px;
+        margin-bottom: 50px;
+    }
+
+    .modalHeader {
+        text-align: end;
+        padding-top: 25px;
+        cursor: pointer;
+    }
+    
+    .inputtexthead {
+        padding-left: 100px;
+    }
+
+    .inputhead {
+        padding-top: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+        // margin-bottom: 50px;
+    }
+
+    .jusoexample {
+        color: #186bb9;
+        text-align: end;
+        margin-bottom: 50px;
+        padding-right: 25%;
+    }
+    
+    .inputheadInner {
+        text-align: center;
+    }
+    
+    .addressTable {
+        text-align: center;
+        width: 100%;
+
+        .noIdx {
+            width: 10%;
+        }
+        
+        .roadAddress {
+            width: 70%;
+        }
+
+        .zipNo {
+            width: 20%;
+        }
+    
+        .roadAddresstbody {
+            text-align: start;
+            strong {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .pagination {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+        
+   
+} 
