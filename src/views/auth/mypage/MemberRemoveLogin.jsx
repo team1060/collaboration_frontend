@@ -26,8 +26,8 @@ function MemberRemoveLogin() {
         const UserData = await getNickname(token.email);
         setServer(UserData.oauthServerType);
       } else {
-        alert("로그인이 필요합니다.");
-        window.location.href = "/";
+        // alert("로그인이 필요합니다.");
+        // window.location.href = "/";
       }
     };
 
