@@ -84,8 +84,8 @@ function MemberModify() {
           const userData = await getNickname(token.email);
           setUserData(userData);
         } else {
-          alert("로그인이 필요합니다.");
-          window.location.href = "/";
+          // alert("로그인이 필요합니다.");
+          // window.location.href = "/";
         }
       } catch (error) {
         console.error(error);

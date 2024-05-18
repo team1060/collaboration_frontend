@@ -47,8 +47,8 @@ function Header() {
 
   const checkAccessToken = (e) => {
     if (!ACCESS_TOKEN) {
-      alert("로그인 후 이용이 가능합니다.");
-      e.preventDefault();
+      // alert("로그인 후 이용이 가능합니다.");
+      // e.preventDefault();
       // window.location.href = "/";
     } else {
     }
