@@ -33,6 +33,7 @@ import AdminCourse from "./views/admin/Page/AdminCourse";
 import AdminProduct from "./views/admin/Page/AdminProduct";
 import AdminProductList from "./views/admin/Page/AdminProductList";
 import ReserveCancelTable from "./views/golf/reservation/ReserveCancelTable";
+import CustomerService from "./views/customer/CustomerService";
 
 // 메인
 
@@ -138,6 +139,16 @@ const Router = () => {
             </MainLayout>
           }
         />
+        {/*고객 센터 */}
+        <Route
+          path="/customerService"
+          element={
+            <MainLayout>
+              <CustomerService />
+            </MainLayout>
+          }
+        ></Route>
+
         {/* 예약 내역 */}
         <Route
           path="/member/mypage/reserve"

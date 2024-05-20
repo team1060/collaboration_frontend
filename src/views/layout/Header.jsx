@@ -207,24 +207,18 @@ function Header() {
                 </li>
 
                 <li>
-                  <Link to="/" style={{ pointerEvents: "none" }}>
-                    고객지원
-                  </Link>
+                  <Link to="/">고객지원</Link>
                   <div className="two-depth">
                     <div className="innerWrap">
                       {/*  보드랑 자주묻는질문 별도인지? */}
                       <div>
                         <h3>
-                          <Link to="/" style={{ pointerEvents: "none" }}>
-                            공지사항
-                          </Link>
+                          <Link to="/">공지사항</Link>
                         </h3>
                       </div>
                       <div>
                         <h3>
-                          <Link to="/" style={{ pointerEvents: "none" }}>
-                            FAQ
-                          </Link>
+                          <Link to="/customerService">고객센터</Link>
                         </h3>
                       </div>
                     </div>

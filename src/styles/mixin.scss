@@ -1,0 +1,10 @@
+@mixin icon($icon, $color, $width: 24px, $height: 24px) {
+  content: "";
+  display: inline-block;
+  width: $width;
+  height: $height;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-image: _svg($icon, $color);
+  background-position: center;
+}
