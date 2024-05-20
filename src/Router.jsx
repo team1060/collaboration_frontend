@@ -34,6 +34,7 @@ import AdminProduct from "./views/admin/Page/AdminProduct";
 import AdminProductList from "./views/admin/Page/AdminProductList";
 import ReserveCancelTable from "./views/golf/reservation/ReserveCancelTable";
 import CustomerService from "./views/customer/CustomerService";
+import Inquire from "./views/customer/Inquire/Inquire";
 
 // 메인
 
@@ -145,6 +146,15 @@ const Router = () => {
           element={
             <MainLayout>
               <CustomerService />
+            </MainLayout>
+          }
+        ></Route>
+        {/* 1:1문의하기 */}
+        <Route
+          path="/customerService/inquire"
+          element={
+            <MainLayout>
+              <Inquire />
             </MainLayout>
           }
         ></Route>

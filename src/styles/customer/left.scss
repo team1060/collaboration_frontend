@@ -1,0 +1,28 @@
+.Container {
+  .inner {
+    .SideMenu {
+      ul {
+        cursor: pointer;
+
+        li {
+          width: 200px;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          border-bottom: solid 1px #d9d9d9;
+          padding-bottom: 10px;
+          span {
+            font-weight: bold;
+            font-size: 15px;
+            color: black;
+          }
+          &:first-child {
+            border-bottom: solid 3px #d9d9d9 !important;
+          }
+          h2 {
+            margin-bottom: 19px;
+          }
+        }
+      }
+    }
+  }
+}

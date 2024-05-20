@@ -1,0 +1,80 @@
+.Container {
+  .inner {
+    .Right {
+      margin-left: 33px;
+      margin-top: 78px;
+      .InquiryBox {
+        font-weight: bold;
+        padding: 20px;
+        margin-top: 55px;
+        border: solid 2px #02387f;
+        width: 270px;
+        height: 150px;
+        .Buttonbox {
+          display: flex;
+          justify-content: space-around;
+          padding-top: 20px;
+          button {
+            font-weight: bold;
+            width: 100px;
+            height: 40px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: solid 1px;
+            cursor: pointer;
+            &:last-child {
+              color: #02387f;
+              border: solid 1px black;
+            }
+          }
+        }
+      }
+      .NoticeBox {
+        margin-top: 43px;
+        span {
+          font-size: 25px;
+          font-weight: bold;
+        }
+        ul {
+          border-top: solid 1px;
+          cursor: pointer;
+          li {
+            display: flex;
+            border-bottom: solid 1px #b3b3b3;
+            padding-top: 11px;
+            padding-bottom: 11px;
+            span {
+              font-size: 15px;
+              font-weight: bold;
+              &:last-child {
+                margin-left: 5px;
+              }
+              &:first-child {
+                color: #02387f;
+              }
+            }
+          }
+        }
+      }
+      .NoticTitle {
+        margin-bottom: 6px;
+        display: flex;
+        justify-content: space-between;
+
+        span {
+          &:last-child {
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 19px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            i {
+              @include icon(arrow-right, #3e3a39, 15px, 15px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
