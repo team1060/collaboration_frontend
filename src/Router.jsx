@@ -33,9 +33,15 @@ import AdminCourse from "./views/admin/Page/AdminCourse";
 import AdminProduct from "./views/admin/Page/AdminProduct";
 import AdminProductList from "./views/admin/Page/AdminProductList";
 import ReserveCancelTable from "./views/golf/reservation/ReserveCancelTable";
+import CustomerService from "./views/customer/CustomerService";
+import Inquire from "./views/customer/QNA/Inquire";
+import FAQ from "./views/customer/FAQ/FAQ";
+import QNAList from "./views/customer/QNAList/QNAList";
+import QNADetails from "./views/customer/QNAList/QNADetails";
+import NoticeList from "./views/customer/notice/NoticeList";
+import NoticeDetails from "./views/customer/notice/NoticeDetails";
 
 // 메인
-
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
 // 공통 레이아웃 컴포넌트
@@ -138,6 +144,71 @@ const Router = () => {
             </MainLayout>
           }
         />
+        {/*고객 센터 */}
+        <Route
+          path="/customerService"
+          element={
+            <MainLayout>
+              <CustomerService />
+            </MainLayout>
+          }
+        ></Route>
+        {/* 1:1문의하기 */}
+        <Route
+          path="/customerService/QNA"
+          element={
+            <MainLayout>
+              <Inquire />
+            </MainLayout>
+          }
+        ></Route>
+        {/* 자주찾는질문 */}
+        <Route
+          path="/customerService/FAQ"
+          element={
+            <MainLayout>
+              <FAQ />
+            </MainLayout>
+          }
+        ></Route>
+
+        {/* 문의하기  */}
+        <Route
+          path="/customerService/QNAList"
+          element={
+            <MainLayout>
+              <QNAList />
+            </MainLayout>
+          }
+        />
+        {/* 문의하기 상세내역 */}
+        <Route
+          path="/customerService/QNADetails"
+          element={
+            <MainLayout>
+              <QNADetails />
+            </MainLayout>
+          }
+        />
+        {/* 공지사항  */}
+        <Route
+          path="/customerService/Notice"
+          element={
+            <MainLayout>
+              <NoticeList />
+            </MainLayout>
+          }
+        />
+        {/* 공지사항t상세보기 */}
+        <Route
+          path="/customerService/NoticeDetails"
+          element={
+            <MainLayout>
+              <NoticeDetails />
+            </MainLayout>
+          }
+        />
+
         {/* 예약 내역 */}
         <Route
           path="/member/mypage/reserve"
@@ -147,6 +218,7 @@ const Router = () => {
             </MainLayout>
           }
         />
+
         {/* 예약 취소 내역 */}
         <Route
           path="/member/mypage/cancel"

@@ -1,0 +1,113 @@
+@import "../svg.scss";
+@import "../mixin.scss";
+.Container {
+  .inner {
+    .Center {
+      margin-top: 10px;
+      .Search {
+        display: flex;
+        flex-direction: column;
+        span {
+          font-size: 23px;
+          font-weight: bold;
+        }
+        input {
+          margin-top: 34px;
+          width: 580px;
+          height: 60px;
+          border: solid 2px #333333;
+          padding: 20px;
+          flex-grow: 1;
+        }
+        i {
+          width: 90px;
+          height: 30px;
+          background-color: #838999;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          span {
+            font-size: 15px;
+            color: #fff;
+            font-weight: bold;
+            font-style: normal;
+          }
+        }
+        .Keyword {
+          margin-top: 30px;
+          display: flex;
+          align-items: center;
+          .Tip {
+            font-size: 1em;
+            margin-left: 30px;
+            color: #909090;
+          }
+        }
+        .SearchBox {
+          display: flex;
+          align-items: center;
+
+          button {
+            height: 60px;
+            width: 70px;
+            margin-top: 34px;
+            border: none;
+            background-color: #333333;
+            color: #ffff;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .FAQ {
+      margin-top: 69px;
+      padding-bottom: 10px;
+      .FAQTitle {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        span {
+          font-weight: bold;
+          font-size: 25px;
+          &:last-child {
+            margin-top: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            i {
+              @include icon(arrow-right, #3e3a39, 15px, 15px);
+            }
+          }
+        }
+      }
+      ul {
+        border-top: solid 1px;
+        cursor: pointer;
+        li {
+          border-bottom: solid 1px #b3b3b3;
+          padding-bottom: 11px;
+          padding-top: 11px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          i {
+            @include icon(arrow-right, #3e3a39, 15px, 15px);
+            transform: rotate(90deg);
+            margin-right: 20px;
+          }
+          span {
+            font-size: 15px;
+
+            font-weight: bold;
+            &:first-child {
+              color: #02387f;
+            }
+          }
+        }
+      }
+    }
+  }
+}
