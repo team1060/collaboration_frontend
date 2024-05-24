@@ -1,14 +1,14 @@
 import React from "react";
 import { toast } from "react-toastify";
+import LeftMenu from "./LeftMenu";
 
 function CustomerLayout({ children }) {
   return (
     <div className="container">
       <div className="inner">
-        <toast></toast>
-        <div className="Customer">{children}</div>
-        <div className="Baener">
-          <img src="."></img>
+        <div className="Customer">
+          <LeftMenu />
+          {children}
         </div>
       </div>
     </div>

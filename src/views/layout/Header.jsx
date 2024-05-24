@@ -213,7 +213,7 @@ function Header() {
                       {/*  보드랑 자주묻는질문 별도인지? */}
                       <div>
                         <h3>
-                          <Link to="/">공지사항</Link>
+                          <Link to="/customerService/Notice">공지사항</Link>
                         </h3>
                       </div>
                       <div>

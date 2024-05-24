@@ -1,0 +1,75 @@
+.QNAForm {
+  margin-top: 10px;
+  width: 100%;
+  padding-bottom: 400px;
+
+  ul {
+    border-top: solid 1px;
+    margin-top: 20px;
+    .QNAHeader {
+      width: 100%;
+      justify-content: space-between;
+      border-bottom: solid 1px #dddddd;
+      height: 60px;
+      display: flex;
+      background-color: #f7f7f7;
+      align-items: center;
+      font-size: 14px;
+    }
+    li {
+      width: 100%;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #dddddd;
+      font-size: 14px;
+      .QNAContent {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+  .Type {
+    width: 10%;
+    text-align: center;
+    margin-left: 30px;
+  }
+  .Title {
+    width: 30%;
+    text-align: center;
+  }
+  .Status {
+    width: 10%;
+    text-align: center;
+  }
+  .Code {
+    width: 10%;
+    text-align: center;
+  }
+  .Created {
+    width: 10%;
+    text-align: center;
+  }
+  .Status {
+    width: 10%;
+    text-align: center;
+    margin-right: 30px;
+  }
+  .page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+    span {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      margin-top: 20px;
+    }
+    .Recode {
+      position: absolute;
+      right: 0;
+      top: -13px !important;
+    }
+  }
+}

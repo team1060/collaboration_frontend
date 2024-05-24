@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 
-import LeftMenu from "../common/LeftMenu";
 import CustomerLayout from "../common/CustomerLayout";
-import Qna from "../Inquire/Qna";
+import QNA from "./QNA";
 
 function Inquire() {
   return (
-    <div className="container">
-      <div className="inner">
+    <div>
+      <div>
         <CustomerLayout>
-          <LeftMenu />
-          <Qna />
+          <QNA />
         </CustomerLayout>
       </div>
     </div>

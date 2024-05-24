@@ -1,8 +1,9 @@
+@import "../svg.scss";
+@import "../mixin.scss";
 .Container {
   .inner {
     .Center {
       margin-top: 10px;
-      margin-left: 33px;
       .Search {
         display: flex;
         flex-direction: column;
@@ -19,12 +20,13 @@
           flex-grow: 1;
         }
         i {
-          width: 100px;
+          width: 90px;
           height: 30px;
           background-color: #838999;
           display: flex;
           justify-content: center;
           align-items: center;
+
           span {
             font-size: 15px;
             color: #fff;
@@ -98,6 +100,7 @@
           }
           span {
             font-size: 15px;
+
             font-weight: bold;
             &:first-child {
               color: #02387f;

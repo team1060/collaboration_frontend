@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 function Center() {
   const [search, setSearch] = useState("");
 
@@ -44,10 +45,12 @@ function Center() {
           <div className="FAQ">
             <div className="FAQTitle">
               <span>자주 찾는 질문</span>
-              <span>
-                더보기
-                <i></i>
-              </span>
+              <Link to="/customerService/FAQ">
+                <span style={{ color: "#3d3f41" }}>
+                  더보기
+                  <i />
+                </span>
+              </Link>
             </div>
             <ul>
               <li>

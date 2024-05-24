@@ -7,21 +7,29 @@ function LeftMenu() {
         <div className="SideMenu">
           <ul>
             <li>
-              <h2>고객센터</h2>
+              <Link to={"/customerService"}>
+                <h2 style={{ color: "black" }}>고객센터</h2>
+              </Link>
             </li>
             <li>
-              <span>자주 찾는 질문</span>
+              <Link to={"/customerService/FAQ"}>
+                <span>자주 찾는 질문</span>
+              </Link>
             </li>
             <li>
-              <Link to="/customerService/Inquire">
+              <Link to="/customerService/QNA">
                 <span>1:1 문의 하기</span>
               </Link>
             </li>
             <li>
-              <span>1:1문의</span>
+              <Link to="/customerService/QNAList">
+                <span>1:1문의</span>
+              </Link>
             </li>
             <li>
-              <span>공지 사항</span>
+              <Link to={"/customerService/Notice"}>
+                <span>공지 사항</span>
+              </Link>
             </li>
           </ul>
         </div>
