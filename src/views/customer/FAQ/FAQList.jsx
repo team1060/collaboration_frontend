@@ -14,10 +14,17 @@ function FAQList() {
     { id: 8, title: "아이브", answer: "안유진" },
     { id: 9, title: "아이브", answer: "안유진" },
     { id: 10, title: "아이브", answer: "안유진" },
+    { id: 11, title: "아이브", answer: "장원영" },
+    { id: 12, title: "아이브", answer: "리즈" },
+    { id: 13, title: "아이브", answer: "안유진" },
+    { id: 14, title: "아이브", answer: "안유진" },
+    { id: 15, title: "아이브", answer: "안유진" },
   ];
 
   const [questions, setQuestions] = useState(initialQuestions);
   const [answers, setAnswers] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const toggleAnswer = (id) => {
     setAnswers((prevAnswers) => ({
@@ -39,6 +46,13 @@ function FAQList() {
       return;
     }
   };
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = questions.slice(indexOfFirstItem, indexOfLastItem);
+
   return (
     <div className="Containers">
       <div className="inner">
@@ -68,7 +82,7 @@ function FAQList() {
           </div>
           <div className="QuestionForm">
             <ul>
-              {questions.map((question) => (
+              {currentItems.map((question) => (
                 <div key={question.id} className="Question">
                   <li onClick={() => toggleAnswer(question.id)}>
                     <span className={answers[question.id] ? "Completed" : ""}>
@@ -98,21 +112,25 @@ function FAQList() {
                 width: "100%",
               }}
             >
-              <span>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>5</span>
-              <span>6</span>
-              <span>7</span>
-              <span>8</span>
-              <span>9</span>
-              <span>10</span>
+              {Array.from(
+                { length: Math.ceil(questions.length / itemsPerPage) },
+                (_, i) => (
+                  <span
+                    key={i + 1}
+                    onClick={() => paginate(i + 1)}
+                    style={{
+                      fontWeight: currentPage === i + 1 ? "bold" : "normal",
+                    }}
+                  >
+                    {i + 1}
+                  </span>
+                )
+              )}
               <div className="IconBox">
                 <i style={{ transform: "translateX(0.5px)" }} />
               </div>
               <div className="IconBox">
-                <i>
+                <i onClick={() => paginate()}>
                   <i className="duble"></i>
                 </i>
               </div>

@@ -12,28 +12,50 @@ const axiosAuth = axios.create({
   baseURL,
   headers: {
     "Content-Type": "application/json",
-    Authorization: ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}` : "",
   },
 });
 
-// member 전체 조회
-export const getAllMembers = async () => {
-  try {
-    const response = await axiosInstance.get("/member/join");
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// export const golfAPI = async (
+//   api,
+//   method,
+//   params,
+//   headers = {
+//     "Content-Type": "application/json",
+//     Authorization: ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}` : "",
+//   }
+// ) => {
+//   try {
+//     const response = await axios({
+//       method: method,
+//       url: baseURL + api,
+//       headers: headers,
+//       data: params,
+//     });
+//     return response;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
-export const registerMember = async (userData) => {
-  try {
-    const response = await axiosInstance.post("/member/join", userData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// member 전체 조회
+
+// export const getAllMembers = async () => {
+//   try {
+//     const response = await axiosInstance.get("/member/join");
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+// export const registerMember = async (userData) => {
+//   try {
+//     const response = await axiosInstance.post("/member/join", userData);
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 // 비밀번호 찾기
 export const pwSubmit = async (email) => {
@@ -61,6 +83,20 @@ export const emailSubmit = async (inputValue) => {
 export const getEmail = async () => {
   try {
     const response = await axiosInstance.get("/member/join/login/email");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 회원가입
+export const signUp = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/member/insert", userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
     throw error;
