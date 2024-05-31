@@ -12,23 +12,49 @@ const axiosAuth = axios.create({
   baseURL,
   headers: {
     "Content-Type": "application/json",
-    Authorization: ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}` : "",
   },
 });
 
-// member 전체 조회
-export const getAllMembers = async () => {
+export const golfAPI = async (
+  api,
+  method,
+  params,
+  headers = {
+    "Content-Type": "application/json",
+    Authorization: ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}` : "",
+  }
+) => {
   try {
-    const response = await axiosInstance.get("/member/join");
-    return response.data;
+    const response = await axios({
+      method: method,
+      url: baseURL + api,
+      headers: headers,
+      data: params,
+    });
+    return response;
   } catch (error) {
     throw error;
   }
 };
 
-export const registerMember = async (userData) => {
+// export const insertQNA = async (formData) => {
+//   try {
+//     const response = await axiosInstance.post("/board/QnaInsert", formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+// member 전체 조회
+
+export const getAllMembers = async () => {
   try {
-    const response = await axiosInstance.post("/member/join", userData);
+    const response = await axiosInstance.get("/member/join");
     return response.data;
   } catch (error) {
     throw error;
@@ -67,16 +93,29 @@ export const getEmail = async () => {
   }
 };
 
-// 로그인
-export const loginMember = async (userData) => {
+// 회원가입
+export const signUp = async (userData) => {
   try {
-    const response = await axiosAuth.post("/member/login", userData);
-    console.log(response.data.token);
-    if (response.data.token) {
-      const token = response.data.token;
-      localStorage.setItem("ACCESS_TOKEN", token);
-      window.location.href = "/";
-    }
+    const response = await axiosInstance.post("/member/insert", userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 로그인
+export const siginIn = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/member/login", userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   } catch (error) {
     throw error;
   }

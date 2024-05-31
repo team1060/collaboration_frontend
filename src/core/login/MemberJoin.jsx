@@ -21,7 +21,7 @@ import {
   emailSubmit,
   getAllMembers,
   getUserDelData,
-  registerMember,
+  signUp,
 } from "../util/http/auth/Member.js";
 import JoinData from "./JoinData.js";
 
@@ -55,43 +55,43 @@ function MemberJoin() {
   // 로그인 완료 후 메인화면으로 가기
   const history = useNavigate();
   // 이메일 인증 버튼 클릭 시 호출되는 함수
-  const handleEmailVerification = async () => {
-    try {
-      const response = await emailSubmit(inputValue);
-      console.log(response);
-      if (response != null) {
-        console.log("성공");
-        alert("메일발송이 완료되었습니다.");
-        setnewInputCheck(true);
-        setResponse(response);
-        setViewMessage("");
-      } else {
-        setResponse(null);
-      }
-    } catch (error) {
-      console.error("이메일 전송 중 오류 발생:", error);
-    }
-  };
+  // const handleEmailVerification = async () => {
+  //   try {
+  //     const response = await emailSubmit(inputValue);
+  //     console.log(response);
+  //     if (response != null) {
+  //       console.log("성공");
+  //       alert("메일발송이 완료되었습니다.");
+  //       setnewInputCheck(true);
+  //       setResponse(response);
+  //       setViewMessage("");
+  //     } else {
+  //       setResponse(null);
+  //     }
+  //   } catch (error) {
+  //     console.error("이메일 전송 중 오류 발생:", error);
+  //   }
+  // };
 
   // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // 입력필드 완료 여부 확인
-    if (
-      !inputValue ||
-      !nickname ||
-      !name ||
-      !phoneNumber ||
-      response !== pwchecked ||
-      viewMessage.includes("불가") ||
-      pwViewMessage.includes("특수") ||
-      pwCheckMessage.includes("일치하지 않습니다") ||
-      pwInput !== pwInputche
-    ) {
-      alert("문항들을 한번 더 확인해주세요!");
-      return;
-    }
+    // if (
+    //   !inputValue ||
+    //   !nickname ||
+    //   !name ||
+    //   !phoneNumber ||
+    //   response !== pwchecked ||
+    //   viewMessage.includes("불가") ||
+    //   pwViewMessage.includes("특수") ||
+    //   pwCheckMessage.includes("일치하지 않습니다") ||
+    //   pwInput !== pwInputche
+    // ) {
+    //   alert("문항들을 한번 더 확인해주세요!");
+    //   return;
+    // }
 
     // 필수 약관 체크 여부 확인
     if (!checked[0] || !checked[1]) {
@@ -106,16 +106,19 @@ function MemberJoin() {
       nickname: nickname,
       name: name,
       phone_number: phoneNumber,
-      type: 0,
-      auth_data: 0,
-      is_sms_consent: checked[2] ? 1 : 0,
-      is_email_consent: checked[3] ? 1 : 0,
+      is_sms_consent: "true",
+      is_email_consent: "true",
     };
 
-    await registerMember(userData);
-    alert("회원가입을 환영합니다!");
-    history("/");
-    console.log(userData);
+    try {
+      const response = await signUp(userData);
+      alert("회원가입을 환영합니다!");
+      history("/");
+      console.log(response);
+    } catch (error) {
+      console.error("회원가입 중 오류 발생:", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   // 이메일 핸들러
@@ -281,36 +284,36 @@ function MemberJoin() {
   );
 
   // email 전체 조회 + 이메일 인증 시간 제한
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await getAllMembers();
-        setAllEmail(userData);
-        const userDelData = await getUserDelData();
-        setDelEmail(userDelData);
-      } catch (error) {
-      } finally {
-        setTime(300);
-        const existingInterval = timeRef.current;
-        if (existingInterval) {
-          clearInterval(existingInterval);
-        }
-        const time = setInterval(() => {
-          setTime((prevTime) => {
-            if (prevTime > 0) {
-              return prevTime - 1;
-            } else {
-              clearInterval(time);
-              return 0;
-            }
-          });
-        }, 1000);
-        timeRef.current = time;
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const userData = await getAllMembers();
+  //       setAllEmail(userData);
+  //       const userDelData = await getUserDelData();
+  //       setDelEmail(userDelData);
+  //     } catch (error) {
+  //     } finally {
+  //       setTime(300);
+  //       const existingInterval = timeRef.current;
+  //       if (existingInterval) {
+  //         clearInterval(existingInterval);
+  //       }
+  //       const time = setInterval(() => {
+  //         setTime((prevTime) => {
+  //           if (prevTime > 0) {
+  //             return prevTime - 1;
+  //           } else {
+  //             clearInterval(time);
+  //             return 0;
+  //           }
+  //         });
+  //       }, 1000);
+  //       timeRef.current = time;
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     <Container id="memberJoin">
@@ -348,10 +351,10 @@ function MemberJoin() {
                 endAdornment: (
                   <InputAdornment position="end">
                     <Button
-                      className="validbut"
-                      variant="contained"
-                      onClick={handleEmailVerification}
-                      disabled={!dupliButton}
+                    // className="validbut"
+                    // variant="contained"
+                    // onClick={handleEmailVerification}
+                    // disabled={!dupliButton}
                     >
                       인증
                     </Button>

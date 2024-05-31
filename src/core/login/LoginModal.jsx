@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import { useState } from "react";
-import { loginMember } from "../util/http/auth/Member";
+import { siginIn } from "../util/http/auth/Member";
 
 const style = {
   position: "absolute",
@@ -49,8 +49,8 @@ const buttonStyle = {
 
 export default function LoginModal() {
   const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = useState("golfzone1");
-  const [password, setPassword] = useState("pw01");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -61,13 +61,13 @@ export default function LoginModal() {
 
     // 이메일과 비밀번호 값 확인
     if (email && password) {
-      const useData = {
+      const userData = {
         email: email,
         password: password,
       };
       try {
-        console.log(useData);
-        await loginMember(useData);
+        await siginIn(userData);
+        console.log(userData);
         window.location.href = "/";
       } catch (error) {
         alert("이메일 또는 비밀번호가 올바르지 않습니다.");
@@ -131,10 +131,18 @@ export default function LoginModal() {
             />
             <Grid container alignItems="center">
               <Button onClick={handleButtonClick}>
-                <img style={{ width: "30px" }} src="/img/icon/kakao.png" alt=""></img>
+                <img
+                  style={{ width: "30px" }}
+                  src="/img/icon/kakao.png"
+                  alt=""
+                ></img>
               </Button>
               <Button onClick={handleNaverButtonClick}>
-                <img style={{ width: "30px" }} src="/img/icon/naver.png" alt=""></img>
+                <img
+                  style={{ width: "30px" }}
+                  src="/img/icon/naver.png"
+                  alt=""
+                ></img>
               </Button>
               <a href="/member/find" style={linkStyle}>
                 아이디/비밀번호 찾기
