@@ -144,31 +144,20 @@ function QNA() {
       alert("내용을 입력해주세요.");
       return;
     }
-
+    
+    
     const formData = new FormData();
-    formData.append("categoryNo", 1);
-    formData.append("memberNo", 1);
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("boardNo", 0);
-    formData.append("path", "");
-    formData.append("name", "");
-
-    // for (let file of files) {
-    //   formData.append("files", file);
-    // }
-    // let entries = formData.entries();
-    // for (const t of entries) {
-    //   console.log(t[0] + "," + t[1]);
-    // }
-
+    formData.append("categoryNo", 8);
+    formData.append("memberNo", 12); 
+  
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+  
     try {
-      const response = await axiosInstance.post("/board/QnaInsert", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          //   "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.post("/board/QnaInsert", formData)
       console.log(response);
       alert("문의가 등록되었습니다.");
     } catch (error) {
@@ -176,6 +165,7 @@ function QNA() {
       alert("문의 등록에 실패했습니다.");
     }
   };
+  
   return (
     <div className="Qnaform">
       <div className="precautions">
@@ -334,7 +324,7 @@ function QNA() {
                     <input
                       id="fileInput"
                       type="file"
-                      name="image"
+                      name="files"
                       accept="image/*"
                       multiple
                       onChange={handleFileChange}
