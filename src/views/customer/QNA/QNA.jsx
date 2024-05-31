@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import imageCompression from "browser-image-compression";
+import { insertQNA } from "../../../core/util/http/auth/Member";
+import axiosInstance from "src/core/util/http/axiosInstance";
 
 function QNA() {
   const [inquiryOptione, setInquiryOptione] = useState(false);
@@ -9,6 +11,8 @@ function QNA() {
   const [arrow, setArrow] = useState(true);
   const [previews, setPreviews] = useState([]);
   const [files, setFiles] = useState([]);
+  const [title, setTilte] = useState("");
+  const [content, setContent] = useState("");
   const toggleInquirytype = () => {
     setInquiryOptione(!inquiryOptione);
     setArrow(!arrow);
@@ -21,8 +25,10 @@ function QNA() {
   let [textareaCount, settextareaCount] = useState(0);
 
   const onTextareaHandler = (e) => {
+    const newText = e.target.value;
+    setContent(newText);
     settextareaCount(
-      e.target.value.replace(/[\0-\x7f]|([0-\u07ff]|(.))/g, "$&$1$2").length
+      newText.replace(/[\0-\x7f]|([0-\u07ff]|(.))/g, "$&$1$2").length
     );
   };
 
@@ -70,6 +76,104 @@ function QNA() {
       // generatePreviews(imageFiles);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // const postSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!title.trim()) {
+  //     alert("제목을 입력해주세요.");
+  //     return;
+  //   }
+  //   if (!content.trim()) {
+  //     alert("내용을 입력해주세요.");
+  //     return;
+  //   }
+
+  //   let qna = {
+  //     categoryNo: 1,
+  //     memberNo: 1,
+  //     title: title,
+  //     content: content,
+  //     boardNo: 1,
+  //     path: "",
+  //     name: "string",
+  //   };
+
+  //   try {
+  //     const response = await axiosInstance.post("/board/QnaInsert", qna, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     console.log(response);
+  //     alert("문의가 등록되었습니다.");
+
+  //     if (files.length > 0) {
+  //       const formData = new FormData();
+  //       formData.append("qna", JSON.stringify(qna));
+  //       for (let file of files) {
+  //         formData.append("files", file);
+  //       }
+
+  //       const fileResponse = await axiosInstance.post(
+  //         "/board/QnaInsert",
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+  //       console.log(fileResponse);
+  //       alert("파일이 업로드되었습니다.");
+  //     }
+  //   } catch (error) {
+  //     console.error("문의 등록에 실패했습니다.", error);
+  //     alert("문의 등록에 실패했습니다.");
+  //   }
+  // };
+
+  const postSubmit = async (e) => {
+    e.preventDefault();
+    if (!title.trim()) {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+    if (!content.trim()) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("categoryNo", 1);
+    formData.append("memberNo", 1);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("boardNo", 0);
+    formData.append("path", "");
+    formData.append("name", "");
+
+    // for (let file of files) {
+    //   formData.append("files", file);
+    // }
+    // let entries = formData.entries();
+    // for (const t of entries) {
+    //   console.log(t[0] + "," + t[1]);
+    // }
+
+    try {
+      const response = await axiosInstance.post("/board/QnaInsert", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          //   "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+      alert("문의가 등록되었습니다.");
+    } catch (error) {
+      console.error("문의 등록에 실패했습니다.", error);
+      alert("문의 등록에 실패했습니다.");
     }
   };
   return (
@@ -182,7 +286,12 @@ function QNA() {
               <span>제목</span>
             </td>
             <td>
-              <input placeholder="제목을입력해주세요"></input>
+              <input
+                placeholder="제목을입력해주세요"
+                name="title"
+                value={title}
+                onChange={(e) => setTilte(e.target.value)}
+              ></input>
             </td>
           </tr>
           <tr>
@@ -194,6 +303,8 @@ function QNA() {
                 placeholder="최대2500자까지입력이가능합니다"
                 maxLength={"2500"}
                 onChange={onTextareaHandler}
+                name="content"
+                value={content}
               ></textarea>
               <span style={{ textAlign: "right" }}>{textareaCount}</span>
               <span>/2500 </span>
@@ -238,7 +349,7 @@ function QNA() {
         </table>
         <div className="RecordBtn">
           <button>취소</button>
-          <button>등록</button>
+          <button onClick={postSubmit}>등록</button>
         </div>
       </div>
     </div>

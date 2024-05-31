@@ -2,6 +2,7 @@
 @import "../mixin.scss";
 .Qnaform {
   position: relative;
+  width: 100%;
   .precautions {
     margin-top: 10px;
     margin-bottom: 26px;
@@ -41,13 +42,13 @@
           font-size: 13px;
         }
         textarea {
-          width: 100%;
+          width: 80%;
           height: 360px;
           padding: 20px;
           resize: none;
         }
         input {
-          width: 100%;
+          width: 50%;
           height: 40px;
           padding: 10px;
         }

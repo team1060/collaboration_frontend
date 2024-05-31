@@ -106,14 +106,12 @@ function MemberJoin() {
       nickname: nickname,
       name: name,
       phone_number: phoneNumber,
-      type: "CUSTOMER",
-      auth_date: "GOLF",
       is_sms_consent: "true",
       is_email_consent: "true",
     };
 
     try {
-      const response = await signUp();
+      const response = await signUp(userData);
       alert("회원가입을 환영합니다!");
       history("/");
       console.log(response);
