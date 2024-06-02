@@ -7,19 +7,34 @@ import axiosInstance from "src/core/util/http/axiosInstance";
 function QNA() {
   const [inquiryOptione, setInquiryOptione] = useState(false);
   const [numberOption, setNumberOption] = useState(false);
-  const [inquiryType, setInquiryType] = useState("상담유형");
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState("상담유형");
+  const [subOptions, setSubOptions] = useState(["상담유형", "골프", "쇼핑"]);
   const [arrow, setArrow] = useState(true);
   const [previews, setPreviews] = useState([]);
   const [files, setFiles] = useState([]);
   const [title, setTilte] = useState("");
   const [content, setContent] = useState("");
+  const [detailOptions, setDetailOptions] = useState([]);
+
+  const optionsMap = [
+    { type: "상담유형", details: [] },
+    { type: "골프", details: ["예약문의", "결제문의", "취소문의"] },
+    { type: "쇼핑", details: ["제품문의", "배송문의", "반품문의"] },
+  ];
+
+  const handleDropdown = () => setIsOpen(!isOpen);
+
+  const handleSelectType = (type) => {
+    setSelectedType(type);
+    setIsOpen(false);
+
+    const selectedOption = optionsMap.find((option) => option.type === type);
+    setDetailOptions(selectedOption ? selectedOption.details : []);
+  };
+
   const toggleInquirytype = () => {
     setInquiryOptione(!inquiryOptione);
-    setArrow(!arrow);
-  };
-  const changeInquiryType = (type) => {
-    setInquiryType(type);
-    setInquiryOptione(false);
     setArrow(!arrow);
   };
   let [textareaCount, settextareaCount] = useState(0);
@@ -79,61 +94,6 @@ function QNA() {
     }
   };
 
-  // const postSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!title.trim()) {
-  //     alert("제목을 입력해주세요.");
-  //     return;
-  //   }
-  //   if (!content.trim()) {
-  //     alert("내용을 입력해주세요.");
-  //     return;
-  //   }
-
-  //   let qna = {
-  //     categoryNo: 1,
-  //     memberNo: 1,
-  //     title: title,
-  //     content: content,
-  //     boardNo: 1,
-  //     path: "",
-  //     name: "string",
-  //   };
-
-  //   try {
-  //     const response = await axiosInstance.post("/board/QnaInsert", qna, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     console.log(response);
-  //     alert("문의가 등록되었습니다.");
-
-  //     if (files.length > 0) {
-  //       const formData = new FormData();
-  //       formData.append("qna", JSON.stringify(qna));
-  //       for (let file of files) {
-  //         formData.append("files", file);
-  //       }
-
-  //       const fileResponse = await axiosInstance.post(
-  //         "/board/QnaInsert",
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //         }
-  //       );
-  //       console.log(fileResponse);
-  //       alert("파일이 업로드되었습니다.");
-  //     }
-  //   } catch (error) {
-  //     console.error("문의 등록에 실패했습니다.", error);
-  //     alert("문의 등록에 실패했습니다.");
-  //   }
-  // };
-
   const postSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
@@ -144,28 +104,32 @@ function QNA() {
       alert("내용을 입력해주세요.");
       return;
     }
-    
-    
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
     formData.append("categoryNo", 8);
-    formData.append("memberNo", 12); 
-  
+    formData.append("memberNo", 12);
+
     files.forEach((file) => {
       formData.append("files", file);
     });
-  
+
     try {
-      const response = await axiosInstance.post("/board/QnaInsert", formData)
+      const response = await axiosInstance.post("/board/QnaInsert", formData);
       console.log(response);
       alert("문의가 등록되었습니다.");
+      setTilte("");
+      setContent("");
+      setPreviews([]);
+      setFiles([]);
+      settextareaCount(0);
     } catch (error) {
       console.error("문의 등록에 실패했습니다.", error);
       alert("문의 등록에 실패했습니다.");
     }
   };
-  
+
   return (
     <div className="Qnaform">
       <div className="precautions">
@@ -227,27 +191,36 @@ function QNA() {
             <td style={{ height: "100%" }}>
               <span>문의유형</span>
             </td>
-            <td>
-              <button onClick={toggleInquirytype}>
-                <span>{inquiryType}</span>
-                <i className={`icon-arrow ${arrow ? "down" : "up"}`} />
-              </button>
-              {inquiryOptione && (
-                <>
-                  <div className="TypeChoces">
-                    <div className="TypeChoce">
-                      <button onClick={() => changeInquiryType("쇼핑")}>
-                        <span>쇼핑</span>
-                      </button>
-                    </div>
-                    <div className="TypeChoce">
-                      <button onClick={() => changeInquiryType("예약")}>
-                        <span>예약</span>
-                      </button>
-                    </div>
+            <td
+              onClick={handleDropdown}
+              style={{
+                cursor: "pointer",
+                position: "relative",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                <div className="BigOption">
+                  {selectedType}
+                  <div className={`OptionList ${isOpen ? "show" : ""}`}>
+                    {subOptions.map((option, index) => (
+                      <ul
+                        key={index}
+                        onClick={() => handleSelectType(option)}
+                        className="OpationItem"
+                      >
+                        <li>{option}</li>
+                      </ul>
+                    ))}
                   </div>
-                </>
-              )}
+                </div>
+                <div className="DetailsOption">
+                  {detailOptions.map((option, index) => (
+                    <ul key={index} className="DetailsOpationItem">
+                      <li>{option}</li>
+                    </ul>
+                  ))}
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
