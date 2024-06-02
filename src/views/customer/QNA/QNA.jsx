@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import imageCompression from "browser-image-compression";
 import { insertQNA } from "../../../core/util/http/auth/Member";
 import axiosInstance from "src/core/util/http/axiosInstance";
+import { apiRequest } from "src/core/util/http/request";
+import { API_URL } from "src/core/util/http/urls";
 
 function QNA() {
   const [inquiryOptione, setInquiryOptione] = useState(false);
@@ -116,7 +118,7 @@ function QNA() {
     });
 
     try {
-      const response = await axiosInstance.post("/board/QnaInsert", formData);
+      const response = await apiRequest.postFormData(API_URL.BOARD_QNA_INSERT, formData);
       console.log(response);
       alert("문의가 등록되었습니다.");
       setTilte("");
