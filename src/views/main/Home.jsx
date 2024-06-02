@@ -57,7 +57,7 @@ function HomeList() {
         )}
         {/* 골프소개  */}
 
-        <ShopCard />
+        {false && <ShopCard />}
         <Banner />
         <Event />
       </div>

@@ -54,6 +54,7 @@ export const HEADER_NOT_REQUIRED_URLS = [
 
 /** FormData로 전송 필요한 URL */
 export const FORM_DATA_REQUIRED_URLS = [
+    API_URL.BOARD_QNA_INSERT
     // API_URL.PRODUCT_POST,
     // API_URL.PRODUCT_PUT,
 ]

@@ -12,15 +12,15 @@ const http = axios.create({
 });
 
 http.interceptors.request.use((config) => {
-  // const token = localStorage.getItem("ACCESS_TOKEN");
-  // config.headers.set(
-  //   'Authorization',
-  //   !HEADER_NOT_REQUIRED_URLS.includes(config.url || '')
-  //     ? token
-  //       ? `Bearer ${token}`
-  //       : undefined
-  //     : undefined,
-  // );
+  const token = localStorage.getItem("ACCESS_TOKEN");
+  config.headers.set(
+    'Authorization',
+    !HEADER_NOT_REQUIRED_URLS.includes(config.url || '')
+      ? token
+        ? `Bearer ${token}`
+        : undefined
+      : undefined,
+  );
   config.headers.set(
     'Content-Type',
     FORM_DATA_REQUIRED_URLS.includes(config.url || '')
