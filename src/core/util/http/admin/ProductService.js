@@ -1,4 +1,5 @@
-import axiosAdmin from "../adminAxios.js";
+import { apiRequest } from "../request.js";
+import { API_URL } from "../urls.js";
 // 상품 추가
 export const postProduct = async (productData, imageFiles) => {
   try {
@@ -24,10 +25,9 @@ export const postProduct = async (productData, imageFiles) => {
     });
 
     // axios를 사용하여 백엔드에 POST 요청
-    const response = await axiosAdmin.post(
-      "/api/admin/products/insert",
-      formData,
-      {}
+    const response = await apiRequest.postFormData(
+      API_URL.PRODUCT_POST,
+      formData
     );
 
     return response.data; // 백엔드 응답 반환
@@ -44,8 +44,8 @@ export const updateProduct = async (product_no, productData) => {
     for (const key in productData) {
       formData.append(key, productData[key]);
     }
-    const response = await axiosAdmin.put(
-      `/admin/products/${product_no}`,
+    const response = await apiRequest.putFormData(
+      API_URL.PRODUCT_PUT,
       formData
     );
     return response.data;
@@ -57,7 +57,7 @@ export const updateProduct = async (product_no, productData) => {
 // 상품목록
 export const getProductList = async () => {
   try {
-    const response = await axiosAdmin.get("/product");
+    const response = await apiRequest.get(API_URL.PRODUCT_LIST_GET);
     return response.data;
   } catch (error) {
     throw error;
@@ -67,7 +67,7 @@ export const getProductList = async () => {
 // 브랜드목록
 export const getBrand = async () => {
   try {
-    const response = await axiosAdmin.get("/brand");
+    const response = await apiRequest.get(API_URL.BRAND_GET);
     return response.data;
   } catch (error) {
     throw error;
@@ -77,7 +77,7 @@ export const getBrand = async () => {
 // 상품목록
 export const getProductInner = async (product_no) => {
   try {
-    const response = await axiosAdmin.get(`/products/${product_no}`);
+    const response = await apiRequest.get(API_URL.PRODUCT_GET(product_no));
     return response.data;
   } catch (error) {
     throw error;
@@ -86,8 +86,10 @@ export const getProductInner = async (product_no) => {
 
 // 상품 삭제
 
-export const deleteProduct = async () => {
+export const deleteProduct = async (product_no) => {
+  
   try {
+    const response = await apiRequest.delete(API_URL.PRODUCT_DELETE(product_no))
   } catch (error) {
     throw error;
   }

@@ -1,12 +1,14 @@
-import axiosAdmin from "../adminAxios.js";
 /**
  * 예약페이지 api 모음
  */
 
+import { apiRequest } from "../request";
+import { API_URL } from "../urls";
+
 // 코스 전체조회
 export const getCourse = async () => {
   try {
-    const response = await axiosAdmin.get("/reservation/detail");
+    const response = await apiRequest.get(API_URL.COURSE_GET);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -17,7 +19,7 @@ export const getCourse = async () => {
 // 골프장 이름 조회
 export const getGolf = async () => {
   try {
-    const response = await axiosAdmin.get("/reservation/golf");
+    const response = await apiRequest.get(API_URL.GOLF_GET);
     return response.data;
   } catch (error) {
     throw error;
@@ -27,7 +29,7 @@ export const getGolf = async () => {
 // // 예약 신청
 // export const postGolf = async (course) => {
 //     try {
-//         const response = await axiosAdmin.post("/reservation/detail", course);
+//         const response = await apiRequest.postAPI_URL.COURSE_GET, course);
 //         return response.data;
 //     } catch (error) {
 //         throw error;
@@ -37,7 +39,7 @@ export const getGolf = async () => {
 // 예약 내역 불러오기
 export const getReserve = async (email) => {
   try {
-    const response = await axiosAdmin.get(`/reservation/confirm/${email}`);
+    const response = await apiRequest.get(API_URL.RESERVE_GET);
     return response.data;
   } catch (error) {
     throw error;
@@ -47,7 +49,7 @@ export const getReserve = async (email) => {
 // 예약취소
 export const cancelGolf = async (reserve_no) => {
   try {
-    const response = await axiosAdmin.post(`/reservation/cancel/${reserve_no}`);
+    const response = await apiRequest.post(API_URL.RESERVE_CANCLE_POST(reserve_no));
     return response.data;
   } catch (error) {
     throw error;
@@ -57,10 +59,7 @@ export const cancelGolf = async (reserve_no) => {
 // 취소 내역 불러오기
 export const getCancelGolf = async (email) => {
   try {
-    const response = await axiosAdmin.get(
-      `/reservation/confirm/cancel/${email}`
-    );
-    console.log(response);
+    const response = await apiRequest.get(API_URL.RESERVE_CANCLE_GET(email))
     return response.data;
   } catch (error) {
     throw error;

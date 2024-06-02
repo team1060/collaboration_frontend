@@ -1,45 +1,46 @@
-import axiosInstance from "../axiosInstance";
 import axios from "axios";
+import { apiRequest } from "../request";
+import { API_URL } from "../urls";
 
 /**
  * 회원 페이지 api 모음 , jwtDecode
  */
-const baseURL = process.env.REACT_APP_BASE_URL;
-// const baseURL = 'http://localhost:8081';
-const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
+// const baseURL = process.env.REACT_APP_BASE_URL;
+// // const baseURL = 'http://localhost:8081';
+// const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
-const axiosAuth = axios.create({
-  baseURL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+// const axiosAuth = axios.create({
+//   baseURL,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
 
-export const golfAPI = async (
-  api,
-  method,
-  params,
-  headers = {
-    "Content-Type": "application/json",
-    Authorization: ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}` : "",
-  }
-) => {
-  try {
-    const response = await axios({
-      method: method,
-      url: baseURL + api,
-      headers: headers,
-      data: params,
-    });
-    return response;
-  } catch (error) {
-    throw error;
-  }
-};
+// export const golfAPI = async (
+//   api,
+//   method,
+//   params,
+//   headers = {
+//     "Content-Type": "application/json",
+//     Authorization: ACCESS_TOKEN ? `Bearer ${ACCESS_TOKEN}` : "",
+//   }
+// ) => {
+//   try {
+//     const response = await axios({
+//       method: method,
+//       url: baseURL + api,
+//       headers: headers,
+//       data: params,
+//     });
+//     return response;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 // export const insertQNA = async (formData) => {
 //   try {
-//     const response = await axiosInstance.post("/board/QnaInsert", formData, {
+//     const response = await apiRequest.post("/board/QnaInsert", formData, {
 //       headers: {
 //         "Content-Type": "multipart/form-data",
 //       },
@@ -54,7 +55,7 @@ export const golfAPI = async (
 
 export const getAllMembers = async () => {
   try {
-    const response = await axiosInstance.get("/member/join");
+    const response = await apiRequest.get(API_URL.MEMBER_LIST_GET);
     return response.data;
   } catch (error) {
     throw error;
@@ -64,7 +65,7 @@ export const getAllMembers = async () => {
 // 비밀번호 찾기
 export const pwSubmit = async (email) => {
   try {
-    const response = await axiosInstance.post("/member/login/email", email);
+    const response = await apiRequest.post(API_URL.PW_SUBMIT, email);
     return response.data;
   } catch (error) {
     throw error;
@@ -74,7 +75,7 @@ export const pwSubmit = async (email) => {
 // 이메일 전송
 export const emailSubmit = async (inputValue) => {
   try {
-    const response = await axiosInstance.post("/member/login/email", {
+    const response = await apiRequest.post(API_URL.EMAIL_SUBMIT, {
       email: inputValue,
     });
     return response.data;
@@ -86,7 +87,7 @@ export const emailSubmit = async (inputValue) => {
 // 인증 확인
 export const getEmail = async () => {
   try {
-    const response = await axiosInstance.get("/member/join/login/email");
+    const response = await apiRequest.get(API_URL.EMAIL_GET);
     return response.data;
   } catch (error) {
     throw error;
@@ -96,11 +97,7 @@ export const getEmail = async () => {
 // 회원가입
 export const signUp = async (userData) => {
   try {
-    const response = await axiosInstance.post("/member/insert", userData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await apiRequest.post(API_URL.SIGNUP, userData);
     return response.data;
   } catch (error) {
     throw error;
@@ -110,11 +107,7 @@ export const signUp = async (userData) => {
 // 로그인
 export const siginIn = async (userData) => {
   try {
-    const response = await axiosInstance.post("/member/login", userData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await apiRequest.post(API_URL.SIGNIN, userData);
     return response.data;
   } catch (error) {
     throw error;
@@ -124,7 +117,7 @@ export const siginIn = async (userData) => {
 // 이메일로 닉네임 조회
 export const getNickname = async (email) => {
   try {
-    const response = await axiosAuth.post(`/member/getEmail/${email}`, email);
+    const response = await apiRequest.post(API_URL.NICKNAME_GET, email);
     return response.data;
   } catch (error) {
     throw error;
@@ -134,7 +127,7 @@ export const getNickname = async (email) => {
 // 아이디 비밀번호 찾기
 export const sendUserData = async (data) => {
   try {
-    const response = await axiosInstance.post("/member/find", data);
+    const response = await apiRequest.post(API_URL.MEMBER_SEND, data);
     return response.data;
   } catch (error) {
     throw error;
@@ -144,7 +137,7 @@ export const sendUserData = async (data) => {
 // 비밀번호 변경
 export const sendPwData = async (data) => {
   try {
-    const response = await axiosInstance.post("/member/modify/pw", data);
+    const response = await apiRequest.post(API_URL.PW_SEND, data);
     return response.data;
   } catch (error) {
     throw error;
@@ -153,10 +146,7 @@ export const sendPwData = async (data) => {
 
 export const isAdmin = async (email) => {
   try {
-    const response = await axiosInstance.get(
-      `/member/isAdmin?email=${email}`,
-      email
-    );
+    const response = await apiRequest.get(API_URL.IS_ADMIN, email);
     return response.data;
   } catch (error) {
     throw error;
@@ -166,8 +156,7 @@ export const isAdmin = async (email) => {
 // 탈퇴 회원 전체 조회
 export const getUserDelData = async () => {
   try {
-    const response = await axiosInstance.get("/member/deljoin");
-    console.log(response);
+    const response = await apiRequest.get(API_URL.DEL_MEMBER_GET);
     return response.data;
   } catch (error) {
     throw error;

@@ -1,18 +1,18 @@
-import axios from "axios";
+// import axios from "axios";
 
-const baseURL = process.env.REACT_APP_BASE_URL;
+// const baseURL = process.env.REACT_APP_BASE_URL;
+// // const axiosInstance = axios.create({
+// //   baseURL,
+// //   headers: {
+// //     "Content-Type": "application/json",
+// //   },
+// // });
+
 // const axiosInstance = axios.create({
-//   baseURL,
+//   baseURL ,
 //   headers: {
-//     "Content-Type": "application/json",
+//     'Content-Type': 'multipart/form-data',
 //   },
 // });
 
-const axiosInstance = axios.create({
-  baseURL ,
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
-});
-
-export default axiosInstance;
+// export default axiosInstance;
