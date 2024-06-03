@@ -1,45 +1,51 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import imageCompression from "browser-image-compression";
-import { insertQNA } from "../../../core/util/http/auth/Member";
-import axiosInstance from "src/core/util/http/axiosInstance";
 import { apiRequest } from "src/core/util/http/request";
 import { API_URL } from "src/core/util/http/urls";
 
 function QNA() {
-  const [inquiryOptione, setInquiryOptione] = useState(false);
-  const [numberOption, setNumberOption] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedType, setSelectedType] = useState("상담유형");
+  const [selectedDetail, setSelectedDetail] = useState("");
+
   const [subOptions, setSubOptions] = useState(["상담유형", "골프", "쇼핑"]);
-  const [arrow, setArrow] = useState(true);
   const [previews, setPreviews] = useState([]);
   const [files, setFiles] = useState([]);
   const [title, setTilte] = useState("");
   const [content, setContent] = useState("");
   const [detailOptions, setDetailOptions] = useState([]);
+  let [textareaCount, settextareaCount] = useState(0);
 
   const optionsMap = [
     { type: "상담유형", details: [] },
-    { type: "골프", details: ["예약문의", "결제문의", "취소문의"] },
-    { type: "쇼핑", details: ["제품문의", "배송문의", "반품문의"] },
+    { type: "골프", details: ["결제문의", "예약문의", "취소문의"] },
+    { type: "쇼핑", details: ["결제문의", "취소문의", "배송문의", "교환문의"] },
   ];
 
   const handleDropdown = () => setIsOpen(!isOpen);
 
   const handleSelectType = (type) => {
     setSelectedType(type);
-    setIsOpen(false);
-
     const selectedOption = optionsMap.find((option) => option.type === type);
     setDetailOptions(selectedOption ? selectedOption.details : []);
+    setIsOpen(false);
+    setSelectedDetail("");
+    setIsDetailOpen(false);
   };
 
-  const toggleInquirytype = () => {
-    setInquiryOptione(!inquiryOptione);
-    setArrow(!arrow);
+  const handleDetailDropdown = () => {
+    setIsDetailOpen((prev) => !prev);
   };
-  let [textareaCount, settextareaCount] = useState(0);
+  // const handleDetailDropdown = () => {
+  //   setIsDetailOpen((prev) => !prev);
+  //   console.log(setIsDetailOpen);
+  // };
+
+  const handleDetailOptionSelect = (detailOption) => {
+    setSelectedDetail(detailOption);
+    setIsDetailOpen(!isDetailOpen);
+  };
 
   const onTextareaHandler = (e) => {
     const newText = e.target.value;
@@ -63,6 +69,7 @@ function QNA() {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== idx));
     URL.revokeObjectURL(previews[idx]);
   };
+
   const handleFileChange = async (e) => {
     const imageFiles = e.target.files;
     const options = {
@@ -78,19 +85,14 @@ function QNA() {
           type: file.type,
         });
         compressedFiles.push(compressedFile);
-        console.log(compressedFile);
       }
       if (imageFiles.length === 0) return;
-      const resolveAfter3Sec = new Promise((resolve) =>
-        setTimeout(resolve, 1000)
-      );
 
       const newFiles = [...files, ...compressedFiles];
       setFiles(newFiles);
       setTimeout(() => {
         generatePreviews(compressedFiles);
       }, 600);
-      // generatePreviews(imageFiles);
     } catch (error) {
       console.log(error);
     }
@@ -118,7 +120,10 @@ function QNA() {
     });
 
     try {
-      const response = await apiRequest.postFormData(API_URL.BOARD_QNA_INSERT, formData);
+      const response = await apiRequest.postFormData(
+        API_URL.BOARD_QNA_INSERT,
+        formData
+      );
       console.log(response);
       alert("문의가 등록되었습니다.");
       setTilte("");
@@ -146,12 +151,7 @@ function QNA() {
           <li>
             <span>
               문의에 대한 답변은
-              <span
-                style={{
-                  fontSize: "13px",
-                  color: "#02387f",
-                }}
-              >
+              <span style={{ fontSize: "13px", color: "#02387f" }}>
                 [고객센터&gt;&gt;&gt;1:1문의]
               </span>
               에서 확인할 수 있습니다.
@@ -159,7 +159,7 @@ function QNA() {
           </li>
           <li>
             <span>
-              항공상담 업무시간 (한국시간 기준) 
+              항공상담 업무시간 (한국시간 기준)
               <span style={{ fontSize: "13px", fontWeight: "bold" }}>
                 평일 09:00~17:00,
               </span>
@@ -189,128 +189,148 @@ function QNA() {
       </div>
       <div className="">
         <table>
-          <tr>
-            <td style={{ height: "100%" }}>
-              <span>문의유형</span>
-            </td>
-            <td
-              onClick={handleDropdown}
-              style={{
-                cursor: "pointer",
-                position: "relative",
-              }}
-            >
-              <div style={{ display: "flex" }}>
-                <div className="BigOption">
-                  {selectedType}
-                  <div className={`OptionList ${isOpen ? "show" : ""}`}>
-                    {subOptions.map((option, index) => (
-                      <ul
-                        key={index}
-                        onClick={() => handleSelectType(option)}
-                        className="OpationItem"
-                      >
-                        <li>{option}</li>
-                      </ul>
-                    ))}
+          <tbody>
+            <tr>
+              <td style={{ height: "100%" }}>
+                <span>문의유형</span>
+              </td>
+              <td
+                style={{
+                  cursor: "pointer",
+                  position: "relative",
+                }}
+              >
+                <div style={{ display: "flex" }}>
+                  <div className="BigOption" onClick={handleDropdown}>
+                    {selectedType}
+                    <div className={`OptionList ${isOpen ? "show" : ""}`}>
+                      {subOptions.map((option, index) => (
+                        <ul
+                          key={index}
+                          onClick={() => handleSelectType(option)}
+                          className="OpationItem"
+                        >
+                          <li>{option}</li>
+                        </ul>
+                      ))}
+                    </div>
                   </div>
+                  {selectedType !== "상담유형" && (
+                    <div
+                      className="DetailsOption"
+                      onClick={handleDetailDropdown}
+                    >
+                      {selectedDetail ? (
+                        <div>{selectedDetail}</div>
+                      ) : (
+                        <div
+                          className={`OptionList ${isDetailOpen ? "show" : ""}`}
+                        >
+                          {detailOptions.map((option, index) => (
+                            <ul
+                              key={index}
+                              onClick={() => handleDetailOptionSelect(option)}
+                              className="OpationItem"
+                            >
+                              <li>{option}</li>
+                            </ul>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-                <div className="DetailsOption">
-                  {detailOptions.map((option, index) => (
-                    <ul key={index} className="DetailsOpationItem">
-                      <li>{option}</li>
-                    </ul>
-                  ))}
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span>작성자</span>
-            </td>
-            <td>
-              <span>에스파</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span>예약코드</span>
-            </td>
-            <td>
-              <div className="NumberType">
-                <button>
-                  <span>예약번호선택</span>
-                  <i />
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <span>제목</span>
-            </td>
-            <td>
-              <input
-                placeholder="제목을입력해주세요"
-                name="title"
-                value={title}
-                onChange={(e) => setTilte(e.target.value)}
-              ></input>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ height: "400px" }}>
-              <span>문의내용</span>
-            </td>
-            <td>
-              <textarea
-                placeholder="최대2500자까지입력이가능합니다"
-                maxLength={"2500"}
-                onChange={onTextareaHandler}
-                name="content"
-                value={content}
-              ></textarea>
-              <span style={{ textAlign: "right" }}>{textareaCount}</span>
-              <span>/2500 </span>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ height: "100px" }}>
-              <span>파일첨부</span>
-            </td>
-            <td>
-              <div className="recordImg">
-                {previews.length > 0 && (
-                  <ul style={{ display: "flex" }}>
-                    {previews.map((src, i) => (
-                      <li key={i} className="deleteBtn">
-                        <img src={src} alt={`Preview ${i}`} />
-                        <i onClick={() => handleImgDelete(i)} />
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {!isMaxImagesReached && (
-                  <div
-                    className="addIcon"
-                    onClick={() => document.getElementById("fileInput").click()}
-                  >
-                    <input
-                      id="fileInput"
-                      type="file"
-                      name="files"
-                      accept="image/*"
-                      multiple
-                      onChange={handleFileChange}
-                      style={{ display: "none" }}
-                    />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>작성자</span>
+              </td>
+              <td>
+                <span>에스파</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>예약코드</span>
+              </td>
+              <td>
+                <div className="NumberType">
+                  <button>
+                    <span>예약번호선택</span>
                     <i />
-                  </div>
-                )}
-              </div>
-            </td>
-          </tr>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>제목</span>
+              </td>
+              <td>
+                <input
+                  placeholder="제목을입력해주세요"
+                  name="title"
+                  value={title}
+                  onChange={(e) => setTilte(e.target.value)}
+                ></input>
+              </td>
+            </tr>
+            <tr>
+              <td style={{ height: "400px" }}>
+                <span>문의내용</span>
+              </td>
+              <td>
+                <textarea
+                  placeholder="최대2500자까지입력이가능합니다"
+                  maxLength={"2500"}
+                  onChange={onTextareaHandler}
+                  name="content"
+                  value={content}
+                ></textarea>
+                <span style={{ textAlign: "right" }}>{textareaCount}</span>
+                <span>/2500 </span>
+              </td>
+            </tr>
+            <tr>
+              <td style={{ height: "100px" }}>
+                <span>파일첨부</span>
+              </td>
+              <td>
+                <div className="recordImg">
+                  {previews.length > 0 && (
+                    <ul style={{ display: "flex" }}>
+                      {previews.map((src, i) => (
+                        <li key={i} className="deleteBtn">
+                          <img src={src} alt={`Preview ${i}`} />
+                          <i onClick={() => handleImgDelete(i)} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {!isMaxImagesReached && (
+                    <div
+                      className="addIcon"
+                      onClick={() =>
+                        document.getElementById("fileInput").click()
+                      }
+                    >
+                      <input
+                        id="fileInput"
+                        type="file"
+                        name="files"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                      />
+                      <i />
+                    </div>
+                  )}
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
         <div className="RecordBtn">
           <button>취소</button>
@@ -320,4 +340,5 @@ function QNA() {
     </div>
   );
 }
+
 export default QNA;
