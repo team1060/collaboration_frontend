@@ -35,7 +35,9 @@ function QNA() {
   };
 
   const handleDetailDropdown = () => {
-    setIsDetailOpen((prev) => !prev);
+    console.log("handleDetailDropdown");
+    setIsDetailOpen(() => !isDetailOpen);
+    console.log(isDetailOpen);
   };
   // const handleDetailDropdown = () => {
   //   setIsDetailOpen((prev) => !prev);
@@ -114,10 +116,11 @@ function QNA() {
     formData.append("content", content);
     formData.append("categoryNo", 8);
     formData.append("memberNo", 12);
-
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
+    if (files.length > 0) {
+      files.forEach((file) => {
+        formData.append("files", file);
+      });
+    }
 
     try {
       const response = await apiRequest.postFormData(
@@ -202,7 +205,7 @@ function QNA() {
               >
                 <div style={{ display: "flex" }}>
                   <div className="BigOption" onClick={handleDropdown}>
-                    {selectedType}
+                    {selectedType} {console.log(selectedType)}
                     <div className={`OptionList ${isOpen ? "show" : ""}`}>
                       {subOptions.map((option, index) => (
                         <ul
@@ -220,7 +223,16 @@ function QNA() {
                       className="DetailsOption"
                       onClick={handleDetailDropdown}
                     >
-                      {selectedDetail ? (
+                      {console.log(selectedDetail)}
+                      {/* selectedDetail이 true 일 때 존재할때 
+                        <div>{selectedDetail}</div>
+                        false일 때 
+                        <div
+                          className={`OptionList ${isDetailOpen ? "show" : ""}`}
+                        >
+                      */}
+                      {/* selectedDetail : '', string null undefined */}
+                      {isDetailOpen ? (
                         <div>{selectedDetail}</div>
                       ) : (
                         <div
