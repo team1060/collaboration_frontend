@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { apiRequest } from "src/core/util/http/request";
+import { API_URL } from "src/core/util/http/urls";
+import { useEffect } from "react";
 
 function FAQList() {
   const [search, setSearch] = useState("");
@@ -20,6 +23,21 @@ function FAQList() {
     { id: 14, title: "아이브", answer: "안유진" },
     { id: 15, title: "아이브", answer: "안유진" },
   ];
+  const [faq, setFaq] = useState([]);
+
+  useEffect(() => {
+    const FaqList = async () => {
+      try {
+        const response = await apiRequest.get(API_URL.CATEGORY_PARENT_GET(2));
+        console.log("아...", response.data);
+        setFaq(response.data);
+      } catch (error) {
+        console.error("ㅜㅜ:", error);
+      }
+    };
+
+    FaqList();
+  }, []);
 
   const [questions, setQuestions] = useState(initialQuestions);
   const [answers, setAnswers] = useState({});
