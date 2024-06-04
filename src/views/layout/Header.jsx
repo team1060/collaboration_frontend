@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import LoginModal from "../../core/login/LoginModal";
 import { jwtDecode } from "jwt-decode";
 import { getNickname, isAdmin } from "../../core/util/http/auth/Member";
+import { isLogin, logout } from "src/core/hook/useAuth";
 
-const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 function Header() {
   const [modal, setModal] = useState(false);
   const [admin, setAdmin] = useState(false);
@@ -18,38 +18,33 @@ function Header() {
 
   // 로그인한 유저
   useEffect(() => {
+
     const fetchData = async () => {
-      if (ACCESS_TOKEN) {
-        const token = jwtDecode(ACCESS_TOKEN);
-        const email = token.email;
-        const UserData = await getNickname(email);
-        setUser(UserData.nickname);
-        try {
-          const isAdminUser = await isAdmin(email);
-          console.log(email);
-          // console.log(isAdminUser);
-          setAdmin(isAdminUser);
-        } catch (error) {
-          // 오류 처리
-          console.error("Error fetching admin status:", error);
-        }
+      isLogin()
+      if (isLogin) {
+        const nickname = localStorage.getItem("nickname");
+        setUser(nickname);
+        // try {
+        //   const isAdminUser = await isAdmin(email);
+        //   console.log(email);
+        //   // console.log(isAdminUser);
+        //   setAdmin(isAdminUser);
+        // } catch (error) {
+        //   // 오류 처리
+        //   console.error("Error fetching admin status:", error);
+        // }
       }
     };
 
     fetchData();
   }, []);
 
-  // 로그아웃
-  const Logout = () => {
-    localStorage.removeItem("ACCESS_TOKEN");
-    window.location.href = "/";
-  };
-
+ 
   const checkAccessToken = (e) => {
-    if (!ACCESS_TOKEN) {
-      // alert("로그인 후 이용이 가능합니다.");
-      // e.preventDefault();
-      // window.location.href = "/";
+    if (isLogin() === false) {
+      alert("로그인 후 이용이 가능합니다.");
+      e.preventDefault();
+      window.location.href = "/";
     } else {
     }
   };
@@ -66,7 +61,7 @@ function Header() {
             </h1>
             <div className="util">
               <ul className="Ul">
-                {user ? (
+                { isLogin() ? (
                   // Logged-in user
                   <>
                     <li style={{ color: "#000", fontSize: "12px" }}>
@@ -75,7 +70,7 @@ function Header() {
                     <li style={{ color: "#000", fontSize: "12px" }}>
                       <Link
                         onClick={() => {
-                          Logout();
+                          logout();
                         }}
                       >
                         로그아웃

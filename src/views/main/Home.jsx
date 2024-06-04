@@ -40,13 +40,13 @@ function HomeList() {
     <>
       <div>
         <ImgSwiper />
-        <CalendarSwiper />
+        { false && <CalendarSwiper />}
         {/* 일정 관리표 */}
         {/* GolfCourseSection에 상태와 핸들러 함수를 props로 전달 */}
-        <GolfCourseSection
+        { false && <GolfCourseSection
           onCourseSelection={handleCourseSelection}
           onError={handleError}
-        />
+        />}
         {/* 선택된 골프 코스가 있으면 GolfCourseCard를 렌더링 */}
         {selectedCourse && (
           <GolfCourseCard
