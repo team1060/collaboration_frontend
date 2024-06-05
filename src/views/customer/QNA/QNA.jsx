@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import { apiRequest } from "src/core/util/http/request";
 import { API_URL } from "src/core/util/http/urls";
@@ -8,41 +8,56 @@ function QNA() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedType, setSelectedType] = useState("상담유형");
   const [selectedDetail, setSelectedDetail] = useState("");
-
-  const [subOptions, setSubOptions] = useState(["상담유형", "골프", "쇼핑"]);
   const [previews, setPreviews] = useState([]);
   const [files, setFiles] = useState([]);
   const [title, setTilte] = useState("");
   const [content, setContent] = useState("");
   const [detailOptions, setDetailOptions] = useState([]);
+  const [qna, setQna] = useState([]);
   let [textareaCount, settextareaCount] = useState(0);
-
-  const optionsMap = [
-    { type: "상담유형", details: [] },
-    { type: "골프", details: ["결제문의", "예약문의", "취소문의"] },
-    { type: "쇼핑", details: ["결제문의", "취소문의", "배송문의", "교환문의"] },
-  ];
+  const [categories, setCategories] = useState([]);
+  const [subOptions, setSubOptions] = useState(["상담유형"]);
 
   const handleDropdown = () => setIsOpen(!isOpen);
 
   const handleSelectType = (type) => {
     setSelectedType(type);
-    const selectedOption = optionsMap.find((option) => option.type === type);
-    setDetailOptions(selectedOption ? selectedOption.details : []);
+    const selectedCategory = categories.find((cat) => cat.name === type);
+    const childCategories = categories.filter(
+      (cat) => cat.parentCategory === selectedCategory?.categoryNo
+    );
+    setDetailOptions(childCategories.map((cat) => cat.name));
     setIsOpen(false);
     setSelectedDetail("");
     setIsDetailOpen(false);
   };
-
   const handleDetailDropdown = () => {
     console.log("handleDetailDropdown");
     setIsDetailOpen(() => !isDetailOpen);
     console.log(isDetailOpen);
   };
-  // const handleDetailDropdown = () => {
-  //   setIsDetailOpen((prev) => !prev);
-  //   console.log(setIsDetailOpen);
-  // };
+  useEffect(() => {
+    const qna = async () => {
+      try {
+        const response = await apiRequest.get(API_URL.CATEGORY_LIST_GET);
+        if (response.data) {
+          setCategories(response.data);
+          const filteredCategories = response.data.filter(
+            (cat) => cat.name === "골프" || cat.name === "쇼핑"
+          );
+          setSubOptions((prevOptions) => [
+            ...prevOptions,
+            ...filteredCategories.map((cat) => cat.name),
+          ]);
+        }
+        console.log(response);
+      } catch (error) {
+        console.error("ㅜㅜ:", error);
+      }
+    };
+
+    qna();
+  }, []);
 
   const handleDetailOptionSelect = (detailOption) => {
     setSelectedDetail(detailOption);
@@ -205,7 +220,7 @@ function QNA() {
               >
                 <div style={{ display: "flex" }}>
                   <div className="BigOption" onClick={handleDropdown}>
-                    {selectedType} {console.log(selectedType)}
+                    {selectedType}
                     <div className={`OptionList ${isOpen ? "show" : ""}`}>
                       {subOptions.map((option, index) => (
                         <ul
@@ -223,30 +238,25 @@ function QNA() {
                       className="DetailsOption"
                       onClick={handleDetailDropdown}
                     >
-                      {console.log(selectedDetail)}
-                      {/* selectedDetail이 true 일 때 존재할때 
-                        <div>{selectedDetail}</div>
-                        false일 때 
-                        <div
-                          className={`OptionList ${isDetailOpen ? "show" : ""}`}
-                        >
-                      */}
-                      {/* selectedDetail : '', string null undefined */}
                       {isDetailOpen ? (
                         <div>{selectedDetail}</div>
                       ) : (
-                        <div
-                          className={`OptionList ${isDetailOpen ? "show" : ""}`}
-                        >
-                          {detailOptions.map((option, index) => (
-                            <ul
-                              key={index}
-                              onClick={() => handleDetailOptionSelect(option)}
-                              className="OpationItem"
-                            >
-                              <li>{option}</li>
-                            </ul>
-                          ))}
+                        <div>
+                          <div
+                            className={`OptionList ${
+                              isDetailOpen ? "show" : ""
+                            }`}
+                          >
+                            {detailOptions.map((option, index) => (
+                              <ul
+                                key={index}
+                                onClick={() => handleDetailOptionSelect(option)}
+                                className="OpationItem"
+                              >
+                                <li>{option}</li>
+                              </ul>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -294,14 +304,11 @@ function QNA() {
               </td>
               <td>
                 <textarea
-                  placeholder="최대2500자까지입력이가능합니다"
                   maxLength={"2500"}
                   onChange={onTextareaHandler}
                   name="content"
                   value={content}
                 ></textarea>
-                <span style={{ textAlign: "right" }}>{textareaCount}</span>
-                <span>/2500 </span>
               </td>
             </tr>
             <tr>

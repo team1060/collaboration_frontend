@@ -1,6 +1,26 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { API_URL } from "src/core/util/http/urls";
+import { apiRequest } from "src/core/util/http/request";
 
 function QNAElements() {
+  const [qnaList, setQnaList] = useState([]);
+
+  useEffect(() => {
+    const FaqList = async () => {
+      try {
+        const response = await apiRequest.get(
+          API_URL.CATEGORY_LIST_DETAILS_GET(3)
+        );
+        console.log("아...", response.data);
+        setQnaList(response.data);
+      } catch (error) {
+        console.error("ㅜㅜ:", error);
+      }
+    };
+    FaqList();
+  }, []);
+
   return (
     <div className="QNAForm">
       <span style={{ fontSize: "27px", fontWeight: "bold" }}>1:1문의</span>

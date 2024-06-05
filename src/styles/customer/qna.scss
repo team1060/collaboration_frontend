@@ -134,20 +134,23 @@
       position: absolute;
       top: 10;
       left: 170px;
-      padding: 8px;
       background-color: #fff;
       border: 1px solid #b3b3b3;
       width: 150px;
       font-size: 13px;
       user-select: none;
       z-index: 101;
-
-      ul {
-        li {
-        }
+      display: block;
+      padding: 8px;
+      .OpationItem {
+        padding: 8px !important;
       }
-      .DetailsOpationItem {
-        padding: 8px;
+      .OpationItem:hover {
+        background-color: #e6e8ec;
+      }
+
+      :first-child {
+        // padding-top: 0px !important;
       }
     }
   }

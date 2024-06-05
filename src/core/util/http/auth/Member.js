@@ -109,6 +109,7 @@ export const siginIn = async (userData) => {
   try {
     const response = await apiRequest.post(API_URL.SIGNIN, userData);
     return response.data;
+    console.log(response);
   } catch (error) {
     throw error;
   }

@@ -7,6 +7,7 @@ export const API_URL = {
   CATEGORY_GET: (categoryNo) => `/category/${categoryNo}`,
   CATEGORY_PARENT_GET: (categoryNo) => `/category/parentNo/${categoryNo}`,
   CATEGORY_LIST_GET: "/category/list",
+  CATEGORY_LIST_DETAILS_GET: (categoryNo) => `/board/category/${categoryNo}`,
 
   // RESERVE_GET: (email) => `/reservation/confirm/${email}`,
   // RESERVE_POST: "/reservation/detail",

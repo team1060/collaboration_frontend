@@ -1,5 +1,6 @@
 .FAQForm {
   width: 100%;
+  height: 800px;
   .FAQHeader {
     display: flex;
     align-items: center;
@@ -112,12 +113,16 @@
         }
         .icon-arrow.up {
           transform: rotate(-92deg);
+          @include icon(arrow-right, #333333, 20px, 20px);
         }
 
         .icon-arrow.down {
           transform: rotate(90deg);
         }
         .Completed::before {
+          background-color: #333333;
+        }
+        .icon-arrow.down::before {
           background-color: #333333;
         }
       }
@@ -137,6 +142,7 @@
       }
     }
   }
+
   .Page {
     display: flex;
     align-items: center;

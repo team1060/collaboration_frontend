@@ -1,7 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { apiRequest } from "src/core/util/http/request";
+import { API_URL } from "src/core/util/http/urls";
+
 function Notice() {
   const [search, setSearch] = useState("");
+  const [noti, setNoti] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = noti.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(noti.length / itemsPerPage);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const pagesPerGroup = 10;
+  const currentGroup = Math.ceil(currentPage / pagesPerGroup);
+  const startPage = (currentGroup - 1) * pagesPerGroup + 1;
+  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+
+  const pageNumbers = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  const NextPage = () =>
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  const PrevPage = () =>
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  const FirstPage = () => setCurrentPage(1);
+  const RealEndPage = () => setCurrentPage(totalPages);
 
   const sendEnter = (e) => {
     if (e.key === "Enter") {
@@ -16,6 +45,27 @@ function Notice() {
       return;
     }
   };
+
+  useEffect(() => {
+    const NoticeList = async () => {
+      try {
+        const response = await apiRequest.get(
+          API_URL.CATEGORY_LIST_DETAILS_GET(1)
+        );
+        console.log("나오니", response.data);
+        setNoti(response.data);
+      } catch (error) {
+        console.log("와이낫", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    NoticeList();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="NoticeForm">
@@ -33,162 +83,28 @@ function Notice() {
         </div>
       </div>
       <table>
-        <tr>
-          <div className="Number">
-            <td>번호</td>
-          </div>
-          <div className="Type">
-            <td>구분</td>
-          </div>
-          <div className="Title">
-            <td>제목</td>
-          </div>
-          <div className="Created">
-            <td>등록일</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <Link to="/customerService/NoticeDetails">
-              <td style={{ color: "black" }}>넌 제목이다</td>
-            </Link>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
-        <tr>
-          <div className="Number">
-            <td>2098</td>
-          </div>
-          <div className="Type">
-            <td>이미지수정</td>
-          </div>
-          <div className="Title">
-            <td>넌 제목이다</td>
-          </div>
-          <div className="Created">
-            <td>2024.05.21</td>
-          </div>
-        </tr>
+        <thead>
+          <tr>
+            <th className="Number">번호</th>
+            <th className="Title">제목</th>
+            <th className="Created">등록일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentItems.map((item, index) => (
+            <tr key={index}>
+              <td className="Number">{item.boardNo}</td>
+              <td className="Title">
+                <Link to={`/customerService/NoticeDetails/${item.boardNo}`}>
+                  <span style={{ color: "black" }}>{item.title}</span>
+                </Link>
+              </td>
+              <td className="Created">
+                {new Date(item.regdate).toLocaleDateString()}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
       <div className="Page">
         <div
@@ -199,22 +115,43 @@ function Notice() {
             width: "100%",
           }}
         >
-          <span>1</span>
-          <span>2</span>
-          <span>3</span>
-          <span>4</span>
-          <span>5</span>
-          <span>6</span>
-          <span>7</span>
-          <span>8</span>
-          <span>9</span>
-          <span>10</span>
-          <div className="IconBox">
-            <i style={{ transform: "translateX(0.5px)" }} />
+          <div className="IconBox" style={{ marginLeft: "10px" }}>
+            <i
+              style={{
+                transform: "rotate(180deg) translateX(-1px)",
+              }}
+            >
+              <i className="duble " onClick={FirstPage}></i>
+            </i>
+          </div>
+          <div className="IconBox ">
+            <i
+              style={{
+                transform: "rotate(180deg) translateY(0px)",
+              }}
+              onClick={PrevPage}
+            />
+          </div>
+          {pageNumbers.map((number) => (
+            <span
+              key={number}
+              onClick={() => paginate(number)}
+              style={{
+                cursor: "pointer",
+                margin: "0 5px",
+                fontWeight: currentPage === number ? "bold" : "normal",
+              }}
+            >
+              {number}
+            </span>
+          ))}
+
+          <div className="IconBox" style={{ marginLeft: "10px" }}>
+            <i style={{ transform: "translateX(0.5px)" }} onClick={NextPage} />
           </div>
           <div className="IconBox">
             <i>
-              <i className="duble"></i>
+              <i className="duble" onClick={RealEndPage}></i>
             </i>
           </div>
         </div>
@@ -222,4 +159,5 @@ function Notice() {
     </div>
   );
 }
+
 export default Notice;

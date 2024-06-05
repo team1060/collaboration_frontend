@@ -6,29 +6,29 @@ import { useEffect } from "react";
 
 function FAQList() {
   const [search, setSearch] = useState("");
-  const initialQuestions = [
-    { id: 1, title: "아이브", answer: "장원영" },
-    { id: 2, title: "아이브", answer: "리즈" },
-    { id: 3, title: "아이브", answer: "안유진" },
-    { id: 4, title: "아이브", answer: "안유진" },
-    { id: 5, title: "아이브", answer: "안유진" },
-    { id: 6, title: "아이브", answer: "안유진" },
-    { id: 7, title: "아이브", answer: "안유진" },
-    { id: 8, title: "아이브", answer: "안유진" },
-    { id: 9, title: "아이브", answer: "안유진" },
-    { id: 10, title: "아이브", answer: "안유진" },
-    { id: 11, title: "아이브", answer: "장원영" },
-    { id: 12, title: "아이브", answer: "리즈" },
-    { id: 13, title: "아이브", answer: "안유진" },
-    { id: 14, title: "아이브", answer: "안유진" },
-    { id: 15, title: "아이브", answer: "안유진" },
-  ];
   const [faq, setFaq] = useState([]);
+  const [answers, setAnswers] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = faq.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(faq.length / itemsPerPage);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(faq.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+  const NextPage = () =>
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  const RealEndPage = () => setCurrentPage(totalPages);
 
   useEffect(() => {
     const FaqList = async () => {
       try {
-        const response = await apiRequest.get(API_URL.CATEGORY_PARENT_GET(2));
+        const response = await apiRequest.get(
+          API_URL.CATEGORY_LIST_DETAILS_GET(2)
+        );
         console.log("아...", response.data);
         setFaq(response.data);
       } catch (error) {
@@ -39,15 +39,10 @@ function FAQList() {
     FaqList();
   }, []);
 
-  const [questions, setQuestions] = useState(initialQuestions);
-  const [answers, setAnswers] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-
-  const toggleAnswer = (id) => {
+  const toggleAnswer = (boardNo) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [id]: !prevAnswers[id],
+      [boardNo]: !prevAnswers[boardNo],
     }));
   };
 
@@ -64,12 +59,6 @@ function FAQList() {
       return;
     }
   };
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = questions.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="Containers">
@@ -100,21 +89,21 @@ function FAQList() {
           </div>
           <div className="QuestionForm">
             <ul>
-              {currentItems.map((question) => (
-                <div key={question.id} className="Question">
-                  <li onClick={() => toggleAnswer(question.id)}>
-                    <span className={answers[question.id] ? "Completed" : ""}>
-                      {question.title}
+              {currentItems.map((item) => (
+                <div key={item.boardNo} className="Question">
+                  <li onClick={() => toggleAnswer(item.boardNo)}>
+                    <span className={answers[item.boardNo] ? "Completed" : ""}>
+                      {item.title}
                     </span>
                     <i
                       className={`icon-arrow ${
-                        answers[question.id] ? "up" : "down"
+                        answers[item.boardNo] ? "up" : "down"
                       }`}
                     ></i>
                   </li>
-                  {answers[question.id] && (
+                  {answers[item.boardNo] && (
                     <div className="Answer">
-                      <span>{question.answer}</span>
+                      <span>{item.content}</span>
                     </div>
                   )}
                 </div>
@@ -130,26 +119,29 @@ function FAQList() {
                 width: "100%",
               }}
             >
-              {Array.from(
-                { length: Math.ceil(questions.length / itemsPerPage) },
-                (_, i) => (
-                  <span
-                    key={i + 1}
-                    onClick={() => paginate(i + 1)}
-                    style={{
-                      fontWeight: currentPage === i + 1 ? "bold" : "normal",
-                    }}
-                  >
-                    {i + 1}
-                  </span>
-                )
-              )}
+              {pageNumbers.map((number) => (
+                <span
+                  key={number}
+                  onClick={() => paginate(number)}
+                  style={{
+                    cursor: "pointer",
+                    padding: "5px",
+                    fontWeight: currentPage === number ? "bold" : "normal",
+                  }}
+                >
+                  {number}
+                </span>
+              ))}
+
               <div className="IconBox">
-                <i style={{ transform: "translateX(0.5px)" }} />
+                <i
+                  style={{ transform: "translateX(0.5px)" }}
+                  onClick={NextPage}
+                />
               </div>
               <div className="IconBox">
-                <i onClick={() => paginate()}>
-                  <i className="duble"></i>
+                <i>
+                  <i className="duble" onClick={RealEndPage}></i>
                 </i>
               </div>
             </div>
