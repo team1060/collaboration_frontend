@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import { useState } from "react";
 import { siginIn } from "../util/http/auth/Member";
+import { login } from "../hook/useAuth";
 
 const style = {
   position: "absolute",
@@ -65,10 +66,10 @@ export default function LoginModal() {
         email: email,
         password: password,
       };
+      console.log(email);
+      console.log(password);
       try {
-        await siginIn(userData);
-        console.log(userData);
-        window.location.href = "/";
+        await login(userData);
       } catch (error) {
         alert("이메일 또는 비밀번호가 올바르지 않습니다.");
         console.log(error);
