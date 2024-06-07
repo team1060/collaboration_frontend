@@ -33,6 +33,7 @@ function LeftMenu() {
             </li>
           </ul>
         </div>
+        <div>{/* <img src="/leftimg.png"></img> */}</div>
       </div>
     </div>
   );

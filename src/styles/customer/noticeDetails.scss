@@ -23,8 +23,61 @@
     }
     .NoticeContent {
       margin-top: 30px;
+      margin-bottom: 40px;
       span {
         margin-left: 20px;
+      }
+    }
+    .ListBtn {
+      border-top: solid 1px #dddddd;
+      display: flex;
+      justify-content: center;
+
+      button {
+        margin-top: 40px;
+        width: 150px;
+        height: 50px;
+        border-radius: 5px;
+        border: none;
+        background-color: rgb(255, 155, 156);
+        color: #fff;
+        font-size: 17px;
+        cursor: pointer;
+      }
+    }
+    .NotiNav {
+      margin-top: 30px;
+      border-top: solid 1px;
+    }
+    ul {
+      .NextNoti {
+        border-bottom: solid 1px #dddddd;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        span {
+          margin-left: 10px;
+          padding-bottom: 10px;
+          color: #333333;
+        }
+        i {
+          @include icon(arrow-right, #333333, 15px, 15px);
+          transform: rotate(90deg);
+          margin-left: 10px;
+        }
+      }
+      .BeforeNoti {
+        border-bottom: solid 1px #dddddd;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        i {
+          @include icon(arrow-right, #333333, 15px, 15px);
+          transform: rotate(270deg);
+          margin-left: 10px;
+        }
+        span {
+          margin-left: 10px;
+          color: #333333;
+        }
       }
     }
   }

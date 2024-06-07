@@ -196,7 +196,7 @@ const Router = () => {
         />
         {/* 공지사항t상세보기 */}
         <Route
-          path="/customerService/NoticeDetails"
+          path="/customerService/NoticeDetails/:boardNo"
           element={
             <MainLayout>
               <NoticeDetails />

@@ -1,6 +1,19 @@
-.Container {
+.R-Container {
+  //
+
   .inner {
     .Right {
+      // .Bcg::before {
+      //   content: "";
+      //   background-image: url(../../../public/bg_main.png);
+      //   height: 250px;
+      //   width: 600px;
+      //   position: absolute;
+      //   z-index: 100;
+      //   top: 0;
+      //   left: 0;
+      //   display: block;
+      // }
       margin-left: 33px;
       margin-top: 78px;
       .InquiryBox {
@@ -30,7 +43,7 @@
         }
       }
       .NoticeBox {
-        margin-top: 43px;
+        margin-top: 63px;
         span {
           font-size: 25px;
           font-weight: bold;
