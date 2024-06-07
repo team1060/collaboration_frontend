@@ -40,9 +40,9 @@ import QNAList from "./views/customer/QNAList/QNAList";
 import QNADetails from "./views/customer/QNAList/QNADetails";
 import NoticeList from "./views/customer/notice/NoticeList";
 import NoticeDetails from "./views/customer/notice/NoticeDetails";
+import useAuth from "./core/hook/useAuth";
 
 // 메인
-const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
 // 공통 레이아웃 컴포넌트
 const MainLayout = ({ children }) => (
@@ -64,17 +64,12 @@ const AdminLayout = ({ children }) => {
 };
 
 const Router = () => {
-  useEffect(() => {
-    const fetchData = async () => {
-      if (ACCESS_TOKEN) {
-        const token = jwtDecode(ACCESS_TOKEN);
-        const admin = token.email;
-        console.log(admin);
-      }
-    };
+  const { loginCheck } = useAuth();
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    loginCheck();
+  }, [loginCheck]);
+
 
   return (
     <BrowserRouter>
