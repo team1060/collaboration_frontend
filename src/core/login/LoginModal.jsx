@@ -5,8 +5,7 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import { useState } from "react";
-import { siginIn } from "../util/http/auth/Member";
-import { login } from "../hook/useAuth";
+import useAuth from "../hook/useAuth";
 
 const style = {
   position: "absolute",
@@ -49,6 +48,7 @@ const buttonStyle = {
 };
 
 export default function LoginModal() {
+  const { login } = useAuth();
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

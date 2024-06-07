@@ -2,11 +2,10 @@ import { Link } from "react-router-dom";
 import Header2 from "./Header2";
 import { useState, useEffect } from "react";
 import LoginModal from "../../core/login/LoginModal";
-import { jwtDecode } from "jwt-decode";
-import { getNickname, isAdmin } from "../../core/util/http/auth/Member";
-import { isLogin, logout } from "src/core/hook/useAuth";
+import useAuth from "src/core/hook/useAuth";
 
 function Header() {
+  const { isLogin, userData, logout } = useAuth();
   const [modal, setModal] = useState(false);
   const [admin, setAdmin] = useState(false);
   // 이메일
@@ -18,9 +17,7 @@ function Header() {
 
   // 로그인한 유저
   useEffect(() => {
-
     const fetchData = async () => {
-      isLogin()
       if (isLogin) {
         const nickname = localStorage.getItem("nickname");
         setUser(nickname);
@@ -37,11 +34,10 @@ function Header() {
     };
 
     fetchData();
-  }, []);
+  }, [isLogin]);
 
- 
   const checkAccessToken = (e) => {
-    if (isLogin() === false) {
+    if (!isLogin) {
       alert("로그인 후 이용이 가능합니다.");
       e.preventDefault();
       window.location.href = "/";
@@ -61,11 +57,11 @@ function Header() {
             </h1>
             <div className="util">
               <ul className="Ul">
-                { isLogin() ? (
+                {isLogin ? (
                   // Logged-in user
                   <>
                     <li style={{ color: "#000", fontSize: "12px" }}>
-                      {user}님 환영합니다!
+                      {userData.nickname}님 환영합니다!
                     </li>
                     <li style={{ color: "#000", fontSize: "12px" }}>
                       <Link

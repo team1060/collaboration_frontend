@@ -1,57 +1,66 @@
 import { jwtDecode } from "jwt-decode";
 import { apiRequest } from "../util/http/request";
 import { API_URL } from "../util/http/urls";
+import { useCallback, useEffect, useState } from "react";
 
-const login = async (userData) => {
-  try {
-    const response = await apiRequest.post(API_URL.SIGNIN, userData);
-    window.location.href = "/";
-    console.log(response);
-    const { accessToken, email } = response.data;
-    localStorage.setItem("key", accessToken);
-    localStorage.setItem("email", email);
-    localStorage.setItem("nickname", jwtDecode(accessToken).nickname);
-  } catch (error) {
-    console.log("error", error);
-  }
-};
+const useAuth = () => {
+  const [userData, setUserData] = useState({});
+  const [isLogin, setIsLogin] = useState(false);
 
-const logout = async () => {
-  console.log("logout");
-  const email = localStorage.getItem("email");
-  console.log(email);
-  const logoutUrl = `${API_URL.LOGOUT}?email=${encodeURIComponent(email)}`;
-  try {
-    const response = await apiRequest.post(logoutUrl);
-    console.log(response);
-    localStorage.removeItem("key");
-    localStorage.removeItem("email");
-    localStorage.removeItem("nickname");
-    isLogin()
-    window.location.href = "/";
-  } catch (error) {
-    console.log(error);
-  } finally {
-    
-  }
-};
-
-const isLogin = () => {
-  const token = localStorage.getItem("key") ? localStorage.getItem("key") : '';
-  if(token !== '') {
-    const decodeToken = jwtDecode(token);
-    // 일단 이메일로만 검증
-    const email = localStorage.getItem("email")
-    console.log(token);
-    if (decodeToken.email === email) {
-      console.log("isLogin : true", decodeToken.email? decodeToken.email : '' )
-      console.log("isLogin : true", email ? email : '')
-      console.log("true");
-      return true;
+  const login = async (userData) => {
+    try {
+      const response = await apiRequest.post(API_URL.SIGNIN, userData);
+      console.log(response);
+      const { accessToken, email } = response.data;
+      localStorage.setItem("key", accessToken);
+      localStorage.setItem("email", email);
+      localStorage.setItem("nickname", jwtDecode(accessToken).nickname);
+      // window.location.href = "/";
+    } catch (error) {
+      console.log("error", error);
+      alert("로그인에 실패하였습니다.")
     }
-  }
-  console.log("false");
-  return false;
+    finally {
+      window.location.href = "/";
+    }
+  };
+
+  const logout = async () => {
+    const email = localStorage.getItem("email");
+    const logoutUrl = `${API_URL.LOGOUT}?email=${encodeURIComponent(email)}`;
+    try {
+      const response = await apiRequest.post(logoutUrl);
+      console.log(response);
+      localStorage.removeItem("key");
+      localStorage.removeItem("email");
+      localStorage.removeItem("nickname");
+      setIsLogin(false);
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const loginCheck = useCallback(async () => {
+    let result = false;
+    const token = localStorage.getItem("key") || "";
+    if (token !== "") {
+      const decodeToken = jwtDecode(token);
+      const email = localStorage.getItem("email");
+      const nickname = localStorage.getItem("nickname");
+      if (decodeToken.email === email) {
+        result = true;
+        setUserData({ email, nickname });
+      }
+    }
+    setIsLogin(result);
+  }, []);
+
+  useEffect(() => {
+    loginCheck();
+  }, [loginCheck]);
+
+  return { login, logout, isLogin, loginCheck, userData };
 };
 
-export { login, logout, isLogin };
+export default useAuth;

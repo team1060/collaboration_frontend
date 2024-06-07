@@ -21,9 +21,9 @@ function Mypage() {
                 const userEmail = token.email;
                 // setUser(userEmail);
                 console.log(token.email)
-                const email = userEmail;
-                const result = await orderHistory(email);
-                setOrderHistoryData(result);
+                // const email = userEmail;
+                // const result = await orderHistory(email);
+                // setOrderHistoryData(result);
             } catch (error) {
                 console.error("Error fetching order history:", error);
             }

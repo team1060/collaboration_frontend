@@ -8,6 +8,7 @@ import { getNickname } from "../../core/util/http/auth/Member";
 import { jwtDecode } from "jwt-decode";
 import { getReserveCount } from "../../core/util/http/golf/apiReserve";
 import { getpaymentByMemberCount } from "../../core/util/http/auth/MyPage";
+import useAuth from "src/core/hook/useAuth";
 
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
 
@@ -15,7 +16,7 @@ function MemberTop() {
   const [user, setUser] = useState(null);
   const [orderCount, setOrderCount] = useState(0);
   const [reservationCount, setReservationCount] = useState(0);
-
+  const { userData } = useAuth();
   useState(() => {
     const fetchData = async () => {
       if (ACCESS_TOKEN) {
@@ -40,7 +41,7 @@ function MemberTop() {
       <div className="box1">
         <img src="/img/icon/new_grade6.png" alt=""></img>
         <Typography variant="h5">
-          <span>{user}님</span> 안녕하세요
+          <span>{userData.nickname}님</span> 안녕하세요
         </Typography>
         <Button className="infoButton" variant="contained">
           회원정보수정
