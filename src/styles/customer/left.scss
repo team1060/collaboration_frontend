@@ -11,24 +11,30 @@
           margin-bottom: 15px;
           border-bottom: solid 1px #d9d9d9;
           padding-bottom: 10px;
+
+          &:first-child {
+            border-bottom: solid 2px #d9d9d9;
+
+            h2 {
+              margin-bottom: 19px;
+            }
+          }
+
+          .menu-item {
+            text-decoration: none;
+            color: #000;
+
+            &.active {
+              color: #ff9b9c;
+            }
+          }
+
           span {
             font-weight: bold;
             font-size: 15px;
-            color: black;
-          }
-          &:first-child {
-            border-bottom: solid 2px #d9d9d9 !important;
-          }
-          h2 {
-            margin-bottom: 19px;
           }
         }
       }
-    }
-    img {
-      height: 250px;
-      width: 200px;
-      margin-top: 20px;
     }
   }
 }

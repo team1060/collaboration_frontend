@@ -45,6 +45,7 @@ function QNA() {
           const filteredCategories = response.data.filter(
             (cat) => cat.name === "골프" || cat.name === "쇼핑"
           );
+          console.log(response.data);
           setSubOptions((prevOptions) => [
             ...prevOptions,
             ...filteredCategories.map((cat) => cat.name),
@@ -126,8 +127,9 @@ function QNA() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("categoryNo", 8);
-    formData.append("memberNo", 12);
+    formData.append("categoryNo", 3);
+    formData.append("memberNo", 35);
+    formData.append("keyword", selectedDetail);
     if (files.length > 0) {
       files.forEach((file) => {
         formData.append("files", file);
@@ -150,15 +152,12 @@ function QNA() {
       setPreviews([]);
       setFiles([]);
       settextareaCount(0);
+      setSelectedDetail("");
     } catch (error) {
       console.error("문의 등록에 실패했습니다.", error);
       alert("문의 등록에 실패했습니다.");
     }
   };
-
-  function getAuthToken() {
-    return localStorage.getItem("Key");
-  }
 
   return (
     <div className="Qnaform">

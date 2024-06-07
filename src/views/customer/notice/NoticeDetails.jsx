@@ -97,7 +97,7 @@ function NoticeDetails() {
                 <li className="BeforeNoti">
                   <i />
                   <span>
-                    이전글
+                    이전글{" "}
                     <span style={{ marginLeft: "40px" }}>
                       이전글이 없습니다.
                     </span>

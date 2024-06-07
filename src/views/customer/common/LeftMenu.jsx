@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function LeftMenu() {
   return (
@@ -7,35 +7,35 @@ function LeftMenu() {
         <div className="SideMenu">
           <ul>
             <li>
-              <Link to={"/customerService"}>
-                <h2 style={{ color: "black" }}>고객센터</h2>
-              </Link>
+              <NavLink to="/customerService" style={{ color: "#333" }}>
+                <h2>고객센터</h2>
+              </NavLink>
             </li>
             <li>
-              <Link to={"/customerService/FAQ"}>
+              <NavLink to="/customerService/FAQ" className="menu-item">
                 <span>자주 찾는 질문</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/customerService/QNA">
+              <NavLink to="/customerService/QNA" className="menu-item">
                 <span>1:1 문의 하기</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/customerService/QNAList">
+              <NavLink to="/customerService/QNAList" className="menu-item">
                 <span>1:1문의</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to={"/customerService/Notice"}>
+              <NavLink to="/customerService/Notice" className="menu-item">
                 <span>공지 사항</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>
-        <div>{/* <img src="/leftimg.png"></img> */}</div>
       </div>
     </div>
   );
 }
+
 export default LeftMenu;
