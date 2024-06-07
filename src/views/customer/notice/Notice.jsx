@@ -6,6 +6,7 @@ import { API_URL } from "src/core/util/http/urls";
 function Notice() {
   const [search, setSearch] = useState("");
   const [noti, setNoti] = useState([]);
+  const [notiLook, setNotiLook] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -14,6 +15,7 @@ function Notice() {
   const currentItems = noti.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(noti.length / itemsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [selectedBoardNo, setSelectedBoardNo] = useState(null);
 
   const pagesPerGroup = 10;
   const currentGroup = Math.ceil(currentPage / pagesPerGroup);
@@ -63,6 +65,21 @@ function Notice() {
     NoticeList();
   }, []);
 
+  useEffect(() => {
+    if (selectedBoardNo) {
+      const NotiLook = async () => {
+        try {
+          const response = await apiRequest.get(
+            API_URL.BOARD_LIST_BOARDNO_GET(selectedBoardNo)
+          );
+          console.log("나와라2", response.data);
+        } catch (error) {
+          console.log("와이낫", error);
+        }
+      };
+      NotiLook();
+    }
+  }, [selectedBoardNo]);
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -115,23 +132,6 @@ function Notice() {
             width: "100%",
           }}
         >
-          <div className="IconBox" style={{ marginLeft: "10px" }}>
-            <i
-              style={{
-                transform: "rotate(180deg) translateX(-1px)",
-              }}
-            >
-              <i className="duble " onClick={FirstPage}></i>
-            </i>
-          </div>
-          <div className="IconBox ">
-            <i
-              style={{
-                transform: "rotate(180deg) translateY(0px)",
-              }}
-              onClick={PrevPage}
-            />
-          </div>
           {pageNumbers.map((number) => (
             <span
               key={number}

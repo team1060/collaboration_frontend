@@ -1,21 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { apiRequest } from "src/core/util/http/request";
+import { API_URL } from "src/core/util/http/urls";
+
 function Center() {
   const [search, setSearch] = useState("");
+  const [faq, setFaq] = useState([]);
+  const [openBoardNo, setOpenBoardNo] = useState(null); // 현재 열려 있는 질문의 boardNo
 
-  const sendEnter = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSearch();
-    }
+  useEffect(() => {
+    const fetchFAQs = async () => {
+      try {
+        const response = await apiRequest.get(
+          API_URL.CATEGORY_LIST_DETAILS_GET(2)
+        );
+        console.log("FAQs loaded", response.data);
+        setFaq(response.data.slice(0, 5));
+      } catch (error) {
+        console.log("Error fetching FAQs", error);
+      }
+    };
+    fetchFAQs();
+  }, []);
+
+  const toggleAnswer = (boardNo) => {
+    setOpenBoardNo((prev) => (prev === boardNo ? null : boardNo)); // 이미 열려있다면 닫고, 아니라면 연다
   };
 
   const handleSearch = async () => {
-    if (search === "") {
+    if (search.trim() === "") {
       alert("검색어를 입력해주세요");
       return;
     }
+    // 검색 로직 구현 (생략)
   };
+
   return (
     <div className="Container">
       <div className="inner">
@@ -27,11 +46,9 @@ function Center() {
                 placeholder="검색어를 입력하세요"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={sendEnter}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               ></input>
-              <button type="submit" onClick={handleSearch}>
-                검색
-              </button>
+              <button onClick={handleSearch}>검색</button>
             </div>
             <div className="Keyword">
               <i>
@@ -52,47 +69,40 @@ function Center() {
                 </span>
               </Link>
             </div>
-            <ul>
-              <li>
-                <span>[쇼핑] </span>{" "}
-                <span style={{ marginRight: "200px" }}>
-                  Q. 배송기간은 어떻게 되나요?
-                </span>
-                <i></i>
-              </li>
-              <li>
-                <span>[쇼핑] </span>{" "}
-                <span style={{ marginRight: "200px" }}>
-                  Q. 배송기간은 어떻게 되나요?
-                </span>
-                <i></i>
-              </li>
-              <li>
-                <span>[쇼핑] </span>{" "}
-                <span style={{ marginRight: "200px" }}>
-                  Q. 배송기간은 어떻게 되나요?
-                </span>
-                <i></i>
-              </li>
-              <li>
-                <span>[쇼핑] </span>{" "}
-                <span style={{ marginRight: "200px" }}>
-                  Q. 배송기간은 어떻게 되나요?
-                </span>
-                <i></i>
-              </li>
-              <li>
-                <span>[쇼핑] </span>{" "}
-                <span style={{ marginRight: "200px" }}>
-                  Q. 배송기간은 어떻게 되나요?
-                </span>
-                <i></i>
-              </li>
-            </ul>
+            <div>
+              <ul>
+                {faq.map((item) => (
+                  <li
+                    key={item.boardNo}
+                    onClick={() => toggleAnswer(item.boardNo)}
+                  >
+                    <div className="Question">
+                      <span style={{ marginLeft: "10px" }}>
+                        Q. {item.title}
+                      </span>
+                      <i
+                        className={`icon-arrow ${
+                          openBoardNo === item.boardNo ? "active" : ""
+                        }`}
+                      />
+                    </div>
+                    {openBoardNo === item.boardNo && (
+                      <div className="Answer">
+                        <span style={{ color: "#ff9b9c", marginLeft: "10px" }}>
+                          A.
+                        </span>
+                        <span> {item.content}</span>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
 export default Center;

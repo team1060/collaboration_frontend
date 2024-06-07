@@ -11,24 +11,26 @@ const http = axios.create({
   baseURL,
 });
 
-http.interceptors.request.use((config) => {
-  const token = localStorage.getItem("ACCESS_TOKEN");
-  config.headers.set(
-    'Authorization',
-    !HEADER_NOT_REQUIRED_URLS.includes(config.url || '')
-      ? token
-        ? `Bearer ${token}`
+http.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("ACCESS_TOKEN");
+    config.headers.set(
+      "Authorization",
+      !HEADER_NOT_REQUIRED_URLS.includes(config.url || "")
+        ? token
+          ? `Bearer ${token}`
+          : undefined
         : undefined
-      : undefined,
-  );
-  config.headers.set(
-    'Content-Type',
-    FORM_DATA_REQUIRED_URLS.includes(config.url || '')
-      ? 'multipart/form-data'
-      : 'application/json',
-  );
-  return config;
-},
+    );
+    config.headers.set(
+      "Content-Type",
+      FORM_DATA_REQUIRED_URLS.includes(config.url || "")
+        ? "multipart/form-data"
+        : "application/json"
+    );
+
+    return config;
+  },
   (error) => {
     return Promise.reject(error);
   }

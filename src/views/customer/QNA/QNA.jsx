@@ -50,10 +50,7 @@ function QNA() {
             ...filteredCategories.map((cat) => cat.name),
           ]);
         }
-        console.log(response);
-      } catch (error) {
-        console.error("ㅜㅜ:", error);
-      }
+      } catch (error) {}
     };
 
     qna();
@@ -136,13 +133,17 @@ function QNA() {
         formData.append("files", file);
       });
     }
-
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
     try {
       const response = await apiRequest.postFormData(
         API_URL.BOARD_QNA_INSERT,
         formData
       );
-      console.log(response);
+      console.log("Response:", response.data);
+
+      console.log("백엔드 응답:", response);
       alert("문의가 등록되었습니다.");
       setTilte("");
       setContent("");
@@ -154,6 +155,10 @@ function QNA() {
       alert("문의 등록에 실패했습니다.");
     }
   };
+
+  function getAuthToken() {
+    return localStorage.getItem("Key");
+  }
 
   return (
     <div className="Qnaform">
@@ -241,22 +246,20 @@ function QNA() {
                       {isDetailOpen ? (
                         <div>{selectedDetail}</div>
                       ) : (
-                        <div>
-                          <div
-                            className={`OptionList ${
-                              isDetailOpen ? "show" : ""
-                            }`}
-                          >
-                            {detailOptions.map((option, index) => (
-                              <ul
-                                key={index}
-                                onClick={() => handleDetailOptionSelect(option)}
-                                className="OpationItem"
-                              >
-                                <li>{option}</li>
-                              </ul>
-                            ))}
-                          </div>
+                        <div
+                          className={`OptionList ${isDetailOpen ? "show" : ""}`}
+                        >
+                          {detailOptions.map((option, index) => (
+                            <ul
+                              key={index}
+                              onClick={() => handleDetailOptionSelect(option)}
+                              className="OpationItem"
+                            >
+                              <li>
+                                <span>{option}</span>
+                              </li>
+                            </ul>
+                          ))}
                         </div>
                       )}
                     </div>
@@ -347,6 +350,17 @@ function QNA() {
                     </div>
                   )}
                 </div>
+                <p style={{ marginTop: "10px" }}>
+                  개당 3MB 미만의{" "}
+                  <span style={{ color: "black" }}>
+                    BMP, GIF, JPG, FPEG, PNG, TIF{" "}
+                  </span>
+                  파일만 등록 가능합니다.
+                </p>
+                <p>
+                  상품과 무관한 내용이거나 음란 및 불법적인 내용은 통보 없이
+                  상제될 수 있습니다.
+                </p>
               </td>
             </tr>
           </tbody>

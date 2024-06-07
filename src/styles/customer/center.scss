@@ -15,7 +15,7 @@
           margin-top: 34px;
           width: 580px;
           height: 60px;
-          border: solid 2px #333333;
+          border: solid 3px #333333;
           padding: 20px;
           flex-grow: 1;
         }
@@ -61,7 +61,7 @@
       }
     }
     .FAQ {
-      margin-top: 69px;
+      margin-top: 88px;
       padding-bottom: 10px;
       .FAQTitle {
         display: flex;
@@ -77,35 +77,47 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            i {
-              @include icon(arrow-right, #3e3a39, 15px, 15px);
-            }
           }
+        }
+        i {
+          @include icon(arrow-right, #3e3a39, 15px, 15px);
         }
       }
       ul {
         border-top: solid 1px;
         cursor: pointer;
+
         li {
           border-bottom: solid 1px #b3b3b3;
-          padding-bottom: 11px;
-          padding-top: 11px;
-          display: flex;
+          padding-bottom: 11.8px;
+          padding-top: 11.8px;
           align-items: center;
           justify-content: space-between;
           i {
-            @include icon(arrow-right, #3e3a39, 15px, 15px);
-            transform: rotate(90deg);
-            margin-right: 20px;
+            // @include icon(arrow-right, #3e3a39, 15px, 15px);
+            // transform: rotate(90deg);
+            // margin-right: 20px;
           }
           span {
             font-size: 15px;
 
             font-weight: bold;
-            &:first-child {
-              color: #02387f;
-            }
           }
+        }
+        .Question {
+          display: flex;
+          justify-content: space-between;
+          i {
+            @include icon(arrow-right, #d9d9d9, 20px, 20px);
+            transform: rotate(90deg);
+          }
+        }
+        .icon-arrow.active {
+          @include icon(arrow-right, #333333, 20px, 20px);
+          transform: rotate(270deg);
+        }
+        .Answer {
+          margin-top: 10px;
         }
       }
     }

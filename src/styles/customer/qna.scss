@@ -27,6 +27,16 @@
 
     tr {
       td {
+        p {
+          font-size: 13px;
+          color: #888;
+        }
+
+        p::before {
+          content: "※ ";
+          font-size: 7px;
+          margin-right: 5px;
+        }
         border: 1px solid #dddddd;
         height: 50px;
         padding: 15px;
@@ -115,7 +125,6 @@
         border-top: none;
         top: 36px;
         left: -1px;
-        height: 106px;
         width: 150px;
       }
       .OptionList.show {
@@ -131,7 +140,6 @@
     }
 
     .DetailsOption {
-      position: absolute;
       top: 10;
       left: 170px;
       background-color: #fff;
@@ -140,52 +148,58 @@
       font-size: 13px;
       user-select: none;
       z-index: 101;
-      display: block;
       padding: 8px;
+      margin-left: 10px;
+
+      .OptionList {
+        position: absolute;
+        border: solid 1px #b3b3b3;
+        display: block;
+        width: 150px;
+        top: 15px;
+        left: 175px;
+        background-color: #fff;
+      }
       .OpationItem {
-        padding: 8px !important;
+        padding: 8px;
       }
       .OpationItem:hover {
         background-color: #e6e8ec;
       }
-
-      :first-child {
-        // padding-top: 0px !important;
+    }
+  }
+  .recordImg {
+    display: flex;
+    img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+    .deleteBtn {
+      i {
+        @include icon(xButton, #3e3a39, 20px, 20px);
+        cursor: pointer;
+        position: absolute;
+        transform: translateX(-35px);
       }
     }
   }
-}
-.recordImg {
-  display: flex;
-  img {
-    width: 130px;
-    height: 130px;
-    object-fit: cover;
-    margin-right: 15px;
-  }
-  .deleteBtn {
-    i {
-      @include icon(xButton, #3e3a39, 20px, 20px);
-      cursor: pointer;
-      position: absolute;
-      transform: translateX(-35px);
-    }
-  }
-}
-.RecordBtn {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  button {
-    margin-left: 10px;
-    color: #fff;
-    width: 150px;
-    height: 60px;
-    border: none;
-    border-radius: 5px;
-    background-color: #5b606e;
-    &:last-child {
-      background-color: #ff9b9c;
+  .RecordBtn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    button {
+      margin-left: 10px;
+      color: #fff;
+      width: 150px;
+      height: 60px;
+      border: none;
+      border-radius: 5px;
+      background-color: #5b606e;
+      &:last-child {
+        background-color: #ff9b9c;
+      }
     }
   }
 }

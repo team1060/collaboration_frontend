@@ -21,6 +21,7 @@ export const API_URL = {
   // BOARD-VIEW
   BOARD_LIST_GET: "/board/list",
   BOARD_CATEGORY_GET: (categoryNo) => `/board/category/${categoryNo}`,
+  BOARD_LIST_BOARDNO_GET: (boardNo) => `board/list/${boardNo}`,
 
   // RESERVE_GET: (email) => `/reservation/confirm/${email}`,
   // RESERVE_POST: "/reservation/detail",
@@ -61,10 +62,7 @@ export const API_URL = {
 };
 
 /** 토큰 필요없는 URL */
-export const HEADER_NOT_REQUIRED_URLS = [
-  API_URL.SIGNIN,
-  API_URL.SIGNUP
-];
+export const HEADER_NOT_REQUIRED_URLS = [API_URL.SIGNIN, API_URL.SIGNUP];
 
 /** FormData로 전송 필요한 URL */
 export const FORM_DATA_REQUIRED_URLS = [
