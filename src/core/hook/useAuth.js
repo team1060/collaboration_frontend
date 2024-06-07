@@ -26,9 +26,7 @@ const useAuth = () => {
   };
 
   const logout = async () => {
-    console.log("logout");
     const email = localStorage.getItem("email");
-    console.log(email);
     const logoutUrl = `${API_URL.LOGOUT}?email=${encodeURIComponent(email)}`;
     try {
       const response = await apiRequest.post(logoutUrl);
@@ -36,7 +34,7 @@ const useAuth = () => {
       localStorage.removeItem("key");
       localStorage.removeItem("email");
       localStorage.removeItem("nickname");
-      isLogin();
+      setIsLogin(false);
       window.location.href = "/";
     } catch (error) {
       console.log(error);
