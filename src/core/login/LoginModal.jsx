@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import { useState } from "react";
 import { siginIn } from "../util/http/auth/Member";
-import { login } from "../hook/useAuth";
+import useAuth, { login } from "../hook/useAuth";
 
 const style = {
   position: "absolute",
@@ -53,6 +53,7 @@ export default function LoginModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { login } = useAuth();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

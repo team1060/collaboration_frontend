@@ -2,9 +2,7 @@ import { Link } from "react-router-dom";
 import Header2 from "./Header2";
 import { useState, useEffect } from "react";
 import LoginModal from "../../core/login/LoginModal";
-import { jwtDecode } from "jwt-decode";
-import { getNickname, isAdmin } from "../../core/util/http/auth/Member";
-import { isLogin, logout } from "src/core/hook/useAuth";
+import useAuth from "src/core/hook/useAuth";
 
 function Header() {
   const [modal, setModal] = useState(false);
@@ -16,36 +14,15 @@ function Header() {
     setModal(false);
   };
 
-  // 로그인한 유저
-  useEffect(() => {
-
-    const fetchData = async () => {
-      isLogin()
-      if (isLogin) {
-        const nickname = localStorage.getItem("nickname");
-        setUser(nickname);
-        // try {
-        //   const isAdminUser = await isAdmin(email);
-        //   console.log(email);
-        //   // console.log(isAdminUser);
-        //   setAdmin(isAdminUser);
-        // } catch (error) {
-        //   // 오류 처리
-        //   console.error("Error fetching admin status:", error);
-        // }
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  const { isLogin, logout, getLoginData } = useAuth();
  
   const checkAccessToken = (e) => {
-    if (isLogin() === false) {
+    if (!isLogin) {
       alert("로그인 후 이용이 가능합니다.");
       e.preventDefault();
       window.location.href = "/";
     } else {
+      setUser(getLoginData);
     }
   };
 
@@ -61,7 +38,7 @@ function Header() {
             </h1>
             <div className="util">
               <ul className="Ul">
-                { isLogin() ? (
+                { isLogin ? (
                   // Logged-in user
                   <>
                     <li style={{ color: "#000", fontSize: "12px" }}>
