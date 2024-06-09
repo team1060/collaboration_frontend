@@ -18,9 +18,8 @@ const useAuth = () => {
       // window.location.href = "/";
     } catch (error) {
       console.log("error", error);
-      alert("로그인에 실패하였습니다.")
-    }
-    finally {
+      alert("로그인에 실패하였습니다.");
+    } finally {
       window.location.href = "/";
     }
   };
@@ -49,8 +48,9 @@ const useAuth = () => {
       const email = localStorage.getItem("email");
       const nickname = localStorage.getItem("nickname");
       if (decodeToken.email === email) {
+        const memberNo = decodeToken.memberNo;
         result = true;
-        setUserData({ email, nickname });
+        setUserData({ email: email, nickname: nickname, memberNo: memberNo });
       }
     }
     setIsLogin(result);
