@@ -61,7 +61,7 @@ function Header() {
                   // Logged-in user
                   <>
                     <li style={{ color: "#000", fontSize: "12px" }}>
-                      {userData.nickname}님 환영합니다!
+                      {"닉네임 : " + userData.nickname + ", 회원번호 : " + userData.memberNo }님 환영합니다!
                     </li>
                     <li style={{ color: "#000", fontSize: "12px" }}>
                       <Link
