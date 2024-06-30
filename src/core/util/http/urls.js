@@ -22,6 +22,7 @@ export const API_URL = {
   BOARD_LIST_GET: "/board/list",
   BOARD_CATEGORY_GET: (categoryNo) => `/board/category/${categoryNo}`,
   BOARD_LIST_BOARDNO_GET: (boardNo) => `board/list/${boardNo}`,
+  BOARD_LIST_SEARCH_POST: "/board/mainSearch",
 
   // RESERVE_GET: (email) => `/reservation/confirm/${email}`,
   // RESERVE_POST: "/reservation/detail",
@@ -67,6 +68,7 @@ export const HEADER_NOT_REQUIRED_URLS = [API_URL.SIGNIN, API_URL.SIGNUP];
 /** FormData로 전송 필요한 URL */
 export const FORM_DATA_REQUIRED_URLS = [
   API_URL.BOARD_QNA_INSERT,
+
   // API_URL.PRODUCT_POST,
   // API_URL.PRODUCT_PUT,
 ];

@@ -1,6 +1,6 @@
 .FAQForm {
   width: 100%;
-  height: 800px;
+  height: 100%;
   .FAQHeader {
     display: flex;
     align-items: center;
@@ -13,25 +13,70 @@
     .BtnBox {
       margin-left: 120px;
       display: flex;
-      button {
-        width: 120px;
-        height: 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        margin-right: 10px;
+
+      .BigOption {
+        position: relative;
+        padding: 8px;
         background-color: #fff;
-        color: #0d0d0d;
-        border: none;
-        border: 1px solid;
-        border: solid 1px #dddddd;
-        i {
-          @include icon(arrow-right, #0d0d0d, 15px, 15px);
-          transform: rotate(90deg);
+        border: 1px solid #dddddd;
+        width: 120px;
+        font-size: 13px;
+        user-select: none;
+
+        .OptionList {
+          display: none;
+          position: absolute;
+          width: 100%;
+          background-color: #fff;
+          z-index: 100;
+          top: 100%;
+          border: solid 1px #dddddd;
+          border-top: none;
+          top: 36px;
+          left: -1px;
+          width: 150px;
+          i {
+            @include icon(arrow-right, #3e3a39, 20px, 20px);
+            position: absolute;
+          }
         }
-        span {
-          font-size: 12px;
+        .OptionList.show {
+          display: block;
+          width: 120px;
+          .OpationItem {
+            padding: 8px;
+          }
+        }
+        .OpationItem:hover {
+          background-color: #e6e8ec;
+        }
+      }
+      .DetailsOption {
+        top: 220px;
+        left: 0px;
+        background-color: #fff;
+        border: 1px solid #dddddd;
+        width: 120px;
+        font-size: 13px;
+        user-select: none;
+        z-index: 101;
+        padding: 8px;
+        margin-left: 10px;
+
+        .OptionList {
+          position: absolute;
+          border: solid 1px #dddddd;
+          display: block;
+          width: 120px;
+          top: 238px;
+          right: 762px;
+          background-color: #fff;
+        }
+        .OpationItem {
+          padding: 8px;
+        }
+        .OpationItem:hover {
+          background-color: #e6e8ec;
         }
       }
     }

@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSearch } from "../../../core/util/http/SearchContext";
 import { apiRequest } from "src/core/util/http/request";
 import { API_URL } from "src/core/util/http/urls";
 
 function Center() {
   const [search, setSearch] = useState("");
   const [faq, setFaq] = useState([]);
-  const [openBoardNo, setOpenBoardNo] = useState(null); // 현재 열려 있는 질문의 boardNo
+  const [openBoardNo, setOpenBoardNo] = useState(null);
+  const { setSearchResults } = useSearch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFAQs = async () => {
@@ -24,7 +27,7 @@ function Center() {
   }, []);
 
   const toggleAnswer = (boardNo) => {
-    setOpenBoardNo((prev) => (prev === boardNo ? null : boardNo)); // 이미 열려있다면 닫고, 아니라면 연다
+    setOpenBoardNo((prev) => (prev === boardNo ? null : boardNo));
   };
 
   const handleSearch = async () => {
@@ -32,7 +35,29 @@ function Center() {
       alert("검색어를 입력해주세요");
       return;
     }
-    // 검색 로직 구현 (생략)
+    try {
+      const results = await mainSearch(search);
+      setSearchResults(results);
+      navigate(`/customerService/FAQ?search=${search}`);
+    } catch (error) {
+      console.error("검색 중 오류 발생", error);
+      alert("검색 중 문제가 발생했습니다. 나중에 다시 시도해주세요.");
+    }
+  };
+
+  const mainSearch = async (keyword) => {
+    try {
+      const response = await apiRequest.postPrams(
+        API_URL.BOARD_LIST_SEARCH_POST,
+        {},
+        { params: { keyword } }
+      );
+      console.log("검색결과나오냐", response.data);
+      return response.data.filter((item) => item.category.categoryNo !== 1);
+    } catch (error) {
+      console.log("왜안되무", error);
+      throw error;
+    }
   };
 
   return (
@@ -47,7 +72,7 @@ function Center() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              ></input>
+              />
               <button onClick={handleSearch}>검색</button>
             </div>
             <div className="Keyword">
@@ -64,8 +89,7 @@ function Center() {
               <span>자주 찾는 질문</span>
               <Link to="/customerService/FAQ">
                 <span style={{ color: "#3d3f41" }}>
-                  더보기
-                  <i />
+                  더보기 <i />
                 </span>
               </Link>
             </div>

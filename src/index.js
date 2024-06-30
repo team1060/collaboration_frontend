@@ -4,12 +4,15 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./styles/theme/theme";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { SearchProvider } from "./core/util/http/SearchContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <App />
+    <SearchProvider>
+      <App />
+    </SearchProvider>
   </ThemeProvider>
 );
 

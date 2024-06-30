@@ -41,7 +41,11 @@ http.interceptors.response.use();
 export const apiRequest = {
   get: (url, params) => http.get(url, { ...params }),
   post: (url, data) => http.post(url, data),
-  postFormData: (url, formData) => http.post(url, formData),
+  postFormData: (url, formData) =>
+    http.post(url, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
+  postPrams: (url, data, params) => http.post(url, data, params),
   patchFormData: (url, formData) => http.patch(url, formData),
   patch: (url, data) => http.patch(url, data),
   putFormData: (url, formData) => http.put(url, formData),

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import { apiRequest } from "src/core/util/http/request";
 import { API_URL } from "src/core/util/http/urls";
+import userAuth from "src/core/hook/useAuth";
 
 function QNA() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,15 +11,15 @@ function QNA() {
   const [selectedDetail, setSelectedDetail] = useState("");
   const [previews, setPreviews] = useState([]);
   const [files, setFiles] = useState([]);
-  const [title, setTilte] = useState("");
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [detailOptions, setDetailOptions] = useState([]);
   const [qna, setQna] = useState([]);
   let [textareaCount, settextareaCount] = useState(0);
   const [categories, setCategories] = useState([]);
   const [subOptions, setSubOptions] = useState(["상담유형"]);
-
   const handleDropdown = () => setIsOpen(!isOpen);
+  const { userData } = userAuth();
 
   const handleSelectType = (type) => {
     setSelectedType(type);
@@ -36,7 +37,9 @@ function QNA() {
     setIsDetailOpen(() => !isDetailOpen);
     console.log(isDetailOpen);
   };
+
   useEffect(() => {
+    console.log("멤버번호:", userData.memberNo);
     const qna = async () => {
       try {
         const response = await apiRequest.get(API_URL.CATEGORY_LIST_GET);
@@ -128,8 +131,9 @@ function QNA() {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("categoryNo", 3);
-    formData.append("memberNo", 35);
-    formData.append("keyword", selectedDetail);
+    formData.append("memberNo", userData.memberNo);
+    console.log("폼데이터:", formData);
+
     if (files.length > 0) {
       files.forEach((file) => {
         formData.append("files", file);
@@ -144,10 +148,8 @@ function QNA() {
         formData
       );
       console.log("Response:", response.data);
-
-      console.log("백엔드 응답:", response);
       alert("문의가 등록되었습니다.");
-      setTilte("");
+      setTitle("");
       setContent("");
       setPreviews([]);
       setFiles([]);
@@ -271,7 +273,7 @@ function QNA() {
                 <span>작성자</span>
               </td>
               <td>
-                <span>에스파</span>
+                <span>{userData.nickname}</span>
               </td>
             </tr>
             <tr>
@@ -296,7 +298,7 @@ function QNA() {
                   placeholder="제목을입력해주세요"
                   name="title"
                   value={title}
-                  onChange={(e) => setTilte(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 ></input>
               </td>
             </tr>

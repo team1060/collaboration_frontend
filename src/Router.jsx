@@ -41,6 +41,7 @@ import QNADetails from "./views/customer/QNAList/QNADetails";
 import NoticeList from "./views/customer/notice/NoticeList";
 import NoticeDetails from "./views/customer/notice/NoticeDetails";
 import useAuth from "./core/hook/useAuth";
+import { SearchProvider } from "./core/util/http/SearchContext";
 
 // 메인
 
@@ -69,7 +70,6 @@ const Router = () => {
   useEffect(() => {
     loginCheck();
   }, [loginCheck]);
-
 
   return (
     <BrowserRouter>
@@ -194,13 +194,25 @@ const Router = () => {
             </MainLayout>
           }
         />
-        {/* 공지사항t상세보기 */}
+        {/* 공지사항상세보기 */}
         <Route
           path="/customerService/NoticeDetails/:boardNo"
           element={
             <MainLayout>
               <NoticeDetails />
             </MainLayout>
+          }
+        />
+        {/* 고객센터 메인 검색시 자주찾는 질문 컴포넌트로 이동 */}
+        <Route
+          path="/customerService/FAQ"
+          element={
+            <SearchProvider>
+              {" "}
+              <MainLayout>
+                <FAQ />
+              </MainLayout>
+            </SearchProvider>
           }
         />
 
